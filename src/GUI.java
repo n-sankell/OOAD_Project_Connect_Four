@@ -10,17 +10,14 @@ public class GUI extends JFrame implements ActionListener {
 
     private ActionListener insert;
 
-    public BufferedImage getCircle() {
+    public BufferedImage createCircle() {
 
         BufferedImage bufferedImage = new BufferedImage(110, 110, BufferedImage.TYPE_INT_ARGB);
         Color transparent = new Color(0x00FFFFFF, true);
-
         Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
         g.setColor(transparent);
         g.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(transparent);
-        g.fillOval(5, 5, 100, 100);
         g.setColor(Color.black);
         g.setStroke(new BasicStroke(3));
         g.drawOval(5, 5, 100, 100);
@@ -29,7 +26,7 @@ public class GUI extends JFrame implements ActionListener {
         return bufferedImage;
     }
 
-    ImageIcon emptyCircle = new ImageIcon(getCircle());
+    ImageIcon emptyCircle = new ImageIcon(createCircle());
 
     GUI() {
 
