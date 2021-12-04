@@ -16,7 +16,6 @@ public class GUI extends JFrame implements ActionListener {
         Color transparent = new Color(0x00FFFFFF, true);
         Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
         g.setColor(transparent);
-        g.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(Color.black);
         g.setStroke(new BasicStroke(3));
