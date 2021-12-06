@@ -9,51 +9,26 @@ public class GUI extends JFrame implements ActionListener {
     private ActionListener insert;
     private final int rows = 6;
     private final int columns = 7;
+    private final JPanel basePanel = new JPanel();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final JLabel[][] holes = new JLabel[rows][columns];
-
-    public BufferedImage createCircle() {
-        BufferedImage bufferedImage = new BufferedImage(110, 110, BufferedImage.TYPE_INT_ARGB);
-        Color transparent = new Color(0x00FFFFFF, true);
-        Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
-        g.setColor(transparent);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.black);
-        g.setStroke(new BasicStroke(3));
-        g.drawOval(5, 5, 100, 100);
-        g.setColor(Color.WHITE);
-        g.fillOval(5, 5, 100, 100);
-        return bufferedImage;
-    }
-
-    ImageIcon emptyCircle = new ImageIcon(createCircle());
+    private final ImageIcon emptyCircle = new ImageIcon(createCircle());
 
     public GUI() {
-        JFrame frame = new JFrame("FYRA-I-RAD");
-        frame.setPreferredSize(new Dimension(1000, 800));
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
+        super("FYRA-I-RAD");
+        setPreferredSize(new Dimension(1000, 800));
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setVisible(true);
-        frame.add(panel);
-
-        boardPanel.setLayout(new GridLayout(rows, columns));
-        panel.add(boardPanel, BorderLayout.CENTER);
-
-        insertPanel.setLayout(new GridLayout(1, columns));
-        //insertPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, false));
-        panel.add(insertPanel, BorderLayout.NORTH);
-
+        addBasePanel();
         addInsertButtons();
         refreshBoard();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
     }
 
     public void refreshBoard() {
@@ -81,6 +56,30 @@ public class GUI extends JFrame implements ActionListener {
             insertButtons[i].addActionListener(insert);
             insertPanel.add(insertButtons[i]);
         }
+    }
+
+    public void addBasePanel() {
+        basePanel.setLayout(new BorderLayout());
+        basePanel.setVisible(true);
+        add(basePanel);
+        boardPanel.setLayout(new GridLayout(rows, columns));
+        basePanel.add(boardPanel, BorderLayout.CENTER);
+        insertPanel.setLayout(new GridLayout(1, columns));
+        basePanel.add(insertPanel, BorderLayout.NORTH);
+    }
+
+    public BufferedImage createCircle() {
+        BufferedImage bufferedImage = new BufferedImage(110, 110, BufferedImage.TYPE_INT_ARGB);
+        Color transparent = new Color(0x00FFFFFF, true);
+        Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
+        g.setColor(transparent);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(Color.black);
+        g.setStroke(new BasicStroke(3));
+        g.drawOval(5, 5, 100, 100);
+        g.setColor(Color.WHITE);
+        g.fillOval(5, 5, 100, 100);
+        return bufferedImage;
     }
 
     @Override
