@@ -90,23 +90,25 @@ public class GUI extends JFrame implements ActionListener {
         for(int i = rows-1 ; i >= 0; i--){
             if (holes[i][columnsNr].getTeam() == 0) {
                 holes[i][columnsNr].changeTeam(teamNr);
-                if (currentTeam==1) {
-                    currentTeam=2;
+                if (currentTeam == 1) {
+                    currentTeam = 2;
                 }
                 else {
-                    currentTeam=1;
+                    currentTeam = 1;
                 }
                 break;
             }
         }
     }
-    public void findInsert(){
+
+    public void findInsert() {
         for (int i = 0; i < columns; i++) {
-            if (clicked==insertButtons[i]) {
-                chosenColumn=i;
+            if (clicked == insertButtons[i]) {
+                chosenColumn = i;
             }
         }
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         clicked = (JButton) e.getSource();
@@ -114,7 +116,5 @@ public class GUI extends JFrame implements ActionListener {
         checkColumn(chosenColumn,currentTeam);
         repaint();
         revalidate();
-        System.out.println(chosenColumn);
-        System.out.println(currentTeam);
     }
 }
