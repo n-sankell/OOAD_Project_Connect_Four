@@ -95,11 +95,7 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public boolean checkWin() {
-        if (checkWinVertical() || checkWinHorizontal()) {
-            return true;
-        } else {
-            return false;
-        }
+        return checkWinVertical() || checkWinHorizontal() || checkWinDiagonalUp() || checkWinDiagonalDown();
     }
 
     public boolean checkWinVertical() {
@@ -124,6 +120,28 @@ public class GUI extends JFrame implements ActionListener {
         } return false;
     }
 
+    public boolean checkWinDiagonalUp() {
+        for (int i = 0; i < rows-3; i++) {
+            for (int j = 0; j < columns-3; j++) {
+                if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j+1].getTeam() == currentPlayer &&
+                    circles[i+2][j+2].getTeam() == currentPlayer && circles[i+3][j+3].getTeam() == currentPlayer) {
+                    return true;
+                }
+            }
+        } return false;
+    }
+
+    public boolean checkWinDiagonalDown() {
+        for (int i = 0; i < rows-3; i++) {
+            for (int j = 3; j < columns; j++) {
+                if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j-1].getTeam() == currentPlayer &&
+                        circles[i+2][j-2].getTeam() == currentPlayer && circles[i+3][j-3].getTeam() == currentPlayer) {
+                    return true;
+                }
+            }
+        } return false;
+    }
+
     public void changePlayer() {
         if (currentPlayer == 1) {
             currentPlayer = 2;
@@ -140,7 +158,7 @@ public class GUI extends JFrame implements ActionListener {
             putPiece(chosenColumn, currentPlayer);
             repaint();
             revalidate();
-            if (checkWinVertical() || checkWinHorizontal()) {
+            if (checkWin()) {
                 System.out.println("Congratulations player "+currentPlayer+"!");
             } else {
                 changePlayer();
