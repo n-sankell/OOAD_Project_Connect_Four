@@ -3,17 +3,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Piece extends JLabel {
-    private int xPos;
-    private int yPos;
-    private int team; // 0: no team, 1: player 1, 2: player 2;
-    private ImageIcon emptyCircle = new ImageIcon(createCircle(Color.WHITE));
-    private ImageIcon teamOneCircle = new ImageIcon(createCircle(Color.YELLOW));
-    private ImageIcon teamTwoCircle = new ImageIcon(createCircle(Color.RED));
+    private int team;
+    private final ImageIcon teamOneCircle = new ImageIcon(createCircle(GuiColors.TEAM_ONE));
+    private final ImageIcon teamTwoCircle = new ImageIcon(createCircle(GuiColors.TEAM_TWO));
 
     public Piece() {
         this.team = 0;
+        ImageIcon emptyCircle = new ImageIcon(createCircle(GuiColors.BG));
         this.setIcon(emptyCircle);
-        this.setBackground(Color.BLUE);
+        this.setBackground(GuiColors.BOARD);
         this.setHorizontalAlignment(0);
         this.setVisible(true);
         this.setOpaque(true);
