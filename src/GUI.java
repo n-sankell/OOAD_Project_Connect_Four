@@ -6,17 +6,16 @@ import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame implements ActionListener {
 
-    private ActionListener insert;
     private final int rows = 6;
     private final int columns = 7;
     private int chosenColumn;
-    private int currentTeam=1;
-    private JButton clicked=new JButton("");
+    private int currentPlayer = 1;
+    private JButton clicked = new JButton("");
     private final JPanel basePanel = new JPanel();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
-    private final Piece[][] holes = new Piece[rows][columns];
+    private final Piece[][] circles = new Piece[rows][columns];
     private final ImageIcon emptyCircle = new ImageIcon(createCircle());
 
     public GUI() {
@@ -25,33 +24,36 @@ public class GUI extends JFrame implements ActionListener {
         setVisible(true);
         setResizable(true);
         setLocationRelativeTo(null);
-
         addBasePanel();
-        addInsertButtons();
-        refreshBoard();
-
+        newGame();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
     }
 
-    public void refreshBoard() {
+    public void newGame() {
+        addInsertButtons();
+        addCircles();
+        repaint();
+        revalidate();
+    }
+
+    public void addCircles() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                holes[i][j] = new Piece();
-                holes[i][j].setIcon(emptyCircle);
-                holes[i][j].setBackground(Color.BLUE);
-                holes[i][j].setHorizontalAlignment(0);
-                holes[i][j].setVisible(true);
-                holes[i][j].setOpaque(true);
-                boardPanel.add(holes[i][j]);
+                circles[i][j] = new Piece();
+                circles[i][j].setIcon(emptyCircle);
+                circles[i][j].setBackground(Color.BLUE);
+                circles[i][j].setHorizontalAlignment(0);
+                circles[i][j].setVisible(true);
+                circles[i][j].setOpaque(true);
+                boardPanel.add(circles[i][j]);
             }
         }
     }
 
     public void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
-            String buttonNr=String.valueOf(i);
-            insertButtons[i] = new JButton(buttonNr);
+            insertButtons[i] = new JButton("INSERT");
             insertButtons[i].setBackground(Color.blue);
             insertButtons[i].setForeground(Color.white);
             insertButtons[i].setOpaque(true);
@@ -86,16 +88,19 @@ public class GUI extends JFrame implements ActionListener {
         return bufferedImage;
     }
 
-    public void checkColumn(int columnsNr,int teamNr){
-        for(int i = rows-1 ; i >= 0; i--){
-            if (holes[i][columnsNr].getTeam() == 0) {
-                holes[i][columnsNr].changeTeam(teamNr);
-                if (currentTeam == 1) {
-                    currentTeam = 2;
-                }
-                else {
-                    currentTeam = 1;
-                }
+    public boolean checkColumn(int columnsNr) {
+        for (int i = rows-1; i >= 0; i--) {
+            if (circles[i][columnsNr].getTeam() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void putPiece(int columnsNr, int teamNr) {
+        for (int i = rows-1; i >= 0; i--) {
+            if (circles[i][columnsNr].getTeam() == 0) {
+                circles[i][columnsNr].changeTeam(teamNr);
                 break;
             }
         }
@@ -109,12 +114,57 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
+    public boolean checkWin() {
+        if (checkWinVertical() || checkWinHorizontal()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkWinVertical() {
+        for (int i = 0; i < rows-3; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j].getTeam() == currentPlayer &&
+                    circles[i+2][j].getTeam() == currentPlayer && circles[i+3][j].getTeam() == currentPlayer) {
+                    return true;
+                }
+            }
+        } return false;
+    }
+
+    public boolean checkWinHorizontal() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns-3; j++) {
+                if (circles[i][j].getTeam() == currentPlayer && circles[i][j+1].getTeam() == currentPlayer &&
+                    circles[i][j+2].getTeam() == currentPlayer && circles[i][j+3].getTeam() == currentPlayer) {
+                    return true;
+                }
+            }
+        } return false;
+    }
+
+    public void changePlayer() {
+        if (currentPlayer == 1) {
+            currentPlayer = 2;
+        } else {
+            currentPlayer = 1;
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         clicked = (JButton) e.getSource();
         findInsert();
-        checkColumn(chosenColumn,currentTeam);
-        repaint();
-        revalidate();
+        if (checkColumn(chosenColumn)) {
+            putPiece(chosenColumn, currentPlayer);
+            repaint();
+            revalidate();
+            if (checkWinVertical() || checkWinHorizontal()) {
+                System.out.println("Congratulations player "+currentPlayer+"!");
+            } else {
+                changePlayer();
+            }
+        }
     }
 }
