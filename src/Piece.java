@@ -1,9 +1,12 @@
-public class Piece {
+import javax.swing.*;
+
+public class Piece extends  JLabel {
+
     private int xPos;
     private int yPos;
     private int team; // 0: no team, 1: player 1, 2: player 2;
 
-    public Piece(int xPos, int yPos){
+    public Piece(){
         this.xPos = xPos;
         this.yPos = yPos;
         this.team = 0;
@@ -15,5 +18,6 @@ public class Piece {
 
     public void changeTeam(int teamTo){
         this.team = teamTo;
+
     }
 }

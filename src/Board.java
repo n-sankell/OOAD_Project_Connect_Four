@@ -4,7 +4,7 @@ public class Board {
     public Board(){
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                board[i][j] = new Piece(i, j);
+                board[i][j] = new Piece();
             }
         }
     }

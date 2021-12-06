@@ -7,20 +7,20 @@ import java.awt.image.BufferedImage;
 public class GUI extends JFrame implements ActionListener {
 
     private ActionListener insert;
-    private final int rows = 6;
     private final int columns = 7;
+    private final int rows = 5;
     private final JPanel basePanel = new JPanel();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
-    private final JButton[] insertButtons = new JButton[columns];
-    private final JLabel[][] holes = new JLabel[rows][columns];
+    private final JButton[] insertButtons = new JButton[rows];
+    private final JLabel[][] holes = new JLabel[columns][rows];
     private final ImageIcon emptyCircle = new ImageIcon(createCircle());
 
     public GUI() {
         super("FYRA-I-RAD");
         setPreferredSize(new Dimension(1000, 800));
         setVisible(true);
-        setResizable(false);
+        setResizable(true);
         setLocationRelativeTo(null);
 
         addBasePanel();
@@ -32,8 +32,8 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void refreshBoard() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
                 holes[i][j] = new JLabel();
                 holes[i][j].setIcon(emptyCircle);
                 holes[i][j].setBackground(Color.BLUE);
@@ -46,7 +46,7 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void addInsertButtons() {
-        for (int i = 0; i < columns; i++) {
+        for (int i = 0; i < rows; i++) {
             insertButtons[i] = new JButton("INSERT");
             insertButtons[i].setBackground(Color.blue);
             insertButtons[i].setForeground(Color.white);
@@ -62,9 +62,9 @@ public class GUI extends JFrame implements ActionListener {
         basePanel.setLayout(new BorderLayout());
         basePanel.setVisible(true);
         add(basePanel);
-        boardPanel.setLayout(new GridLayout(rows, columns));
+        boardPanel.setLayout(new GridLayout(columns, rows));
         basePanel.add(boardPanel, BorderLayout.CENTER);
-        insertPanel.setLayout(new GridLayout(1, columns));
+        insertPanel.setLayout(new GridLayout(1, rows));
         basePanel.add(insertPanel, BorderLayout.NORTH);
     }
 
