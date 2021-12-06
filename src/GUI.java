@@ -62,7 +62,7 @@ public class GUI extends JFrame implements ActionListener {
         basePanel.setLayout(new BorderLayout());
         basePanel.setVisible(true);
         add(basePanel);
-        boardPanel.setLayout(new GridLayout(rows, columns));
+        boardPanel.setLayout(new GridLayout(rows,columns));
         basePanel.add(boardPanel, BorderLayout.CENTER);
         insertPanel.setLayout(new GridLayout(1, columns));
         basePanel.add(insertPanel, BorderLayout.NORTH);

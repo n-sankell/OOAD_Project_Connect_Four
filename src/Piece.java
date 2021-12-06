@@ -3,7 +3,7 @@ public class Piece {
     private int yPos;
     private int team; // 0: no team, 1: player 1, 2: player 2;
 
-    public Piece(int xPos, int yPos){
+    public Piece(int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.team = 0;
