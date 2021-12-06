@@ -57,7 +57,7 @@ public class GUI extends JFrame implements ActionListener {
             insertButtons[i].setOpaque(true);
             insertButtons[i].setBorderPainted(true);
             insertButtons[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, false));
-            insertButtons[i].addActionListener(insert);
+            insertButtons[i].addActionListener(this);
             insertPanel.add(insertButtons[i]);
         }
     }
@@ -85,11 +85,12 @@ public class GUI extends JFrame implements ActionListener {
         g.fillOval(5, 5, 100, 100);
         return bufferedImage;
     }
+
     public void checkColumn(int columnsNr,int teamNr){
         for(int i = rows-1 ; i >= 0; i--){
-            if (holes[i][columnsNr].getTeam()!=0) {
+            if (holes[i][columnsNr].getTeam() == 0) {
                 holes[i][columnsNr].changeTeam(teamNr);
-                if (currentTeam==1){
+                if (currentTeam==1) {
                     currentTeam=2;
                 }
                 else {
@@ -100,8 +101,8 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
     public void findInsert(){
-        for (int i=0;i>columns;i++){
-            if (clicked==insertButtons[i]){
+        for (int i = 0; i < columns; i++) {
+            if (clicked==insertButtons[i]) {
                 chosenColumn=i;
             }
         }
@@ -111,5 +112,9 @@ public class GUI extends JFrame implements ActionListener {
         clicked = (JButton) e.getSource();
         findInsert();
         checkColumn(chosenColumn,currentTeam);
+        repaint();
+        revalidate();
+        System.out.println(chosenColumn);
+        System.out.println(currentTeam);
     }
 }
