@@ -1,7 +1,4 @@
-import javax.swing.*;
-
-public class Piece extends  JLabel {
-
+public class Piece {
     private int xPos;
     private int yPos;
     private int team; // 0: no team, 1: player 1, 2: player 2;
