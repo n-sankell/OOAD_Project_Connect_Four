@@ -16,7 +16,6 @@ public class GUI extends JFrame implements ActionListener {
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
-    private final ImageIcon emptyCircle = new ImageIcon(createCircle());
 
     public GUI() {
         super("FYRA-I-RAD");
@@ -41,11 +40,6 @@ public class GUI extends JFrame implements ActionListener {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 circles[i][j] = new Piece();
-                circles[i][j].setIcon(emptyCircle);
-                circles[i][j].setBackground(Color.BLUE);
-                circles[i][j].setHorizontalAlignment(0);
-                circles[i][j].setVisible(true);
-                circles[i][j].setOpaque(true);
                 boardPanel.add(circles[i][j]);
             }
         }
@@ -72,20 +66,6 @@ public class GUI extends JFrame implements ActionListener {
         basePanel.add(boardPanel, BorderLayout.CENTER);
         insertPanel.setLayout(new GridLayout(1, columns));
         basePanel.add(insertPanel, BorderLayout.NORTH);
-    }
-
-    public BufferedImage createCircle() {
-        BufferedImage bufferedImage = new BufferedImage(110, 110, BufferedImage.TYPE_INT_ARGB);
-        Color transparent = new Color(0x00FFFFFF, true);
-        Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
-        g.setColor(transparent);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(Color.black);
-        g.setStroke(new BasicStroke(3));
-        g.drawOval(5, 5, 100, 100);
-        g.setColor(Color.WHITE);
-        g.fillOval(5, 5, 100, 100);
-        return bufferedImage;
     }
 
     public boolean checkColumn(int columnsNr) {
