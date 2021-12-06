@@ -9,6 +9,8 @@ import java.util.List;
 public class GUI extends JFrame implements ActionListener {
 
     private ActionListener insert;
+    private final int rows = 6;
+    private final int columns = 7;
 
     public BufferedImage createCircle() {
 
@@ -41,37 +43,38 @@ public class GUI extends JFrame implements ActionListener {
         frame.add(panel);
 
         JPanel boardPanel = new JPanel();
-        boardPanel.setLayout(new GridLayout(7, 7));
+        boardPanel.setLayout(new GridLayout(rows, columns));
 
         panel.add(boardPanel, BorderLayout.CENTER);
         JPanel insertPanel = new JPanel();
-        insertPanel.setLayout(new GridLayout(1, 7));
+        insertPanel.setLayout(new GridLayout(1, columns));
         //insertPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, false));
         panel.add(insertPanel, BorderLayout.NORTH);
 
-        List<JLabel> holes = new ArrayList<>(42);
+        JLabel[][] holes = new JLabel[rows][columns];
+        JButton[] insertButtons = new JButton[columns];
 
-        for (int i = 0; i < 42; i++) {
-
-            JLabel hole = new JLabel();
-            hole.setIcon(emptyCircle);
-            hole.setBackground(Color.BLUE);
-            hole.setHorizontalAlignment(0);
-            hole.setVisible(true);
-            hole.setOpaque(true);
-            holes.add(hole);
-            boardPanel.add(hole);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                holes[i][j] = new JLabel();
+                holes[i][j].setIcon(emptyCircle);
+                holes[i][j].setBackground(Color.BLUE);
+                holes[i][j].setHorizontalAlignment(0);
+                holes[i][j].setVisible(true);
+                holes[i][j].setOpaque(true);
+                boardPanel.add(holes[i][j]);
+            }
         }
-        for (int i = 0; i < 6; i++) {
 
-            JButton insertButton = new JButton("INSERT");
-            insertButton.setBackground(Color.blue);
-            insertButton.setForeground(Color.white);
-            insertButton.setOpaque(true);
-            insertButton.setBorderPainted(true);
-            insertButton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, false));
-            insertButton.addActionListener(insert);
-            insertPanel.add(insertButton);
+        for (int i = 0; i < columns; i++) {
+            insertButtons[i] = new JButton("INSERT");
+            insertButtons[i].setBackground(Color.blue);
+            insertButtons[i].setForeground(Color.white);
+            insertButtons[i].setOpaque(true);
+            insertButtons[i].setBorderPainted(true);
+            insertButtons[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1, false));
+            insertButtons[i].addActionListener(insert);
+            insertPanel.add(insertButtons[i]);
         }
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
