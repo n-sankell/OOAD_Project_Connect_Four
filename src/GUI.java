@@ -9,11 +9,14 @@ public class GUI extends JFrame implements ActionListener {
     private ActionListener insert;
     private final int rows = 6;
     private final int columns = 7;
+    private int chosenColumn;
+    private int currentTeam=1;
+    private JButton clicked=new JButton("");
     private final JPanel basePanel = new JPanel();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
-    private final JLabel[][] holes = new JLabel[rows][columns];
+    private final Piece[][] holes = new Piece[rows][columns];
     private final ImageIcon emptyCircle = new ImageIcon(createCircle());
 
     public GUI() {
@@ -34,7 +37,7 @@ public class GUI extends JFrame implements ActionListener {
     public void refreshBoard() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                holes[i][j] = new JLabel();
+                holes[i][j] = new Piece();
                 holes[i][j].setIcon(emptyCircle);
                 holes[i][j].setBackground(Color.BLUE);
                 holes[i][j].setHorizontalAlignment(0);
@@ -47,7 +50,8 @@ public class GUI extends JFrame implements ActionListener {
 
     public void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
-            insertButtons[i] = new JButton("INSERT");
+            String buttonNr=String.valueOf(i);
+            insertButtons[i] = new JButton(buttonNr);
             insertButtons[i].setBackground(Color.blue);
             insertButtons[i].setForeground(Color.white);
             insertButtons[i].setOpaque(true);
@@ -81,9 +85,31 @@ public class GUI extends JFrame implements ActionListener {
         g.fillOval(5, 5, 100, 100);
         return bufferedImage;
     }
-
+    public void checkColumn(int columnsNr,int teamNr){
+        for(int i = rows-1 ; i >= 0; i--){
+            if (holes[i][columnsNr].getTeam()!=0) {
+                holes[i][columnsNr].changeTeam(teamNr);
+                if (currentTeam==1){
+                    currentTeam=2;
+                }
+                else {
+                    currentTeam=1;
+                }
+                break;
+            }
+        }
+    }
+    public void findInsert(){
+        for (int i=0;i>columns;i++){
+            if (clicked==insertButtons[i]){
+                chosenColumn=i;
+            }
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        clicked = (JButton) e.getSource();
+        findInsert();
+        checkColumn(chosenColumn,currentTeam);
     }
 }
