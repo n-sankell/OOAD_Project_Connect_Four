@@ -3,17 +3,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GUI extends JFrame implements ActionListener {
 
     private ActionListener insert;
     private final int rows = 6;
     private final int columns = 7;
+    private final JPanel insertPanel = new JPanel();
+    private final JPanel boardPanel = new JPanel();
+    private final JButton[] insertButtons = new JButton[columns];
+    private final JLabel[][] holes = new JLabel[rows][columns];
 
     public BufferedImage createCircle() {
-
         BufferedImage bufferedImage = new BufferedImage(110, 110, BufferedImage.TYPE_INT_ARGB);
         Color transparent = new Color(0x00FFFFFF, true);
         Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
@@ -29,8 +30,7 @@ public class GUI extends JFrame implements ActionListener {
 
     ImageIcon emptyCircle = new ImageIcon(createCircle());
 
-    GUI() {
-
+    public GUI() {
         JFrame frame = new JFrame("FYRA-I-RAD");
         frame.setPreferredSize(new Dimension(1000, 800));
         frame.setVisible(true);
@@ -42,18 +42,21 @@ public class GUI extends JFrame implements ActionListener {
         panel.setVisible(true);
         frame.add(panel);
 
-        JPanel boardPanel = new JPanel();
         boardPanel.setLayout(new GridLayout(rows, columns));
-
         panel.add(boardPanel, BorderLayout.CENTER);
-        JPanel insertPanel = new JPanel();
+
         insertPanel.setLayout(new GridLayout(1, columns));
         //insertPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2, false));
         panel.add(insertPanel, BorderLayout.NORTH);
 
-        JLabel[][] holes = new JLabel[rows][columns];
-        JButton[] insertButtons = new JButton[columns];
+        addInsertButtons();
+        refreshBoard();
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+    }
+
+    public void refreshBoard() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 holes[i][j] = new JLabel();
@@ -65,7 +68,9 @@ public class GUI extends JFrame implements ActionListener {
                 boardPanel.add(holes[i][j]);
             }
         }
+    }
 
+    public void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
             insertButtons[i] = new JButton("INSERT");
             insertButtons[i].setBackground(Color.blue);
@@ -76,9 +81,6 @@ public class GUI extends JFrame implements ActionListener {
             insertButtons[i].addActionListener(insert);
             insertPanel.add(insertButtons[i]);
         }
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
     }
 
     @Override
