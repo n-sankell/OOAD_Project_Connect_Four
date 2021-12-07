@@ -89,7 +89,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return checkWinVertical() || checkWinHorizontal() || checkWinDiagonalUp() || checkWinDiagonalDown();
     }
 
-    public boolean checkWinVertical() {
+    public boolean checkWinHorizontal() {
         for (int i = 0; i < rows-3; i++) {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j].getTeam() == currentPlayer &&
@@ -100,7 +100,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         } return false;
     }
 
-    public boolean checkWinHorizontal() {
+    public boolean checkWinVertical() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns-3; j++) {
                 if (circles[i][j].getTeam() == currentPlayer && circles[i][j+1].getTeam() == currentPlayer &&
