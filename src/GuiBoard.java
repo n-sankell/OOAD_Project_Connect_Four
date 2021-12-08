@@ -8,10 +8,9 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final int rows = 6;
     private final int columns = 7;
     private int chosenColumn;
-
     private Player player1;
     private Player player2;
-    private int currentPlayer;
+    private Player currentPlayer;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
@@ -21,7 +20,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     public GuiBoard(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        currentPlayer = player1.getTeam();
+        currentPlayer = player1;
         addBasePanel();
         newGame();
     }
@@ -98,8 +97,8 @@ public class GuiBoard extends JPanel implements ActionListener {
     public boolean checkWinHorizontal() {
         for (int i = 0; i < rows-3; i++) {
             for (int j = 0; j < columns; j++) {
-                if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j].getTeam() == currentPlayer &&
-                        circles[i+2][j].getTeam() == currentPlayer && circles[i+3][j].getTeam() == currentPlayer) {
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j].getTeam() == currentPlayer.getTeam() &&
+                        circles[i+2][j].getTeam() == currentPlayer.getTeam() && circles[i+3][j].getTeam() == currentPlayer.getTeam()) {
                     return true;
                 }
             }
@@ -109,8 +108,8 @@ public class GuiBoard extends JPanel implements ActionListener {
     public boolean checkWinVertical() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns-3; j++) {
-                if (circles[i][j].getTeam() == currentPlayer && circles[i][j+1].getTeam() == currentPlayer &&
-                        circles[i][j+2].getTeam() == currentPlayer && circles[i][j+3].getTeam() == currentPlayer) {
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i][j+1].getTeam() == currentPlayer.getTeam() &&
+                        circles[i][j+2].getTeam() == currentPlayer.getTeam() && circles[i][j+3].getTeam() == currentPlayer.getTeam()) {
                     return true;
                 }
             }
@@ -120,8 +119,8 @@ public class GuiBoard extends JPanel implements ActionListener {
     public boolean checkWinDiagonalUp() {
         for (int i = 0; i < rows-3; i++) {
             for (int j = 0; j < columns-3; j++) {
-                if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j+1].getTeam() == currentPlayer &&
-                        circles[i+2][j+2].getTeam() == currentPlayer && circles[i+3][j+3].getTeam() == currentPlayer) {
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j+1].getTeam() == currentPlayer.getTeam() &&
+                        circles[i+2][j+2].getTeam() == currentPlayer.getTeam() && circles[i+3][j+3].getTeam() == currentPlayer.getTeam()) {
                     return true;
                 }
             }
@@ -131,8 +130,8 @@ public class GuiBoard extends JPanel implements ActionListener {
     public boolean checkWinDiagonalDown() {
         for (int i = 0; i < rows-3; i++) {
             for (int j = 3; j < columns; j++) {
-                if (circles[i][j].getTeam() == currentPlayer && circles[i+1][j-1].getTeam() == currentPlayer &&
-                        circles[i+2][j-2].getTeam() == currentPlayer && circles[i+3][j-3].getTeam() == currentPlayer) {
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j-1].getTeam() == currentPlayer.getTeam() &&
+                        circles[i+2][j-2].getTeam() == currentPlayer.getTeam() && circles[i+3][j-3].getTeam() == currentPlayer.getTeam()) {
                     return true;
                 }
             }
@@ -153,27 +152,10 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public void changePlayer() {
-        if (currentPlayer == 1) {
-            currentPlayer = player2.getTeam();
+        if (currentPlayer == player1) {
+            currentPlayer = player2;
         } else {
-            currentPlayer = player1.getTeam();
-        }
-    }
-
-    public void gameOver(String state) {
-        switch (state) {
-            case "Win": {
-                if (currentPlayer == 1) {
-                    JOptionPane.showMessageDialog(null, "Congratulations " + player1.getName() + "!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Congratulations " + player2.getName() + "!");
-                }
-                newGame();
-            }
-            case "Full": {
-                JOptionPane.showMessageDialog(null, "It's a draw!");
-                newGame();
-            }
+            currentPlayer = player1;
         }
     }
 
@@ -182,14 +164,15 @@ public class GuiBoard extends JPanel implements ActionListener {
         clicked = (JButton) e.getSource();
         findInsert();
         if (checkColumn(chosenColumn)) {
-            putPiece(chosenColumn, currentPlayer);
+            putPiece(chosenColumn, currentPlayer.getTeam());
             repaint();
             revalidate();
             if (checkWin()) {
-                gameOver("Win");
-
-            } else if(checkBoardFull()){
-                gameOver("Full");
+                JOptionPane.showMessageDialog(null, "Congratulations " + currentPlayer.getName() + "!");
+                newGame();
+            } else if (checkBoardFull()) {
+                JOptionPane.showMessageDialog(null, "It's a draw!");
+                newGame();
             } else {
                 changePlayer();
             }

@@ -4,7 +4,7 @@ public class Game {
     private int scorePlayer1;
     private int scorePlayer2;
 
-    public Game(){
+    public Game() {
         new GuiFrame(player1, player2);
     }
 }

@@ -1,7 +1,7 @@
 public class Board {
     private Piece[][] board = new Piece[6][7];
 
-    public Board(){
+    public Board() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 board[i][j] = new Piece();
