@@ -8,14 +8,20 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final int rows = 6;
     private final int columns = 7;
     private int chosenColumn;
-    private int currentPlayer = 1;
+
+    private Player player1;
+    private Player player2;
+    private int currentPlayer;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
 
-    public GuiBoard() {
+    public GuiBoard(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        currentPlayer = player1.getTeam();
         addBasePanel();
         newGame();
     }
@@ -133,11 +139,41 @@ public class GuiBoard extends JPanel implements ActionListener {
         } return false;
     }
 
+    public boolean checkBoardFull() {
+        int count = 0;
+            for (int j = 0; j < columns; j++) {
+                if (!checkColumn(j)) {
+                    count++;
+                    if (count == columns) {
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }
+
     public void changePlayer() {
         if (currentPlayer == 1) {
-            currentPlayer = 2;
+            currentPlayer = player2.getTeam();
         } else {
-            currentPlayer = 1;
+            currentPlayer = player1.getTeam();
+        }
+    }
+
+    public void gameOver(String state) {
+        switch (state) {
+            case "Win": {
+                if (currentPlayer == 1) {
+                    JOptionPane.showMessageDialog(null, "Congratulations " + player1.getName() + "!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Congratulations " + player2.getName() + "!");
+                }
+                newGame();
+            }
+            case "Full": {
+                JOptionPane.showMessageDialog(null, "It's a draw!");
+                newGame();
+            }
         }
     }
 
@@ -150,8 +186,10 @@ public class GuiBoard extends JPanel implements ActionListener {
             repaint();
             revalidate();
             if (checkWin()) {
-                JOptionPane.showMessageDialog(null,"Congratulations player "+currentPlayer+"!");
-                newGame();
+                gameOver("Win");
+
+            } else if(checkBoardFull()){
+                gameOver("Full");
             } else {
                 changePlayer();
             }
