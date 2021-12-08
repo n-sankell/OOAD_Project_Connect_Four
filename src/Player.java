@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class Player {
     private String name;
-    private int team;
+    private final int team;
     private int score = 0;
 
     public Player(int team) {
