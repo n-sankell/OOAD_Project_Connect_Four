@@ -11,7 +11,11 @@ public class Player {
     }
 
     private void setName() {
-        this.name = JOptionPane.showInputDialog(null, "Enter your name player " + team);
+        name = JOptionPane.showInputDialog(null, "Enter your name player " + team);
+        while (name == null || name.trim().equals("")) {
+            name = JOptionPane.showInputDialog(null, "Enter valid name, player "+team);
+        }
+        name = name.trim();
     }
 
     public String getName() {
