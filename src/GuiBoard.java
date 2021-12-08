@@ -8,19 +8,22 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final int rows = 6;
     private final int columns = 7;
     private int chosenColumn;
-    private Player player1;
-    private Player player2;
+    private final Player player1;
+    private final Player player2;
     private Player currentPlayer;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
+    private String winMessage;
+    private String drawMessage;
 
     public GuiBoard(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
+        setMessages();
         addBasePanel();
         newGame();
     }
@@ -159,6 +162,11 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
+    public void setMessages() {
+        winMessage = currentPlayer.getName() + " wins! Score: "+player1.getName()+" "+player1.getScore()+", "+player2.getName()+" "+player2.getScore();
+        drawMessage = "It's a draw! Score: "+player1.getName()+" "+player1.getScore()+". "+player2.getName()+" "+player2.getScore();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         clicked = (JButton) e.getSource();
@@ -168,10 +176,12 @@ public class GuiBoard extends JPanel implements ActionListener {
             repaint();
             revalidate();
             if (checkWin()) {
-                JOptionPane.showMessageDialog(null, "Congratulations " + currentPlayer.getName() + "!");
+                currentPlayer.setScore(1);
+                setMessages();
+                JOptionPane.showMessageDialog(null, winMessage);
                 newGame();
             } else if (checkBoardFull()) {
-                JOptionPane.showMessageDialog(null, "It's a draw!");
+                JOptionPane.showMessageDialog(null, drawMessage);
                 newGame();
             } else {
                 changePlayer();

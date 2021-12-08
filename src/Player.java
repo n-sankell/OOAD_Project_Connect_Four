@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Player {
     private String name;
     private int team;
-    private int score;
+    private int score = 0;
 
     public Player(int team) {
         this.team = team;
@@ -27,7 +27,7 @@ public class Player {
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.score += score;
     }
 
     public int getTeam() {
