@@ -20,6 +20,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
+    private final ImageIcon insertButtonImage = new ImageIcon("insertButton.png");
 
     public GuiBoard(Player player1, Player player2, int gameMode) {
         this.player1 = player1;
@@ -59,12 +60,14 @@ public class GuiBoard extends JPanel implements ActionListener {
 
     public void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
-            insertButtons[i] = new JButton("INSERT");
+            insertButtons[i] = new JButton("");
+            insertButtons[i].setHorizontalTextPosition(JButton.CENTER);
+            insertButtons[i].setIcon(insertButtonImage);
             insertButtons[i].setBackground(GuiColors.BUTTON);
             insertButtons[i].setForeground(GuiColors.TEXT);
             insertButtons[i].setOpaque(true);
             insertButtons[i].setBorderPainted(true);
-            insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.BG, 1, false));
+            insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.BG, 0, false));
             insertButtons[i].addActionListener(this);
             insertPanel.add(insertButtons[i]);
         }
