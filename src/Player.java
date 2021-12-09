@@ -7,10 +7,9 @@ public class Player {
 
     public Player(int team) {
         this.team = team;
-        setName();
     }
 
-    private void setName() {
+    public void setName() {
         name = JOptionPane.showInputDialog(null, "Enter your name player " + team);
         while (name == null || name.trim().equals("")) {
             name = JOptionPane.showInputDialog(null, "Enter valid name, player "+team);

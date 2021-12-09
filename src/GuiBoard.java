@@ -11,13 +11,13 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final Player player1;
     private final Player player2;
     private Player currentPlayer;
+    private String winMessage;
+    private String drawMessage;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
-    private String winMessage;
-    private String drawMessage;
 
     public GuiBoard(Player player1, Player player2) {
         this.player1 = player1;
