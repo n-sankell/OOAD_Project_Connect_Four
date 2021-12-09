@@ -4,7 +4,7 @@ public class GameBuilder {
         Player player1 = new Player(1);
         GameAI ai = new GameAI(2);
         player1.setName();
-        ai.setName("AI");
+        ai.setName();
         return new GuiBoard(player1, ai);
     }
 

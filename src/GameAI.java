@@ -6,8 +6,12 @@ public class GameAI extends Player {
         super(team);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName() {
+        name = "AI";
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
