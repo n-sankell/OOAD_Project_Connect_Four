@@ -10,7 +10,7 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
-    private JPanel welcome = new ImageBackground("connectfour.png");
+    private JPanel welcome = new ImageBackground("connectfour2.png");
 
     public GuiFrame() throws IOException {
         super("CONNECT FOUR");
