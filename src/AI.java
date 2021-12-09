@@ -21,9 +21,7 @@ public class AI extends Player {
                     return j;
                 } else if (circles[i-1][j].getTeam() == team && circles[i+1][j].getTeam() == team) {
                     return j;
-                } else if (circles[i-1][j].getTeam() != team && circles[i][j].getTeam() != team) {
-                    return j;
-                } else if (circles[i][j-1].getTeam() != team && circles[i][j+1].getTeam() != team) {
+                } else if (circles[i+1][j].getTeam() == team || circles[i][j+1].getTeam() == team) {
                     return j;
                 } else if (circles[rows-1][columns/2].getTeam() == 0 || circles[rows-2][columns/2].getTeam() == 0) {
                     return columns/2;
