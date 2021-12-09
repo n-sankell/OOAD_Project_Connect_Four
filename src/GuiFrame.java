@@ -10,7 +10,7 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
-    private JPanel welcome = new ImageBackground("connectfour2.png");
+    private JPanel welcome;
 
     public GuiFrame() {
         super("CONNECT FOUR");
@@ -39,7 +39,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     public void addWelcomeScreen() {
         try {
-            welcome = new ImageBackground("connectFour.png");
+            welcome = new ImageBackground("connectFour2.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class GuiFrame extends JFrame implements ActionListener {
     public void removeItems() {
         if (board != null) {
             remove(board);
-        } else if (welcome != null){
+        } else if (welcome != null) {
             remove(welcome);
         }
     }
