@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class GuiFrame extends JFrame implements ActionListener {
 
@@ -9,14 +10,18 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
-    private final GuiWelcome welcome = new GuiWelcome();
+    private JPanel welcome = new ImageBackground("connectfour.png");
 
-    public GuiFrame() {
+    public GuiFrame() throws IOException {
         super("CONNECT FOUR");
         setPreferredSize(new Dimension(1000, 800));
         setVisible(true);
         setResizable(true);
         setLocation(250,75);
+        welcome.setSize(1000,800);
+        welcome.setVisible(true);
+        welcome.setOpaque(false);
+        welcome.setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(welcome);
         addMenu();
