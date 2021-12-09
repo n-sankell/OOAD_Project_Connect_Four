@@ -6,6 +6,8 @@ public class Piece extends JLabel {
     private int team;
     private final ImageIcon teamOneCircle = new ImageIcon(createCircle(GuiColors.TEAM_ONE));
     private final ImageIcon teamTwoCircle = new ImageIcon(createCircle(GuiColors.TEAM_TWO));
+    private final ImageIcon teamOneWin = new ImageIcon(createCircle(GuiColors.TEAM_ONE_WIN));
+    private final ImageIcon teamTwoWin = new ImageIcon(createCircle(GuiColors.TEAM_TWO_WIN));
 
     public Piece() {
         this.team = 0;
@@ -19,6 +21,19 @@ public class Piece extends JLabel {
 
     public int getTeam() {
         return team;
+    }
+
+    public void winningPieces(int team) {
+        if (team == 1) {
+            this.setIcon(teamOneWin);
+            repaint();
+            revalidate();
+        }
+        if (team == 2) {
+            this.setIcon(teamTwoWin);
+            repaint();
+            revalidate();
+        }
     }
 
     public void changeTeam(int teamTo) {
