@@ -10,20 +10,16 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
-    private JPanel welcome = new ImageBackground("connectfour.png");
+    private JPanel welcome;
 
-    public GuiFrame() throws IOException {
+    public GuiFrame() {
         super("CONNECT FOUR");
         setPreferredSize(new Dimension(1000, 800));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(true);
         setLocation(250,75);
-        welcome.setSize(1000,800);
-        welcome.setVisible(true);
-        welcome.setOpaque(false);
-        welcome.setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(welcome);
+        addWelcomeScreen();
         addMenu();
         pack();
     }
@@ -41,10 +37,25 @@ public class GuiFrame extends JFrame implements ActionListener {
         setJMenuBar(mb);
     }
 
+    public void addWelcomeScreen() {
+        try {
+            welcome = new ImageBackground("connectFour2.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (welcome != null) {
+            welcome.setSize(1000, 800);
+            welcome.setVisible(true);
+            welcome.setOpaque(false);
+            welcome.setLayout(new BorderLayout());
+            add(welcome);
+        }
+    }
+
     public void removeItems() {
         if (board != null) {
             remove(board);
-        } else {
+        } else if (welcome != null) {
             remove(welcome);
         }
     }
