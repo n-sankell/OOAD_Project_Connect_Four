@@ -2,7 +2,7 @@ public class GameBuilder {
 
     public GuiBoard onePlayerMode() {
         Player player1 = new Player(1);
-        GameAI ai = new GameAI(2);
+        AI ai = new AI(2);
         player1.setName();
         ai.setName();
         return new GuiBoard(player1, ai,1);

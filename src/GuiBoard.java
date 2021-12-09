@@ -8,7 +8,7 @@ public class GuiBoard extends JPanel implements ActionListener {
 
     private final int rows = 6;
     private final int columns = 7;
-    private int gameMode;
+    private final int gameMode;
     private int chosenColumn;
     private final Player player1;
     private final Player player2;
@@ -42,6 +42,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public void newGame() {
+        currentPlayer = player1;
         boardPanel.removeAll();
         addCircles();
         repaint();
@@ -170,10 +171,31 @@ public class GuiBoard extends JPanel implements ActionListener {
         drawMessage = "It's a draw! Score: "+player1.getName()+" "+player1.getScore()+". "+player2.getName()+" "+player2.getScore();
     }
 
-    public void otherPlayerTurn() {
-        Random random = new Random();
-        int aiMove = random.nextInt(columns);
-        putPiece(aiMove, player2.getTeam());
+    public void aiTurn() {
+        currentPlayer = player2;
+        while (true) {
+            Random random = new Random();
+            int aiRandomMove = random.nextInt(columns);
+            int aiMove = AI.findBestMove(circles, rows, columns, currentPlayer.getTeam());
+            if (checkColumn(aiMove)) {
+                putPiece(aiMove, currentPlayer.getTeam());
+                break;
+            } else if (checkColumn(aiRandomMove)) {
+                putPiece(aiRandomMove, currentPlayer.getTeam());
+                break;
+                }
+            }
+        if (checkWin()) {
+            currentPlayer.setScore(1);
+            setMessages();
+            JOptionPane.showMessageDialog(null, winMessage);
+            newGame();
+        } else if (checkBoardFull()) {
+            JOptionPane.showMessageDialog(null, drawMessage);
+            newGame();
+        } else {
+            currentPlayer = player1;
+        }
     }
 
     @Override
@@ -194,7 +216,7 @@ public class GuiBoard extends JPanel implements ActionListener {
                 newGame();
             } else {
                 if (gameMode == 1) {
-                    otherPlayerTurn();
+                    aiTurn();
                 } else if (gameMode == 2) {
                     changePlayer();
                 }
