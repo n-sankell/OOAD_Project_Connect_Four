@@ -9,14 +9,16 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
+    private final GuiWelcome welcome = new GuiWelcome();
 
     public GuiFrame() {
         super("CONNECT FOUR");
         setPreferredSize(new Dimension(1000, 800));
         setVisible(true);
         setResizable(true);
-        setLocationRelativeTo(null);
+        setLocation(250,75);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        add(welcome);
         addMenu();
         pack();
     }
@@ -34,20 +36,24 @@ public class GuiFrame extends JFrame implements ActionListener {
         setJMenuBar(mb);
     }
 
+    public void removeItems() {
+        if (board != null) {
+            remove(board);
+        } else {
+            remove(welcome);
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == i1) {
-            if (board != null) {
-                remove(board);
-            }
+            removeItems();
             add(board = game.onePlayerMode());
             repaint();
             revalidate();
         }
         if (e.getSource() == i2) {
-            if (board != null) {
-                remove(board);
-            }
+            removeItems();
             add(board = game.twoPlayerMode());
             repaint();
             revalidate();
