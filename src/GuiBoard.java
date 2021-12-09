@@ -2,27 +2,30 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class GuiBoard extends JPanel implements ActionListener {
 
     private final int rows = 6;
     private final int columns = 7;
+    private int gameMode;
     private int chosenColumn;
     private final Player player1;
     private final Player player2;
     private Player currentPlayer;
+    private String winMessage;
+    private String drawMessage;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
-    private String winMessage;
-    private String drawMessage;
 
-    public GuiBoard(Player player1, Player player2) {
+    public GuiBoard(Player player1, Player player2, int gameMode) {
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
+        this.gameMode = gameMode;
         setMessages();
         addBasePanel();
         newGame();
@@ -167,6 +170,12 @@ public class GuiBoard extends JPanel implements ActionListener {
         drawMessage = "It's a draw! Score: "+player1.getName()+" "+player1.getScore()+". "+player2.getName()+" "+player2.getScore();
     }
 
+    public void otherPlayerTurn() {
+        Random random = new Random();
+        int aiMove = random.nextInt(columns);
+        putPiece(aiMove, player2.getTeam());
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         clicked = (JButton) e.getSource();
@@ -184,7 +193,11 @@ public class GuiBoard extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null, drawMessage);
                 newGame();
             } else {
-                changePlayer();
+                if (gameMode == 1) {
+                    otherPlayerTurn();
+                } else if (gameMode == 2) {
+                    changePlayer();
+                }
             }
         }
     }

@@ -1,18 +1,19 @@
 public class GameBuilder {
 
-    private Player player1;
-    private Player player2;
-
     public GuiBoard onePlayerMode() {
-        player1 = new Player(1);
-        player2 = new Player(2);
-        return new GuiBoard(player1, player2);
+        Player player1 = new Player(1);
+        GameAI ai = new GameAI(2);
+        player1.setName();
+        ai.setName();
+        return new GuiBoard(player1, ai,1);
     }
 
     public GuiBoard twoPlayerMode() {
-        player1 = new Player(1);
-        player2 = new Player(2);
-        return new GuiBoard(player1, player2);
+        Player player1 = new Player(1);
+        Player player2 = new Player(2);
+        player1.setName();
+        player2.setName();
+        return new GuiBoard(player1, player2,2);
     }
 
 }
