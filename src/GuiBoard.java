@@ -109,10 +109,7 @@ public class GuiBoard extends JPanel implements ActionListener {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j].getTeam() == currentPlayer.getTeam() &&
                         circles[i+2][j].getTeam() == currentPlayer.getTeam() && circles[i+3][j].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+1][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+2][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+3][j].winningPieces(currentPlayer.getTeam());
+                    setWinningColors(i,j,i+1,j,i+2,j,i+3,j);
                     return true;
                 }
             }
@@ -124,10 +121,7 @@ public class GuiBoard extends JPanel implements ActionListener {
             for (int j = 0; j < columns-3; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i][j+1].getTeam() == currentPlayer.getTeam() &&
                         circles[i][j+2].getTeam() == currentPlayer.getTeam() && circles[i][j+3].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i][j+1].winningPieces(currentPlayer.getTeam());
-                    circles[i][j+2].winningPieces(currentPlayer.getTeam());
-                    circles[i][j+3].winningPieces(currentPlayer.getTeam());
+                    setWinningColors(i,j,i,j+1,i,j+2,i,j+3);
                     return true;
                 }
             }
@@ -139,10 +133,7 @@ public class GuiBoard extends JPanel implements ActionListener {
             for (int j = 0; j < columns-3; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j+1].getTeam() == currentPlayer.getTeam() &&
                         circles[i+2][j+2].getTeam() == currentPlayer.getTeam() && circles[i+3][j+3].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+1][j+1].winningPieces(currentPlayer.getTeam());
-                    circles[i+2][j+2].winningPieces(currentPlayer.getTeam());
-                    circles[i+3][j+3].winningPieces(currentPlayer.getTeam());
+                    setWinningColors(i,j,i+1,j+1,i+2,j+2,i+3,j+3);
                     return true;
                 }
             }
@@ -154,10 +145,7 @@ public class GuiBoard extends JPanel implements ActionListener {
             for (int j = 3; j < columns; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j-1].getTeam() == currentPlayer.getTeam() &&
                         circles[i+2][j-2].getTeam() == currentPlayer.getTeam() && circles[i+3][j-3].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+1][j-1].winningPieces(currentPlayer.getTeam());
-                    circles[i+2][j-2].winningPieces(currentPlayer.getTeam());
-                    circles[i+3][j-3].winningPieces(currentPlayer.getTeam());
+                    setWinningColors(i,j,i+1,j-1,i+2,j-2,i+3,j-3);
                     return true;
                 }
             }
@@ -183,6 +171,13 @@ public class GuiBoard extends JPanel implements ActionListener {
         } else {
             currentPlayer = player1;
         }
+    }
+
+    public void setWinningColors(int a,int b,int c,int d, int e,int f,int g,int h) {
+        circles[a][b].winningPieces(currentPlayer.getTeam());
+        circles[c][d].winningPieces(currentPlayer.getTeam());
+        circles[e][f].winningPieces(currentPlayer.getTeam());
+        circles[g][h].winningPieces(currentPlayer.getTeam());
     }
 
     public void setMessages() {
