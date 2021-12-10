@@ -10,15 +10,15 @@ public class Player {
     }
 
     public void setName() {
-        name = JOptionPane.showInputDialog(null, "Enter your name player " + team);
+        name = JOptionPane.showInputDialog(null, "ENTER YOUR NAME, PLAYER " + team);
         while (name == null || name.trim().equals("")) {
-            name = JOptionPane.showInputDialog(null, "Enter valid name, player "+team);
+            name = JOptionPane.showInputDialog(null, "ENTER VALID NAME, PLAYER " + team);
         }
         name = name.trim();
     }
 
     public String getName() {
-        return name;
+        return name.toUpperCase();
     }
 
     public int getScore() {

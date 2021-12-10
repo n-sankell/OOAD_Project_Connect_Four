@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Random;
 
 public class GuiBoard extends JPanel implements ActionListener {
@@ -61,11 +62,9 @@ public class GuiBoard extends JPanel implements ActionListener {
 
     public void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
-            insertButtons[i] = new JButton("");
-            insertButtons[i].setHorizontalTextPosition(JButton.CENTER);
+            insertButtons[i] = new JButton();
             insertButtons[i].setIcon(insertButtonImage);
-            insertButtons[i].setBackground(GuiColors.BUTTON);
-            insertButtons[i].setForeground(GuiColors.TEXT);
+            insertButtons[i].setBackground(GuiColors.BG);
             insertButtons[i].setOpaque(true);
             insertButtons[i].setBorderPainted(true);
             insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.BG, 0, false));
@@ -75,7 +74,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public boolean checkColumn(int columnsNr) {
-        for (int i = rows-1; i >= 0; i--) {
+        for (int i = rows - 1; i >= 0; i--) {
             if (circles[i][columnsNr].getTeam() == 0) {
                 return true;
             }
@@ -84,7 +83,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public void putPiece(int columnsNr, int teamNr) {
-        for (int i = rows-1; i >= 0; i--) {
+        for (int i = rows - 1; i >= 0; i--) {
             if (circles[i][columnsNr].getTeam() == 0) {
                 circles[i][columnsNr].changeTeam(teamNr);
                 break;
@@ -105,75 +104,67 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public boolean checkWinHorizontal() {
-        for (int i = 0; i < rows-3; i++) {
+        for (int i = 0; i < rows - 3; i++) {
             for (int j = 0; j < columns; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j].getTeam() == currentPlayer.getTeam() &&
-                        circles[i+2][j].getTeam() == currentPlayer.getTeam() && circles[i+3][j].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+1][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+2][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+3][j].winningPieces(currentPlayer.getTeam());
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j].getTeam() == currentPlayer.getTeam() &&
+                        circles[i + 2][j].getTeam() == currentPlayer.getTeam() && circles[i + 3][j].getTeam() == currentPlayer.getTeam()) {
+                    setWinningColors(i, j, i + 1, j, i + 2, j, i + 3, j);
                     return true;
                 }
             }
-        } return false;
+        }
+        return false;
     }
 
     public boolean checkWinVertical() {
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns-3; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i][j+1].getTeam() == currentPlayer.getTeam() &&
-                        circles[i][j+2].getTeam() == currentPlayer.getTeam() && circles[i][j+3].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i][j+1].winningPieces(currentPlayer.getTeam());
-                    circles[i][j+2].winningPieces(currentPlayer.getTeam());
-                    circles[i][j+3].winningPieces(currentPlayer.getTeam());
+            for (int j = 0; j < columns - 3; j++) {
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i][j + 1].getTeam() == currentPlayer.getTeam() &&
+                        circles[i][j + 2].getTeam() == currentPlayer.getTeam() && circles[i][j + 3].getTeam() == currentPlayer.getTeam()) {
+                    setWinningColors(i, j, i, j + 1, i, j + 2, i, j + 3);
                     return true;
                 }
             }
-        } return false;
+        }
+        return false;
     }
 
     public boolean checkWinDiagonalUp() {
-        for (int i = 0; i < rows-3; i++) {
-            for (int j = 0; j < columns-3; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j+1].getTeam() == currentPlayer.getTeam() &&
-                        circles[i+2][j+2].getTeam() == currentPlayer.getTeam() && circles[i+3][j+3].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+1][j+1].winningPieces(currentPlayer.getTeam());
-                    circles[i+2][j+2].winningPieces(currentPlayer.getTeam());
-                    circles[i+3][j+3].winningPieces(currentPlayer.getTeam());
+        for (int i = 0; i < rows - 3; i++) {
+            for (int j = 0; j < columns - 3; j++) {
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j + 1].getTeam() == currentPlayer.getTeam() &&
+                        circles[i + 2][j + 2].getTeam() == currentPlayer.getTeam() && circles[i + 3][j + 3].getTeam() == currentPlayer.getTeam()) {
+                    setWinningColors(i, j, i + 1, j + 1, i + 2, j + 2, i + 3, j + 3);
                     return true;
                 }
             }
-        } return false;
+        }
+        return false;
     }
 
     public boolean checkWinDiagonalDown() {
-        for (int i = 0; i < rows-3; i++) {
+        for (int i = 0; i < rows - 3; i++) {
             for (int j = 3; j < columns; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i+1][j-1].getTeam() == currentPlayer.getTeam() &&
-                        circles[i+2][j-2].getTeam() == currentPlayer.getTeam() && circles[i+3][j-3].getTeam() == currentPlayer.getTeam()) {
-                    circles[i][j].winningPieces(currentPlayer.getTeam());
-                    circles[i+1][j-1].winningPieces(currentPlayer.getTeam());
-                    circles[i+2][j-2].winningPieces(currentPlayer.getTeam());
-                    circles[i+3][j-3].winningPieces(currentPlayer.getTeam());
+                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j - 1].getTeam() == currentPlayer.getTeam() &&
+                        circles[i + 2][j - 2].getTeam() == currentPlayer.getTeam() && circles[i + 3][j - 3].getTeam() == currentPlayer.getTeam()) {
+                    setWinningColors(i, j, i + 1, j - 1, i + 2, j - 2, i + 3, j - 3);
                     return true;
                 }
             }
-        } return false;
+        }
+        return false;
     }
 
     public boolean checkBoardFull() {
         int count = 0;
-            for (int j = 0; j < columns; j++) {
-                if (!checkColumn(j)) {
-                    count++;
-                    if (count == columns) {
-                        return true;
-                    }
+        for (int j = 0; j < columns; j++) {
+            if (!checkColumn(j)) {
+                count++;
+                if (count == columns) {
+                    return true;
                 }
             }
+        }
         return false;
     }
 
@@ -185,9 +176,18 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
+    public void setWinningColors(int a, int b, int c, int d, int e, int f, int g, int h) {
+        circles[a][b].winningPieces(currentPlayer.getTeam());
+        circles[c][d].winningPieces(currentPlayer.getTeam());
+        circles[e][f].winningPieces(currentPlayer.getTeam());
+        circles[g][h].winningPieces(currentPlayer.getTeam());
+    }
+
     public void setMessages() {
-        winMessage = currentPlayer.getName() + " wins! Score: "+player1.getName()+" "+player1.getScore()+", "+player2.getName()+" "+player2.getScore();
-        drawMessage = "It's a draw! Score: "+player1.getName()+" "+player1.getScore()+". "+player2.getName()+" "+player2.getScore();
+        winMessage = currentPlayer.getName() + " WINS THE ROUND!" + "\nSCORE FOR " + player1.getName() + ": " +
+                player1.getScore() + "\n" + "SCORE FOR " + player2.getName() + ": " + player2.getScore();
+        drawMessage = "IT'S A DRAW!" + "\nSCORE FOR " + player1.getName() + ": " + player1.getScore() + "\n" +
+                "SCORE FOR " + player2.getName() + ": " + player2.getScore();
     }
 
     public void aiTurn() {
@@ -195,19 +195,23 @@ public class GuiBoard extends JPanel implements ActionListener {
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
-            int aiMove = AI.findBestMove(circles, rows, columns, currentPlayer.getTeam());
+            int aiMove = AI.findMove(circles, rows, columns, currentPlayer.getTeam());
             if (checkColumn(aiMove)) {
                 putPiece(aiMove, currentPlayer.getTeam());
                 break;
             } else if (checkColumn(aiRandomMove)) {
                 putPiece(aiRandomMove, currentPlayer.getTeam());
                 break;
-                }
             }
+        }
         if (checkWin()) {
             currentPlayer.setScore(1);
             setMessages();
-            JOptionPane.showMessageDialog(null, winMessage);
+            try {
+                new CustomJop(winMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             newGame();
         } else if (checkBoardFull()) {
             JOptionPane.showMessageDialog(null, drawMessage);
@@ -228,7 +232,11 @@ public class GuiBoard extends JPanel implements ActionListener {
             if (checkWin()) {
                 currentPlayer.setScore(1);
                 setMessages();
-                JOptionPane.showMessageDialog(null, winMessage);
+                try {
+                    new CustomJop(winMessage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 newGame();
             } else if (checkBoardFull()) {
                 JOptionPane.showMessageDialog(null, drawMessage);
