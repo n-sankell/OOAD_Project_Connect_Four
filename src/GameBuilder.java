@@ -5,7 +5,7 @@ public class GameBuilder {
         AI ai = new AI(2);
         player1.setName();
         ai.setName();
-        return new GuiBoard(player1, ai,1);
+        return new GuiBoard(player1, ai, 1);
     }
 
     public GuiBoard twoPlayerMode() {
@@ -13,7 +13,7 @@ public class GameBuilder {
         Player player2 = new Player(2);
         player1.setName();
         player2.setName();
-        return new GuiBoard(player1, player2,2);
+        return new GuiBoard(player1, player2, 2);
     }
 
 }

@@ -44,7 +44,7 @@ public class Piece extends JLabel {
                 repaint();
                 revalidate();
             }
-            if (team == 2 ) {
+            if (team == 2) {
                 this.setIcon(teamTwoCircle);
                 repaint();
                 revalidate();
@@ -65,5 +65,4 @@ public class Piece extends JLabel {
         g.fillOval(5, 5, 100, 100);
         return bufferedImage;
     }
-
 }

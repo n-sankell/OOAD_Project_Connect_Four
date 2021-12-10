@@ -18,7 +18,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(true);
-        setLocation(250,75);
+        setLocation(250, 75);
         addWelcomeScreen();
         addMenu();
         pack();
