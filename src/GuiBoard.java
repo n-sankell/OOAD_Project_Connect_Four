@@ -61,11 +61,9 @@ public class GuiBoard extends JPanel implements ActionListener {
 
     public void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
-            insertButtons[i] = new JButton("");
-            insertButtons[i].setHorizontalTextPosition(JButton.CENTER);
+            insertButtons[i] = new JButton();
             insertButtons[i].setIcon(insertButtonImage);
-            insertButtons[i].setBackground(GuiColors.BUTTON);
-            insertButtons[i].setForeground(GuiColors.TEXT);
+            insertButtons[i].setBackground(GuiColors.BG);
             insertButtons[i].setOpaque(true);
             insertButtons[i].setBorderPainted(true);
             insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.BG, 0, false));
@@ -190,7 +188,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
-            int aiMove = AI.findBestMove(circles, rows, columns, currentPlayer.getTeam());
+            int aiMove = AI.findMove(circles, rows, columns, currentPlayer.getTeam());
             if (checkColumn(aiMove)) {
                 putPiece(aiMove, currentPlayer.getTeam());
                 break;
