@@ -586,7 +586,7 @@ public class AI extends Player {
 
     public static int blockPlayerDiagonalBuildUpB(Piece[][] circles, int rows, int columns, int team) {
         for (int i = 0; i < rows-3; i++) {
-            for (int j = 0; j < columns-3; j++) {
+            for (int j = 3; j < columns; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j+1].getTeam() == 1 &&
                         circles[i+2][j+2].getTeam() == 1 && circles[i+3][j+3].getTeam() == 0) {
                     if (i+3 == rows-1) {
