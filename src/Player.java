@@ -10,9 +10,8 @@ public class Player {
     }
 
     public void setName() {
-        name = JOptionPane.showInputDialog(null, "PLAYER " + team +", " + "ENTER YOUR NAME");
         while (name == null || name.trim().equals("")) {
-            name = JOptionPane.showInputDialog(null, "PLAYER " + team +", " + "ENTER YOUR NAME");
+            name = JOptionPane.showInputDialog(null, "PLAYER " + team +", " + "ENTER YOUR NAME","", JOptionPane.PLAIN_MESSAGE);
         }
         name = name.trim();
     }
