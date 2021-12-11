@@ -1,9 +1,11 @@
 public class AI extends Player {
 
     private String name;
+    private final int difficulty;
 
-    public AI(int team) {
+    public AI(int team, int difficulty) {
         super(team);
+        this.difficulty = difficulty;
     }
 
     public void setName() {
@@ -14,7 +16,11 @@ public class AI extends Player {
         return name;
     }
 
-    public static int findMove(Piece[][] circles, int rows, int columns, int ai) {
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public static int findMove(Piece[][] circles, int rows, int columns, int ai, int difficulty) {
         if (findWinningMoveVertical(circles, rows, columns, ai) != 999) {
             return findWinningMoveVertical(circles, rows, columns, ai);
         } else if (findWinningMoveHorizontalA(circles, rows, columns, ai) != 999) {
@@ -67,41 +73,41 @@ public class AI extends Player {
             return blockPlayerDiagonalDownC(circles, rows, columns);
         } else if (blockPlayerDiagonalDownD(circles, rows, columns) != 999) {
             return blockPlayerDiagonalDownD(circles, rows, columns);
-        } else if (blockPlayerHorizontalBuildUpA(circles, rows, columns) != 999) {
+        } else if (blockPlayerHorizontalBuildUpA(circles, rows, columns) != 999 && difficulty > 1) {
             return blockPlayerHorizontalBuildUpA(circles, rows, columns);
-        } else if (blockPlayerHorizontalBuildUpB(circles, rows, columns) != 999) {
+        } else if (blockPlayerHorizontalBuildUpB(circles, rows, columns) != 999 && difficulty > 1) {
             return blockPlayerHorizontalBuildUpB(circles, rows, columns);
-        } else if (blockPlayerHorizontalBuildUpC(circles, rows, columns) != 999) {
+        } else if (blockPlayerHorizontalBuildUpC(circles, rows, columns) != 999 && difficulty > 1) {
             return blockPlayerHorizontalBuildUpC(circles, rows, columns);
-        } else if (blockPlayerDiagonalBuildUpA(circles, rows, columns) != 999) {
+        } else if (blockPlayerDiagonalBuildUpA(circles, rows, columns) != 999 && difficulty > 1) {
             return blockPlayerDiagonalBuildUpA(circles, rows, columns);
-        } else if (blockPlayerDiagonalBuildUpB(circles, rows, columns) != 999) {
+        } else if (blockPlayerDiagonalBuildUpB(circles, rows, columns) != 999 && difficulty > 1) {
             return blockPlayerDiagonalBuildUpB(circles, rows, columns);
-        } else if (dontEnablePlayerHorizontalA(circles, rows, columns) == 999) {
+        } else if (dontEnablePlayerHorizontalA(circles, rows, columns) == 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
-        } else if (dontEnablePlayerHorizontalB(circles, rows, columns) == 999) {
+        } else if (dontEnablePlayerHorizontalB(circles, rows, columns) == 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
-        } else if (dontEnablePlayerHorizontalC(circles, rows, columns) == 999) {
+        } else if (dontEnablePlayerHorizontalC(circles, rows, columns) == 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
-        } else if (dontEnablePlayerHorizontalD(circles, rows, columns) == 999) {
+        } else if (dontEnablePlayerHorizontalD(circles, rows, columns) == 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
-        } else if (buildUpHorizontalA(circles, rows, columns) != 999) {
+        } else if (buildUpHorizontalA(circles, rows, columns) != 999 && difficulty > 1) {
             return buildUpHorizontalA(circles, rows, columns);
-        } else if (buildUpHorizontalB(circles, rows, columns, ai) != 999) {
+        } else if (buildUpHorizontalB(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return buildUpHorizontalB(circles, rows, columns, ai);
-        } else if (buildUpHorizontalC(circles, rows, columns, ai) != 999) {
+        } else if (buildUpHorizontalC(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return buildUpHorizontalC(circles, rows, columns, ai);
-        } else if (buildUpHorizontalD(circles, rows, columns, ai) != 999) {
+        } else if (buildUpHorizontalD(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return buildUpHorizontalD(circles, rows, columns, ai);
-        } else if (buildUpVertical(circles, rows, columns, ai) != 999) {
+        } else if (buildUpVertical(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return buildUpVertical(circles, rows, columns, ai);
-        } else if (firstBuildUpHorizontalA(circles, rows, columns, ai) != 999) {
+        } else if (firstBuildUpHorizontalA(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return firstBuildUpHorizontalA(circles, rows, columns, ai);
-        } else if (firstBuildUpHorizontalB(circles, rows, columns, ai) != 999) {
+        } else if (firstBuildUpHorizontalB(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return firstBuildUpHorizontalB(circles, rows, columns, ai);
-        } else if (firstBuildUpHorizontalC(circles, rows, columns, ai) != 999) {
+        } else if (firstBuildUpHorizontalC(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return firstBuildUpHorizontalC(circles, rows, columns, ai);
-        } else if (firstBuildUpVertical(circles, rows, columns, ai) != 999) {
+        } else if (firstBuildUpVertical(circles, rows, columns, ai) != 999 && difficulty > 1) {
             return firstBuildUpVertical(circles, rows, columns, ai);
         } else {
             return findBasicMove(circles, rows, columns, ai);
@@ -608,7 +614,7 @@ public class AI extends Player {
                     if (i+3 == rows-1) {
                         System.out.println("blockPlayerDiagonalBuildupB");
                         return j+3;
-                    } else if (circles[i+4][j-3].getTeam() != 0) {
+                    } else if (circles[i+4][j+3].getTeam() != 0) {
                         System.out.println("blockPlayerDiagonalBuildupB --- RISKY");
                         return j+3;
                     }
