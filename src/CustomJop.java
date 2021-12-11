@@ -16,7 +16,7 @@ public class CustomJop {
         JLabel label = new JLabel(new ImageIcon("scoreboard.png"));
         d.add (label,BorderLayout.CENTER);
         JTextArea score = new JTextArea();
-        score.setBounds(440,300,450,200);
+        score.setBounds(500,300,380,200);
         score.setOpaque(false);
         score.setWrapStyleWord(true);
         score.setLineWrap(true);
