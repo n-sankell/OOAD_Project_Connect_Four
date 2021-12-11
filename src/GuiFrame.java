@@ -50,7 +50,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     public void addWelcomeScreen() {
         try {
-            welcome = new ImageBackground("connectFour2.png");
+            welcome = new ImageBackground("connectFour.png");
         } catch (IOException e) {
             e.printStackTrace();
         }

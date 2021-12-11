@@ -13,10 +13,10 @@ public class CustomJop {
         JFrame f= new JFrame();
         d = new JDialog(f , true);
         d.setLayout( new BorderLayout());
-        JButton b = new JButton (new ImageIcon("okbutton.png"));
+        JButton b = new JButton (new ImageIcon("okButton.png"));
         b.addActionListener (e -> CustomJop.d.setVisible(false));
         b.setBounds(520,600,200,80);
-        JLabel label = new JLabel(new ImageIcon("scoreboard.png"));
+        JLabel label = new JLabel(new ImageIcon("scoreBoard.png"));
         d.add (label,BorderLayout.CENTER);
         JTextPane score = new JTextPane();
         score.setBounds(386,300,450,600);
