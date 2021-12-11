@@ -10,6 +10,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final int rows = 6;
     private final int columns = 7;
     private final int gameMode;
+    private final int difficulty;
     private int chosenColumn;
     private final Player player1;
     private final Player player2;
@@ -23,11 +24,12 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final Piece[][] circles = new Piece[rows][columns];
     private final ImageIcon insertButtonImage = new ImageIcon("insertButton.png");
 
-    public GuiBoard(Player player1, Player player2, int gameMode) {
+    public GuiBoard(Player player1, Player player2, int gameMode, int difficulty) {
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
         this.gameMode = gameMode;
+        this.difficulty = difficulty;
         setMessages();
         addBasePanel();
         newGame();
@@ -195,7 +197,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
-            int aiMove = AI.findMove(circles, rows, columns, currentPlayer.getTeam());
+            int aiMove = AI.findMove(circles, rows, columns, currentPlayer.getTeam(), difficulty);
             if (checkColumn(aiMove)) {
                 putPiece(aiMove, currentPlayer.getTeam());
                 break;

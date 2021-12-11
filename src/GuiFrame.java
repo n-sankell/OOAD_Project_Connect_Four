@@ -68,7 +68,7 @@ public class GuiFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == i1) {
             removeItems();
-            add(board = game.onePlayerMode());
+            add(board = game.onePlayerModeNormal());
             repaint();
             revalidate();
         }
