@@ -632,6 +632,9 @@ public class AI extends Player {
                     if (i < rows-2 && circles[i+2][j+3].getTeam() != 0 && circles[i+1][j+3].getTeam() == 0) {
                         System.out.println("dontEnablePlayerHorizontalA");
                         return 999;
+                    } else if (i == rows-2 && circles[i+1][j+3].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalA");
+                        return 999;
                     }
                 }
             }
@@ -645,7 +648,10 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j].getTeam() != 0 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalA");
+                        System.out.println("dontEnablePlayerHorizontalB");
+                        return 999;
+                    } else if (i == rows-2 && circles[i+1][j].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalB");
                         return 999;
                     }
                 }
@@ -656,11 +662,14 @@ public class AI extends Player {
 
     public static int dontEnablePlayerHorizontalC(Piece[][] circles, int rows, int columns) {
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns-1; j++) {
+            for (int j = 0; j < columns-2; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j].getTeam() != 0 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalA");
+                        System.out.println("dontEnablePlayerHorizontalC");
+                        return 999;
+                    } else if (i == rows-2 && circles[i+1][j].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalC");
                         return 999;
                     }
                 }
@@ -675,7 +684,10 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j+1].getTeam() != 0 && circles[i+1][j+1].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalB");
+                        System.out.println("dontEnablePlayerHorizontalD");
+                        return 999;
+                    } else if (i == rows-2 && circles[i+1][j+1].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalD");
                         return 999;
                     }
                 }
