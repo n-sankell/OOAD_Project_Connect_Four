@@ -102,7 +102,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         status = new JLabel("Your turn "+currentPlayer.getName()+"!");
         status.setFont(new Font("Druk Wide",Font.BOLD,20));
         status.setHorizontalAlignment(SwingConstants.CENTER);
-        status.setForeground(currentPlayer.getPlayerColor());
+        status.setForeground(currentPlayer.getPlayerColor().brighter());
         scorePlayerTwo = new JLabel("Score "+player2.getName()+": "+player2.getScore());
         scorePlayerTwo.setFont(new Font("Druk Wide",Font.BOLD,20));
         scorePlayerTwo.setHorizontalAlignment(SwingConstants.RIGHT);
