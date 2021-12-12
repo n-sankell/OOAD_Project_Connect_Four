@@ -1,10 +1,12 @@
+import java.awt.*;
+
 public class AI extends Player {
 
     private String name;
     private final int difficulty;
 
-    public AI(int team, int difficulty) {
-        super(team);
+    public AI(int team, Color playerColor, int difficulty) {
+        super(team, playerColor);
         this.difficulty = difficulty;
     }
 
