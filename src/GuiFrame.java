@@ -6,7 +6,8 @@ import java.io.IOException;
 
 public class GuiFrame extends JFrame implements ActionListener {
 
-    private JMenuItem i1;
+    private JMenuItem i1a;
+    private JMenuItem i1b;
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
@@ -27,15 +28,21 @@ public class GuiFrame extends JFrame implements ActionListener {
     public void addMenu() {
         JMenuBar mb = new JMenuBar();
         JMenu menu = new JMenu("GAME MODE");
+        JMenu submenu = new JMenu("ONE PLAYER");
         menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        i1 = new JMenuItem("ONE PLAYER");
+        i1a = new JMenuItem("EASY");
+        i1b = new JMenuItem("NORMAL");
         i2 = new JMenuItem("TWO PLAYERS");
-        i1.setFont(new Font("Druk Wide", Font.BOLD, 12));
+        i1a.setFont(new Font("Druk Wide", Font.BOLD, 12));
+        i1b.setFont(new Font("Druk Wide", Font.BOLD, 12));
         i2.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        i1.addActionListener(this);
+        i1a.addActionListener(this);
+        i1b.addActionListener(this);
         i2.addActionListener(this);
-        menu.add(i1);
+        menu.add(submenu);
+        submenu.add(i1a);
+        submenu.add(i1b);
         menu.add(i2);
         mb.add(menu);
         setJMenuBar(mb);
@@ -43,7 +50,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     public void addWelcomeScreen() {
         try {
-            welcome = new ImageBackground("connectFour2.png");
+            welcome = new ImageBackground("connectFour.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,9 +73,15 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == i1) {
+        if (e.getSource() == i1a) {
             removeItems();
-            add(board = game.onePlayerMode());
+            add(board = game.onePlayerModeEasy());
+            repaint();
+            revalidate();
+        }
+        if (e.getSource() == i1b) {
+            removeItems();
+            add(board = game.onePlayerModeNormal());
             repaint();
             revalidate();
         }
