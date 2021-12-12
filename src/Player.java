@@ -1,9 +1,8 @@
-import javax.swing.*;
-
 public class Player {
     private String name;
     private final int team;
     private int score = 0;
+    LoginJop lj = new LoginJop();
 
     public Player(int team) {
         this.team = team;
@@ -11,7 +10,7 @@ public class Player {
 
     public void setName() {
         while (name == null || name.trim().equals("")) {
-            name = JOptionPane.showInputDialog(null, "PLAYER " + team +", " + "ENTER YOUR NAME","", JOptionPane.PLAIN_MESSAGE);
+        name = lj.optionPane();
         }
         name = name.trim();
     }
