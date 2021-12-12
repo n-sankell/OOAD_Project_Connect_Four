@@ -1,18 +1,17 @@
-import javax.swing.*;
-
 public class Player {
     private String name;
     private final int team;
     private int score = 0;
+    LoginJop lj = new LoginJop();
 
     public Player(int team) {
         this.team = team;
     }
 
     public void setName() {
-        name = JOptionPane.showInputDialog(null, "PLAYER " + team +", " + "ENTER YOUR NAME");
+        name = lj.optionPane();
         while (name == null || name.trim().equals("")) {
-            name = JOptionPane.showInputDialog(null, "PLAYER " + team +", " + "ENTER YOUR NAME");
+            name = lj.optionPane();
         }
         name = name.trim();
     }
