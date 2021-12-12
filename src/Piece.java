@@ -4,19 +4,31 @@ import java.awt.image.BufferedImage;
 
 public class Piece extends JLabel {
     private int team;
-    private final ImageIcon teamOneCircle = new ImageIcon(createCircle(GuiColors.TEAM_ONE));
-    private final ImageIcon teamTwoCircle = new ImageIcon(createCircle(GuiColors.TEAM_TWO));
-    private final ImageIcon teamOneWin = new ImageIcon(createCircle(GuiColors.TEAM_ONE_WIN));
-    private final ImageIcon teamTwoWin = new ImageIcon(createCircle(GuiColors.TEAM_TWO_WIN));
+    private final Player playerOne;
+    private final Player playerTwo;
+    private ImageIcon teamOneCircle;
+    private ImageIcon teamTwoCircle;
+    private ImageIcon teamOneWin;
+    private ImageIcon teamTwoWin;
 
-    public Piece() {
+    public Piece(Player playerOne, Player playerTwo) {
         this.team = 0;
-        ImageIcon emptyCircle = new ImageIcon(createCircle(GuiColors.BG));
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        ImageIcon emptyCircle = new ImageIcon(createCircle(GuiColors.TEXT));
         this.setIcon(emptyCircle);
         this.setBackground(GuiColors.BOARD);
         this.setHorizontalAlignment(0);
         this.setVisible(true);
         this.setOpaque(true);
+        setPieceColors();
+    }
+
+    private void setPieceColors() {
+        teamOneCircle = new ImageIcon(createCircle(playerOne.getPlayerColor()));
+        teamTwoCircle = new ImageIcon(createCircle(playerTwo.getPlayerColor()));
+        teamOneWin = new ImageIcon(createCircle(playerOne.getPlayerColor().brighter()));
+        teamTwoWin = new ImageIcon(createCircle(playerTwo.getPlayerColor().brighter()));
     }
 
     public int getTeam() {
@@ -24,12 +36,11 @@ public class Piece extends JLabel {
     }
 
     public void winningPieces(int team) {
-        if (team == 1) {
+        if (team == playerOne.getTeam()) {
             this.setIcon(teamOneWin);
             repaint();
             revalidate();
-        }
-        if (team == 2) {
+        } else if (team == playerTwo.getTeam()) {
             this.setIcon(teamTwoWin);
             repaint();
             revalidate();
@@ -39,12 +50,12 @@ public class Piece extends JLabel {
     public void changeTeam(int teamTo) {
         if (team == 0) {
             this.team = teamTo;
-            if (team == 1) {
+            if (team == playerOne.getTeam()) {
                 this.setIcon(teamOneCircle);
                 repaint();
                 revalidate();
             }
-            if (team == 2) {
+            if (team == playerTwo.getTeam()) {
                 this.setIcon(teamTwoCircle);
                 repaint();
                 revalidate();

@@ -14,18 +14,18 @@ public class CustomJop {
         d = new JDialog(f , true);
         d.setLayout( new BorderLayout());
 
-        JButton b = new JButton (new ImageIcon("okbutton.png"));
+        JButton b = new JButton (new ImageIcon("okButton.png"));
         b.addActionListener (e -> CustomJop.d.setVisible(false));
         b.setBounds(520,600,200,80);
 
-        JLabel label = new JLabel(new ImageIcon("scoreboard.png"));
+        JLabel label = new JLabel(new ImageIcon("scoreBoard.png"));
         d.add (label,BorderLayout.CENTER);
 
         JTextPane score = new JTextPane();
         score.setBounds(386,300,450,600);
         score.setOpaque(false);
         score.setText(message);
-        score.setForeground(Color.BLACK);
+        score.setForeground(GuiColors.BOARD);
         score.setFont(new Font("Druk Wide",Font.BOLD,30));
         StyledDocument documentStyle = score.getStyledDocument();
         SimpleAttributeSet centerAttribute = new SimpleAttributeSet();

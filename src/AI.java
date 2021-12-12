@@ -1,10 +1,12 @@
+import java.awt.*;
+
 public class AI extends Player {
 
     private String name;
     private final int difficulty;
 
-    public AI(int team, int difficulty) {
-        super(team);
+    public AI(int team, Color playerColor, int difficulty) {
+        super(team, playerColor);
         this.difficulty = difficulty;
     }
 
@@ -83,13 +85,13 @@ public class AI extends Player {
             return blockPlayerDiagonalBuildUpA(circles, rows, columns);
         } else if (blockPlayerDiagonalBuildUpB(circles, rows, columns) != 999 && difficulty > 1) {
             return blockPlayerDiagonalBuildUpB(circles, rows, columns);
-        } else if (dontEnablePlayerHorizontalA(circles, rows, columns) == 999 && difficulty > 1) {
+        } else if (dontEnablePlayerHorizontalA(circles, rows, columns) != 999 && difficulty > 1) {
+            return findBasicMove(circles, rows, columns, ai); //TODO add method that excludes the returned value (putAnywhereButHere)
+        } else if (dontEnablePlayerHorizontalB(circles, rows, columns) != 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
-        } else if (dontEnablePlayerHorizontalB(circles, rows, columns) == 999 && difficulty > 1) {
+        } else if (dontEnablePlayerHorizontalC(circles, rows, columns) != 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
-        } else if (dontEnablePlayerHorizontalC(circles, rows, columns) == 999 && difficulty > 1) {
-            return findBasicMove(circles, rows, columns, ai);
-        } else if (dontEnablePlayerHorizontalD(circles, rows, columns) == 999 && difficulty > 1) {
+        } else if (dontEnablePlayerHorizontalD(circles, rows, columns) != 999 && difficulty > 1) {
             return findBasicMove(circles, rows, columns, ai);
         } else if (buildUpHorizontalA(circles, rows, columns) != 999 && difficulty > 1) {
             return buildUpHorizontalA(circles, rows, columns);
@@ -631,7 +633,10 @@ public class AI extends Player {
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 0) {
                     if (i < rows-2 && circles[i+2][j+3].getTeam() != 0 && circles[i+1][j+3].getTeam() == 0) {
                         System.out.println("dontEnablePlayerHorizontalA");
-                        return 999;
+                        return j+3;
+                    } else if (i == rows-2 && circles[i+1][j+3].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalA");
+                        return j+3;
                     }
                 }
             }
@@ -645,8 +650,11 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j].getTeam() != 0 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalA");
-                        return 999;
+                        System.out.println("dontEnablePlayerHorizontalB");
+                        return j;
+                    } else if (i == rows-2 && circles[i+1][j].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalB");
+                        return j;
                     }
                 }
             }
@@ -656,12 +664,15 @@ public class AI extends Player {
 
     public static int dontEnablePlayerHorizontalC(Piece[][] circles, int rows, int columns) {
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns-1; j++) {
+            for (int j = 0; j < columns-2; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j].getTeam() != 0 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalA");
-                        return 999;
+                        System.out.println("dontEnablePlayerHorizontalC");
+                        return j;
+                    } else if (i == rows-2 && circles[i+1][j].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalC");
+                        return j;
                     }
                 }
             }
@@ -675,8 +686,11 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j+1].getTeam() != 0 && circles[i+1][j+1].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalB");
-                        return 999;
+                        System.out.println("dontEnablePlayerHorizontalD");
+                        return j+1;
+                    } else if (i == rows-2 && circles[i+1][j+1].getTeam() == 0) {
+                        System.out.println("dontEnablePlayerHorizontalD");
+                        return j+1;
                     }
                 }
             }

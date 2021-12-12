@@ -11,6 +11,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final int columns = 7;
     private final int gameMode;
     private final int difficulty;
+    private int roundCounter = 0;
     private int chosenColumn;
     private final Player player1;
     private final Player player2;
@@ -20,6 +21,10 @@ public class GuiBoard extends JPanel implements ActionListener {
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
+    private final JPanel statusPanel = new JPanel();
+    private JLabel scorePlayerOne;
+    private JLabel status;
+    private JLabel scorePlayerTwo;
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
     private final ImageIcon insertButtonImage = new ImageIcon("insertButton.png");
@@ -32,31 +37,42 @@ public class GuiBoard extends JPanel implements ActionListener {
         this.difficulty = difficulty;
         setMessages();
         addBasePanel();
+        setStatusPanel();
         newGame();
     }
 
     public void addBasePanel() {
         setLayout(new BorderLayout());
         setVisible(true);
+        insertPanel.setLayout(new GridLayout(1, columns));
+        addInsertButtons();
+        add(insertPanel, BorderLayout.NORTH);
         boardPanel.setLayout(new GridLayout(rows, columns));
         add(boardPanel, BorderLayout.CENTER);
-        insertPanel.setLayout(new GridLayout(1, columns));
-        add(insertPanel, BorderLayout.NORTH);
-        addInsertButtons();
+        add(statusPanel, BorderLayout.SOUTH);
     }
 
     public void newGame() {
-        currentPlayer = player1;
         boardPanel.removeAll();
+        roundCounter++;
         addCircles();
+        if (roundCounter % 2 != 0) {
+            currentPlayer = player1;
+        } else {
+            currentPlayer = player2;
+        }
+        updateStatusPanel();
         repaint();
         revalidate();
+        if (gameMode == 1 && currentPlayer == player2) {
+            aiTurn();
+        }
     }
 
     public void addCircles() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                circles[i][j] = new Piece();
+                circles[i][j] = new Piece(player1,player2);
                 boardPanel.add(circles[i][j]);
             }
         }
@@ -66,13 +82,43 @@ public class GuiBoard extends JPanel implements ActionListener {
         for (int i = 0; i < columns; i++) {
             insertButtons[i] = new JButton();
             insertButtons[i].setIcon(insertButtonImage);
-            insertButtons[i].setBackground(GuiColors.BG);
+            insertButtons[i].setBackground(GuiColors.TEXT);
             insertButtons[i].setOpaque(true);
             insertButtons[i].setBorderPainted(true);
-            insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.BG, 0, false));
+            insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.TEXT, 0, false));
             insertButtons[i].addActionListener(this);
             insertPanel.add(insertButtons[i]);
         }
+    }
+
+    public void setStatusPanel() {
+        statusPanel.setBackground(GuiColors.BOARD);
+        GridLayout grid = new GridLayout(1,3);
+        grid.setHgap(100);
+        statusPanel.setLayout(grid);
+        scorePlayerOne = new JLabel("Score "+player1.getName()+": "+player1.getScore());
+        scorePlayerOne.setFont(new Font("Druk Wide",Font.BOLD,20));
+        scorePlayerOne.setForeground(player1.getPlayerColor());
+        status = new JLabel("Your turn "+currentPlayer.getName()+"!");
+        status.setFont(new Font("Druk Wide",Font.BOLD,20));
+        status.setHorizontalAlignment(SwingConstants.CENTER);
+        status.setForeground(currentPlayer.getPlayerColor().brighter());
+        scorePlayerTwo = new JLabel("Score "+player2.getName()+": "+player2.getScore());
+        scorePlayerTwo.setFont(new Font("Druk Wide",Font.BOLD,20));
+        scorePlayerTwo.setHorizontalAlignment(SwingConstants.RIGHT);
+        scorePlayerTwo.setForeground(player2.getPlayerColor());
+        statusPanel.add(scorePlayerOne);
+        statusPanel.add(status);
+        statusPanel.add(scorePlayerTwo);
+    }
+
+    public void updateStatusPanel() {
+        statusPanel.remove(scorePlayerOne);
+        statusPanel.remove(status);
+        statusPanel.remove(scorePlayerTwo);
+        setStatusPanel();
+        repaint();
+        revalidate();
     }
 
     public boolean checkColumn(int columnsNr) {
@@ -251,6 +297,7 @@ public class GuiBoard extends JPanel implements ActionListener {
                 }
             }
         }
+        updateStatusPanel();
     }
 
 }
