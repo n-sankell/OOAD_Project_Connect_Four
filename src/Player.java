@@ -9,9 +9,8 @@ public class Player {
     }
 
     public void setName() {
-        name = lj.optionPane();
         while (name == null || name.trim().equals("")) {
-            name = lj.optionPane();
+        name = lj.optionPane();
         }
         name = name.trim();
     }
