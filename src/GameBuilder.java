@@ -1,7 +1,7 @@
 public class GameBuilder {
 
     public GuiBoard onePlayerModeEasy() {
-        Player player1 = new Player(1, GuiColors.TEAM_ONE);
+        Player player1 = new Player(1,GuiColors.TEAM_ONE);
         AI ai = new AI(2,GuiColors.TEAM_TWO,1);
         player1.setName();
         ai.setName();
@@ -9,8 +9,8 @@ public class GameBuilder {
     }
 
     public GuiBoard onePlayerModeNormal() {
-        Player player1 = new Player(1, GuiColors.TEAM_ONE);
-        AI ai = new AI(2, GuiColors.TEAM_TWO,2);
+        Player player1 = new Player(1,GuiColors.TEAM_ONE);
+        AI ai = new AI(2,GuiColors.TEAM_TWO,2);
         player1.setName();
         ai.setName();
         return new GuiBoard(player1,ai,1,ai.getDifficulty());
@@ -21,7 +21,7 @@ public class GameBuilder {
         Player player2 = new Player(2,GuiColors.TEAM_TWO);
         player1.setName();
         player2.setName();
-        return new GuiBoard(player1, player2, 2, 0);
+        return new GuiBoard(player1,player2,2,0);
     }
 
 }
