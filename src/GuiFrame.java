@@ -25,7 +25,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         pack();
     }
 
-    public void addMenu() {
+    private void addMenu() {
         JMenuBar mb = new JMenuBar();
         JMenu menu = new JMenu("GAME MODE");
         JMenu submenu = new JMenu("ONE PLAYER");
@@ -49,7 +49,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         setJMenuBar(mb);
     }
 
-    public void addWelcomeScreen() {
+    private void addWelcomeScreen() {
         try {
             welcome = new ImageBackground("connectFour.png");
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         }
     }
 
-    public void removeItems() {
+    private void removeItems() {
         if (board != null) {
             remove(board);
         } else if (welcome != null) {

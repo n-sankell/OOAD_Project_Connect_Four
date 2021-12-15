@@ -9,7 +9,7 @@ public class CustomJop {
 
     private static Dialog d;
 
-    CustomJop(String message) throws IOException {
+    public CustomJop(String message) throws IOException {
         JFrame f= new JFrame();
         d = new JDialog(f , true);
         d.setLayout( new BorderLayout());

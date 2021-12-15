@@ -63,7 +63,7 @@ public class Piece extends JLabel {
         }
     }
 
-    public BufferedImage createCircle(Color color) {
+    private BufferedImage createCircle(Color color) {
         BufferedImage bufferedImage = new BufferedImage(110, 110, BufferedImage.TYPE_INT_ARGB);
         Color transparent = new Color(0x00FFFFFF, true);
         Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
