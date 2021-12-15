@@ -121,7 +121,6 @@ public class AI extends Player {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j].getTeam() == ai &&
                         circles[i+2][j].getTeam() == ai && circles[i+3][j].getTeam() == ai) {
-                    System.out.println("FindWinningMoveVertical");
                     return j;
                 }
             }
@@ -135,10 +134,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == ai &&
                         circles[i][j+2].getTeam() == ai && circles[i][j+3].getTeam() == ai) {
                     if (i != rows-1 && circles[i+1][j].getTeam() != 0) {
-                        System.out.println("FindWinningMoveHorizontalA");
                         return j;
                     } else if (i == rows-1) {
-                        System.out.println("FindWinningMoveHorizontalA");
                         return j;
                     }
                 }
@@ -153,10 +150,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == ai && circles[i][j+3].getTeam() == ai) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("FindWinningMoveHorizontalA");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("FindWinningMoveHorizontalA");
                         return j+1;
                     }
                 }
@@ -171,10 +166,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i][j+1].getTeam() == ai &&
                         circles[i][j+2].getTeam() == 0 && circles[i][j+3].getTeam() == ai) {
                     if (i != rows-1 && circles[i+1][j+2].getTeam() != 0) {
-                        System.out.println("FindWinningMoveHorizontalA");
                         return j+2;
                     } else if (i == rows-1) {
-                        System.out.println("FindWinningMoveHorizontalA");
                         return j+2;
                     }
                 }
@@ -189,10 +182,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i][j+1].getTeam() == ai &&
                         circles[i][j+2].getTeam() == ai && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+3].getTeam() != 0) {
-                        System.out.println("FindWinningMoveHorizontalB");
                         return j+3;
                     } else if (i == rows-1) {
-                        System.out.println("FindWinningMoveHorizontalB");
                         return j + 3;
                     }
                 }
@@ -207,7 +198,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j+1].getTeam() == ai &&
                         circles[i+2][j+2].getTeam() == ai && circles[i+3][j+3].getTeam() == ai) {
                     if (circles[i+1][j].getTeam() != 0) {
-                        System.out.println("findWinningMoveDiagonalUpA");
                         return j;
                     }
                 }
@@ -222,7 +212,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i+1][j+1].getTeam() == 0 &&
                         circles[i+2][j+2].getTeam() == ai && circles[i+3][j+3].getTeam() == ai) {
                     if (circles[i+2][j+1].getTeam() != 0) {
-                        System.out.println("findWinningMoveDiagonalUpB");
                         return j+1;
                     }
                 }
@@ -237,7 +226,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i+1][j+1].getTeam() == ai &&
                         circles[i+2][j+2].getTeam() == 0 && circles[i+3][j+3].getTeam() == ai) {
                     if (circles[i+3][j+2].getTeam() != 0) {
-                        System.out.println("findWinningMoveDiagonalUpC");
                         return j+2;
                     }
                 }
@@ -252,7 +240,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i+1][j+1].getTeam() == ai &&
                         circles[i+2][j+2].getTeam() == ai && circles[i+3][j+3].getTeam() == 0) {
                     if (i+3 == rows-1) {
-                        System.out.println("findWinningDiagonalUpD");
                         return j + 3;
                     } else if (circles[i+4][j+3].getTeam() != 0) {
                         return j+3;
@@ -269,7 +256,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j-1].getTeam() == ai &&
                         circles[i+2][j-2].getTeam() == ai && circles[i+3][j-3].getTeam() == ai) {
                     if (circles[i+1][j].getTeam() != 0) {
-                        System.out.println("findWinningMoveDiagonalDownA");
                         return j;
                     }
                 }
@@ -284,7 +270,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i+1][j-1].getTeam() == 0 &&
                         circles[i+2][j-2].getTeam() == ai && circles[i+3][j-3].getTeam() == ai) {
                     if (circles[i+2][j-1].getTeam() != 0) {
-                        System.out.println("findWinningMoveDiagonalDownB");
                         return j-1;
                     }
                 }
@@ -299,7 +284,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i+1][j-1].getTeam() == ai &&
                         circles[i+2][j-2].getTeam() == 0 && circles[i+3][j-3].getTeam() == ai) {
                     if (circles[i+3][j-2].getTeam() != 0) {
-                        System.out.println("findWinningMoveDiagonalDownC");
                         return j-2;
                     }
                 }
@@ -314,7 +298,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i+1][j-1].getTeam() == ai &&
                         circles[i+2][j-2].getTeam() == ai && circles[i+3][j-3].getTeam() == 0) {
                     if (i+3 == rows-1) {
-                        System.out.println("findWinningDiagonalDownD");
                         return j-3;
                     } else if (circles[i+4][j-3].getTeam() != 0) {
                         return j-3;
@@ -330,7 +313,6 @@ public class AI extends Player {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j].getTeam() == 1 &&
                         circles[i+2][j].getTeam() == 1 && circles[i+3][j].getTeam() == 1) {
-                    System.out.println("blockPlayerVertical");
                     return j;
                 }
             }
@@ -344,10 +326,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 1) {
                     if (i != rows-1 && circles[i+1][j].getTeam() != 0) {
-                        System.out.println("BlockPlayerHorizontalA");
                         return j;
                     } else if (i == rows-1) {
-                        System.out.println("BlockPlayerHorizontalA");
                         return j;
                     }
                 }
@@ -362,10 +342,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 1) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("BlockPlayerHorizontalB");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("BlockPlayerHorizontalB");
                         return j+1;
                     }
                 }
@@ -380,10 +358,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 0 && circles[i][j+3].getTeam() == 1) {
                     if (i != rows-1 && circles[i+1][j+2].getTeam() != 0) {
-                        System.out.println("blockPlayerHorizontalC");
                         return j+2;
                     } else if (i == rows-1) {
-                        System.out.println("blockPlayerHorizontalC");
                         return j+2;
                     }
                 }
@@ -398,10 +374,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+3].getTeam() != 0) {
-                        System.out.println("blockPlayerHorizontalD");
                         return j+3;
                     } else if (i == rows-1) {
-                        System.out.println("blockPlayerHorizontalD");
                         return j+3;
                     }
                 }
@@ -416,7 +390,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j+1].getTeam() == 1 &&
                         circles[i+2][j+2].getTeam() == 1 && circles[i+3][j+3].getTeam() == 1) {
                     if (circles[i+1][j].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalUpA");
                         return j;
                     }
                 }
@@ -431,7 +404,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i+1][j+1].getTeam() == 0 &&
                         circles[i+2][j+2].getTeam() == 1 && circles[i+3][j+3].getTeam() == 1) {
                     if (circles[i+2][j+1].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalUpB");
                         return j+1;
                     }
                 }
@@ -446,7 +418,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i+1][j+1].getTeam() == 1 &&
                         circles[i+2][j+2].getTeam() == 0 && circles[i+3][j+3].getTeam() == 1) {
                     if (circles[i+3][j+2].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalUpC");
                         return j+2;
                     }
                 }
@@ -461,10 +432,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i+1][j+1].getTeam() == 1 &&
                         circles[i+2][j+2].getTeam() == 1 && circles[i+3][j+3].getTeam() == 0) {
                     if (i+3 == rows-1) {
-                        System.out.println("blockPlayerDiagonalUpD");
                         return j+3;
                     } else if (i+3 < rows-1 && circles[i+4][j+3].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalUpD --- RISKY");
                         return j+3;
                     }
                 }
@@ -479,7 +448,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j-1].getTeam() == 1 &&
                         circles[i+2][j-2].getTeam() == 1 && circles[i+3][j-3].getTeam() == 1) {
                     if (circles[i+1][j].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalDownA");
                         return j;
                     }
                 }
@@ -494,7 +462,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i+1][j-1].getTeam() == 0 &&
                         circles[i+2][j-2].getTeam() == 1 && circles[i+3][j-3].getTeam() == 1) {
                     if (circles[i+2][j-1].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalDownB");
                         return j-1;
                     }
                 }
@@ -509,7 +476,6 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i+1][j-1].getTeam() == 1 &&
                         circles[i+2][j-2].getTeam() == 0 && circles[i+3][j-3].getTeam() == 1) {
                     if (circles[i+3][j-2].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalDownC");
                         return j-2;
                     }
                 }
@@ -524,10 +490,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i+1][j-1].getTeam() == 1 &&
                         circles[i+2][j-2].getTeam() == 1 && circles[i+3][j-3].getTeam() == 0) {
                     if (i+3 == rows-1) {
-                        System.out.println("blockPlayerDiagonalDownD");
                         return j-3;
                     } else if (i+3 < rows-1 && circles[i+4][j-3].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalDownD ---- RISKY");
                         return j-3;
                     }
                 }
@@ -542,10 +506,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+3].getTeam() != 0) {
-                        System.out.println("blockPlayerBuildUpA");
                         return j+3;
                     } else if (i == rows-1) {
-                        System.out.println("blockPlayerBuildUpA");
                         return j+3;
                     }
                 }
@@ -560,10 +522,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("blockPlayerBuildUpB");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("blockPlayerBuildUpB");
                         return j+1;
                     }
                 }
@@ -578,10 +538,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 0 && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+2].getTeam() != 0) {
-                        System.out.println("blockPlayerBuildUpC");
                         return j+2;
                     } else if (i == rows-1) {
-                        System.out.println("blockPlayerBuildUpC");
                         return j+2;
                     }
                 }
@@ -596,10 +554,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j-1].getTeam() == 1 &&
                         circles[i+2][j-2].getTeam() == 1 && circles[i+3][j-3].getTeam() == 0) {
                     if (i+3 == rows-1) {
-                        System.out.println("blockPlayerDiagonalBuildupA");
                         return j-3;
                     } else if (circles[i+4][j-3].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalBuildupA --- RISKY");
                         return j-3;
                     }
                 }
@@ -614,10 +570,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j+1].getTeam() == 1 &&
                         circles[i+2][j+2].getTeam() == 1 && circles[i+3][j+3].getTeam() == 0) {
                     if (i+3 == rows-1) {
-                        System.out.println("blockPlayerDiagonalBuildupB");
                         return j+3;
                     } else if (circles[i+4][j+3].getTeam() != 0) {
-                        System.out.println("blockPlayerDiagonalBuildupB --- RISKY");
                         return j+3;
                     }
                 }
@@ -632,10 +586,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 0) {
                     if (i < rows-2 && circles[i+2][j+3].getTeam() != 0 && circles[i+1][j+3].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalA");
                         return j+3;
                     } else if (i == rows-2 && circles[i+1][j+3].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalA");
                         return j+3;
                     }
                 }
@@ -650,10 +602,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j].getTeam() != 0 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalB");
                         return j;
                     } else if (i == rows-2 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalB");
                         return j;
                     }
                 }
@@ -668,10 +618,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j].getTeam() != 0 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalC");
                         return j;
                     } else if (i == rows-2 && circles[i+1][j].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalC");
                         return j;
                     }
                 }
@@ -686,10 +634,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 1 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 1) {
                     if (i < rows-2 && circles[i+2][j+1].getTeam() != 0 && circles[i+1][j+1].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalD");
                         return j+1;
                     } else if (i == rows-2 && circles[i+1][j+1].getTeam() == 0) {
-                        System.out.println("dontEnablePlayerHorizontalD");
                         return j+1;
                     }
                 }
@@ -704,10 +650,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 1 &&
                         circles[i][j+2].getTeam() == 1 && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+2].getTeam() != 0) {
-                        System.out.println("buildUpHorizontalA");
                         return j;
                     } else if (i == rows-1) {
-                        System.out.println("buildUpHorizontalA");
                         return j;
                     }
                 }
@@ -722,10 +666,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 0 && circles[i][j+3].getTeam() == ai) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("buildUpHorizontalB");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("buildUpHorizontalB");
                         return j+1;
                     }
                 }
@@ -740,10 +682,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i][j+1].getTeam() == ai &&
                         circles[i][j+2].getTeam() == 0 && circles[i][j+3].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+2].getTeam() != 0) {
-                        System.out.println("buildUpHorizontalC");
                         return j+2;
                     } else if (i == rows-1) {
-                        System.out.println("buildUpHorizontalC");
                         return j+2;
                     }
                 }
@@ -758,10 +698,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == ai && circles[i][j+3].getTeam() == ai) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("buildUpHorizontalD");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("buildUpHorizontalD");
                         return j+1;
                     }
                 }
@@ -776,10 +714,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == ai) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("firstBuildUpHorizontal");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("firstBuildUpHorizontal");
                         return j+1;
                     }
                 }
@@ -794,10 +730,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == ai && circles[i][j+1].getTeam() == 0 &&
                         circles[i][j+2].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j+1].getTeam() != 0) {
-                        System.out.println("firstBuildUpHorizontalB");
                         return j+1;
                     } else if (i == rows-1) {
-                        System.out.println("firstBuildUpHorizontalB");
                         return j+1;
                     }
                 }
@@ -812,10 +746,8 @@ public class AI extends Player {
                 if (circles[i][j].getTeam() == 0 && circles[i][j+1].getTeam() == ai &&
                         circles[i][j+2].getTeam() == 0) {
                     if (i != rows-1 && circles[i+1][j].getTeam() != 0) {
-                        System.out.println("firstBuildUpHorizontalC");
                         return j;
                     } else if (i == rows-1) {
-                        System.out.println("firstBuildUpHorizontalC");
                         return j;
                     }
                 }
@@ -828,7 +760,6 @@ public class AI extends Player {
         for (int i = 0; i < rows-2; i++) {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j].getTeam() == ai && circles[i+2][j].getTeam() == ai) {
-                    System.out.println("buildUpVertical");
                     return j;
                 }
             }
@@ -840,7 +771,6 @@ public class AI extends Player {
         for (int i = 0; i < rows-1; i++) {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == 0 && circles[i+1][j].getTeam() == ai) {
-                    System.out.println("firstBuildUpVertical");
                     return j;
                 }
             }
@@ -849,7 +779,6 @@ public class AI extends Player {
     }
 
     public static int findBasicMove(Piece[][] circles, int rows, int columns, int ai) {
-        System.out.println("FindBasicMove");
         for (int i = 0; i < rows-1; i++) {
             for (int j = 0; j < columns-1; j++) {
                 if (circles[i][j].getTeam() == ai && circles[i + 1][j].getTeam() == ai) {
