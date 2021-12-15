@@ -44,7 +44,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         newGame();
     }
 
-    public void addBasePanel() {
+    private void addBasePanel() {
         setLayout(new BorderLayout());
         setVisible(true);
         insertPanel.setLayout(new GridLayout(1, columns));
@@ -55,7 +55,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         add(statusPanel, BorderLayout.SOUTH);
     }
 
-    public void newGame() {
+    private void newGame() {
         boardPanel.removeAll();
         roundCounter++;
         addCircles();
@@ -72,7 +72,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    public void addCircles() {
+    private void addCircles() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 circles[i][j] = new Piece(player1,player2);
@@ -81,7 +81,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    public void addInsertButtons() {
+    private void addInsertButtons() {
         for (int i = 0; i < columns; i++) {
             insertButtons[i] = new JButton();
             insertButtons[i].setIcon(insertButtonImage);
@@ -94,7 +94,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    public void setStatusPanel() {
+    private void setStatusPanel() {
         statusPanel.setBackground(GuiColors.BOARD);
         GridLayout grid = new GridLayout(1,3);
         grid.setHgap(50);
@@ -104,7 +104,11 @@ public class GuiBoard extends JPanel implements ActionListener {
         scorePlayerOne.setHorizontalAlignment(SwingConstants.RIGHT);
         scorePlayerOne.setForeground(player1.getPlayerColor());
         status = new JTextPane();
-        status.setText("YOUR TURN "+currentPlayer.getName()+"!");
+        if (gameMode == 1) {
+            status.setText("");
+        } else {
+            status.setText("YOUR TURN "+currentPlayer.getName()+"!");
+        }
         status.setFont(new Font("Druk Wide",Font.BOLD,20));
         StyledDocument documentStyle = status.getStyledDocument();
         SimpleAttributeSet centerAttribute = new SimpleAttributeSet();
@@ -121,7 +125,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         statusPanel.add(scorePlayerTwo);
     }
 
-    public void updateStatusPanel() {
+    private void updateStatusPanel() {
         statusPanel.remove(scorePlayerOne);
         statusPanel.remove(status);
         statusPanel.remove(scorePlayerTwo);
@@ -130,7 +134,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         revalidate();
     }
 
-    public boolean checkColumn(int columnsNr) {
+    private boolean checkColumn(int columnsNr) {
         for (int i = rows - 1; i >= 0; i--) {
             if (circles[i][columnsNr].getTeam() == 0) {
                 return true;
@@ -139,7 +143,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return false;
     }
 
-    public void putPiece(int columnsNr, int teamNr) {
+    private void putPiece(int columnsNr, int teamNr) {
         for (int i = rows - 1; i >= 0; i--) {
             if (circles[i][columnsNr].getTeam() == 0) {
                 circles[i][columnsNr].changeTeam(teamNr);
@@ -148,7 +152,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    public void findInsert() {
+    private void findInsert() {
         for (int i = 0; i < columns; i++) {
             if (clicked == insertButtons[i]) {
                 chosenColumn = i;
@@ -156,11 +160,11 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    public boolean checkWin() {
+    private boolean checkWin() {
         return checkWinVertical() || checkWinHorizontal() || checkWinDiagonalUp() || checkWinDiagonalDown();
     }
 
-    public boolean checkWinHorizontal() {
+    private boolean checkWinHorizontal() {
         for (int i = 0; i < rows - 3; i++) {
             for (int j = 0; j < columns; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j].getTeam() == currentPlayer.getTeam() &&
@@ -173,7 +177,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return false;
     }
 
-    public boolean checkWinVertical() {
+    private boolean checkWinVertical() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns - 3; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i][j + 1].getTeam() == currentPlayer.getTeam() &&
@@ -186,7 +190,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return false;
     }
 
-    public boolean checkWinDiagonalUp() {
+    private boolean checkWinDiagonalUp() {
         for (int i = 0; i < rows - 3; i++) {
             for (int j = 0; j < columns - 3; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j + 1].getTeam() == currentPlayer.getTeam() &&
@@ -199,7 +203,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return false;
     }
 
-    public boolean checkWinDiagonalDown() {
+    private boolean checkWinDiagonalDown() {
         for (int i = 0; i < rows - 3; i++) {
             for (int j = 3; j < columns; j++) {
                 if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j - 1].getTeam() == currentPlayer.getTeam() &&
@@ -212,7 +216,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return false;
     }
 
-    public boolean checkBoardFull() {
+    private boolean checkBoardFull() {
         int count = 0;
         for (int j = 0; j < columns; j++) {
             if (!checkColumn(j)) {
@@ -225,7 +229,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         return false;
     }
 
-    public void changePlayer() {
+    private void changePlayer() {
         if (currentPlayer == player1) {
             currentPlayer = player2;
         } else {
@@ -233,21 +237,21 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    public void setWinningColors(int a, int b, int c, int d, int e, int f, int g, int h) {
+    private void setWinningColors(int a, int b, int c, int d, int e, int f, int g, int h) {
         circles[a][b].winningPieces(currentPlayer.getTeam());
         circles[c][d].winningPieces(currentPlayer.getTeam());
         circles[e][f].winningPieces(currentPlayer.getTeam());
         circles[g][h].winningPieces(currentPlayer.getTeam());
     }
 
-    public void setMessages() {
+    private void setMessages() {
         winMessage = currentPlayer.getName() + " WINS THE ROUND!" + "\nSCORE FOR " + player1.getName() + ": " +
                 player1.getScore() + "\n" + "SCORE FOR " + player2.getName() + ": " + player2.getScore();
         drawMessage = "IT'S A DRAW!" + "\nSCORE FOR " + player1.getName() + ": " + player1.getScore() + "\n" +
                 "SCORE FOR " + player2.getName() + ": " + player2.getScore();
     }
 
-    public void aiTurn() {
+    private void aiTurn() {
         currentPlayer = player2;
         while (true) {
             Random random = new Random();
@@ -296,7 +300,11 @@ public class GuiBoard extends JPanel implements ActionListener {
                 }
                 newGame();
             } else if (checkBoardFull()) {
-                JOptionPane.showMessageDialog(null, drawMessage);
+                try {
+                    new CustomJop(drawMessage);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 newGame();
             } else {
                 if (gameMode == 1) {
