@@ -29,6 +29,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         JMenuBar mb = new JMenuBar();
         JMenu menu = new JMenu("GAME MODE");
         JMenu submenu = new JMenu("ONE PLAYER");
+        submenu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         i1a = new JMenuItem("EASY");
