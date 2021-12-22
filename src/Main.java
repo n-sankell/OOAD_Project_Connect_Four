@@ -1,3 +1,5 @@
+import GUI.GuiFrame;
+
 import java.awt.*;
 
 import static javax.swing.UIManager.put;

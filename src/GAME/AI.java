@@ -1,8 +1,10 @@
+package GAME;
+
 import java.awt.*;
 
 public class AI extends Player {
 
-    private static final String NAME = "AI";
+    private static final String NAME = "GAME.AI";
     private final int difficulty;
 
     public AI(int team, Color playerColor, int difficulty) {

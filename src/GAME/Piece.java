@@ -1,3 +1,7 @@
+package GAME;
+
+import GUI.GuiColors;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,3 +1,8 @@
+package GUI;
+
+import GAME.Piece;
+import GAME.Player;
+
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -30,7 +35,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     private JLabel scorePlayerTwo;
     private final JButton[] insertButtons = new JButton[columns];
     private final Piece[][] circles = new Piece[rows][columns];
-    private final ImageIcon insertButtonImage = new ImageIcon("insertButton.png");
+    private final ImageIcon insertButtonImage = new ImageIcon("ASSETS/insertButton.png");
 
     public GuiBoard(Player player1, Player player2, int gameMode, int difficulty) {
         this.player1 = player1;
@@ -256,7 +261,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
-            int aiMove = AI.findMove(circles, rows, columns, currentPlayer.getTeam(), difficulty);
+            int aiMove = GAME.AI.findMove(circles, rows, columns, currentPlayer.getTeam(), difficulty);
             if (checkColumn(aiMove)) {
                 putPiece(aiMove, currentPlayer.getTeam());
                 break;

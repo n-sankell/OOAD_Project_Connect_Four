@@ -1,3 +1,8 @@
+package GUI;
+
+import GAME.GameBuilder;
+import GAME.nameInput;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +16,7 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
+    private final nameInput nameInput = new nameInput();
     private JPanel welcome;
 
     public GuiFrame() {
@@ -51,7 +57,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     private void addWelcomeScreen() {
         try {
-            welcome = new ImageBackground("connectFour.png");
+            welcome = new ImageBackground("ASSETS/connectFour.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,23 +80,34 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String namePlayer1;
         if (e.getSource() == i1a) {
-            removeItems();
-            add(board = game.onePlayerModeEasy());
-            repaint();
-            revalidate();
+            namePlayer1 = nameInput.inputName();
+            if (namePlayer1 != null) {
+                removeItems();
+                add(board = game.onePlayerModeEasy(namePlayer1));
+                repaint();
+                revalidate();
+            }
         }
         if (e.getSource() == i1b) {
-            removeItems();
-            add(board = game.onePlayerModeNormal());
-            repaint();
-            revalidate();
+            namePlayer1 = nameInput.inputName();
+            if (namePlayer1 != null) {
+                removeItems();
+                add(board = game.onePlayerModeNormal(namePlayer1));
+                repaint();
+                revalidate();
+            }
         }
         if (e.getSource() == i2) {
-            removeItems();
-            add(board = game.twoPlayerMode());
-            repaint();
-            revalidate();
+            namePlayer1 = nameInput.inputName();
+            String namePlayer2 = nameInput.inputName();
+            if (namePlayer1 != null && namePlayer2 != null) {
+                removeItems();
+                add(board = game.twoPlayerMode(namePlayer1, namePlayer2));
+                repaint();
+                revalidate();
+            }
         }
     }
 }
