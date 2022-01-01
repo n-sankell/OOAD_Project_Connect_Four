@@ -30,6 +30,14 @@ public class Board {
         newGame();
     }
 
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
     public int getGameMode() {
         return gameMode;
     }
@@ -53,7 +61,7 @@ public class Board {
     public void newGame() {
         roundCounter++;
         addCircles();
-        if (roundCounter % 2 != 0) {
+        if (roundCounter % 2 == 0) {
             currentPlayer = player1;
         } else {
             currentPlayer = player2;

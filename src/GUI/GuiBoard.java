@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 
 public class GuiBoard extends JPanel implements ActionListener {
     private final Board board;
-    private final int rows = 6;
-    private final int columns = 7;
+    private final int rows;
+    private final int columns;
     private int chosenColumn;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
@@ -22,11 +22,13 @@ public class GuiBoard extends JPanel implements ActionListener {
     private JLabel scorePlayerOne;
     private JTextPane status;
     private JLabel scorePlayerTwo;
-    private final JButton[] insertButtons = new JButton[columns];
+    private JButton[] insertButtons;
     private final ImageIcon insertButtonImage = new ImageIcon("ASSETS/insertButton.png");
 
     public GuiBoard(Board board) {
         this.board = board;
+        rows = board.getRows();
+        columns = board.getColumns();
         addBasePanel();
         setStatusPanel();
         board.newGame();
@@ -62,6 +64,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     private void addInsertButtons() {
+        insertButtons = new JButton[columns];
         for (int i = 0; i < columns; i++) {
             insertButtons[i] = new JButton();
             insertButtons[i].setIcon(insertButtonImage);
