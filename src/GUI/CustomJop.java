@@ -1,3 +1,5 @@
+package GUI;
+
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -14,11 +16,11 @@ public class CustomJop {
         d = new JDialog(f , true);
         d.setLayout( new BorderLayout());
 
-        JButton b = new JButton (new ImageIcon("okButton.png"));
+        JButton b = new JButton (new ImageIcon("ASSETS/okButton.png"));
         b.addActionListener (e -> CustomJop.d.setVisible(false));
         b.setBounds(520,600,200,80);
 
-        JLabel label = new JLabel(new ImageIcon("scoreBoard.png"));
+        JLabel label = new JLabel(new ImageIcon("ASSETS/scoreBoard.png"));
         d.add (label,BorderLayout.CENTER);
 
         JTextPane score = new JTextPane();

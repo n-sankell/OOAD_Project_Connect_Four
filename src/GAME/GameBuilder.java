@@ -1,24 +1,29 @@
+package GAME;
+
+import GUI.GuiBoard;
+import GUI.GuiColors;
+
 public class GameBuilder {
 
-    public GuiBoard onePlayerModeEasy() {
-        Player player1 = new Player(1,GuiColors.PIECE_YELLOW);
+    public GuiBoard onePlayerModeEasy(String namePlayer1) {
+        Player player1 = new Player(1, GuiColors.PIECE_YELLOW);
         AI ai = new AI(2,GuiColors.PIECE_BLUE,1);
-        player1.setName();
+        player1.setName(namePlayer1);
         return new GuiBoard(player1,ai,1,ai.getDifficulty());
     }
 
-    public GuiBoard onePlayerModeNormal() {
+    public GuiBoard onePlayerModeNormal(String namePlayer1) {
         Player player1 = new Player(1,GuiColors.PIECE_YELLOW);
         AI ai = new AI(2,GuiColors.PIECE_RED,2);
-        player1.setName();
+        player1.setName(namePlayer1);
         return new GuiBoard(player1,ai,1,ai.getDifficulty());
     }
 
-    public GuiBoard twoPlayerMode() {
+    public GuiBoard twoPlayerMode(String namePlayer1, String namePlayer2) {
         Player player1 = new Player(1,GuiColors.PIECE_YELLOW);
         Player player2 = new Player(2,GuiColors.PIECE_RED);
-        player1.setName();
-        player2.setName();
+        player1.setName(namePlayer1);
+        player2.setName(namePlayer2);
         return new GuiBoard(player1,player2,2,0);
     }
 
