@@ -193,7 +193,7 @@ public class Board {
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
-            int aiMove = AI.findMove(circles, rows, columns, currentPlayer.getTeam(), difficulty);
+            int aiMove = AI.makeMove(circles, rows, columns, currentPlayer.getTeam(), difficulty);
             if (checkColumn(aiMove)) {
                 putPiece(aiMove, currentPlayer.getTeam());
                 break;
