@@ -30,8 +30,8 @@ public class GuiBoard extends JPanel implements ActionListener {
         rows = board.getRows();
         columns = board.getColumns();
         addBasePanel();
-        setStatusPanel();
         board.newGame();
+        setStatusPanel();
         updateBoard();
     }
 
