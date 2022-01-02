@@ -98,6 +98,7 @@ public class GuiFrame extends JFrame implements ActionListener {
             String namePlayer1 = nameInput.inputName("PLAYER 1");
             Color selectColorOne = nameInput.selectedColor;
             if (namePlayer1 != null) {
+                nameInput.selectedColor = null;
                 String namePlayer2 = nameInput.inputName("PLAYER 2");
                 Color selectColorTwo = nameInput.selectedColor;
                 if (namePlayer2 != null) {
