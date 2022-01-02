@@ -33,6 +33,8 @@ public class GuiBoard extends JPanel implements ActionListener {
         board.newGame();
         setStatusPanel();
         updateBoard();
+        repaint();
+        revalidate();
     }
 
     private void addBasePanel() {
@@ -87,11 +89,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         scorePlayerOne.setHorizontalAlignment(SwingConstants.RIGHT);
         scorePlayerOne.setForeground(board.getPlayer1().getPlayerColor());
         status = new JTextPane();
-        if (board.getGameMode() == 1) {
-            status.setText("");
-        } else {
-            status.setText("YOUR TURN "+board.getCurrentPlayer().getName()+"!");
-        }
+        status.setText(getStatusbarText());
         status.setFont(new Font("Druk Wide",Font.BOLD,20));
         StyledDocument documentStyle = status.getStyledDocument();
         SimpleAttributeSet centerAttribute = new SimpleAttributeSet();
@@ -106,6 +104,18 @@ public class GuiBoard extends JPanel implements ActionListener {
         statusPanel.add(scorePlayerOne);
         statusPanel.add(status);
         statusPanel.add(scorePlayerTwo);
+    }
+
+    private String getStatusbarText() {
+        if (board.getGameMode() == 1 && board.isEmpty()) {
+            return "BEGIN "+board.getCurrentPlayer().getName()+"!";
+        } else if (board.getGameMode() == 1) {
+            return "";
+        } else if (board.isEmpty()) {
+            return "BEGIN "+board.getCurrentPlayer().getName()+"!";
+        } else {
+            return "YOUR TURN "+board.getCurrentPlayer().getName()+"!";
+        }
     }
 
     private void updateStatusPanel() {

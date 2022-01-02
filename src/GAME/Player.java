@@ -1,16 +1,27 @@
 package GAME;
 
+import GUI.GuiColors;
+
 import java.awt.*;
 
 public class Player {
     private String name;
     private final int team;
     private int score = 0;
-    private final Color playerColor;
+    private Color playerColor;
 
     public Player(int team, Color playerColor) {
         this.team = team;
         this.playerColor = playerColor;
+        setStandardColors();
+    }
+
+    private void setStandardColors() {
+        if (playerColor == null && team == 1) {
+            this.playerColor = GuiColors.PIECE_YELLOW;
+        } else if (playerColor == null && team == 2) {
+            this.playerColor = GuiColors.PIECE_RED;
+        }
     }
 
     public void setName(String name) {
@@ -35,5 +46,9 @@ public class Player {
 
     public Color getPlayerColor() {
         return playerColor;
+    }
+
+    public void setPlayerColor(Color color) {
+        this.playerColor = color;
     }
 }

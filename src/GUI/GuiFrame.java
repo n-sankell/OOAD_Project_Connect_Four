@@ -1,13 +1,14 @@
 package GUI;
 
 import GAME.GameBuilder;
-import GAME.nameInput;
+import GAME.NameInput;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GuiFrame extends JFrame implements ActionListener {
 
@@ -16,7 +17,6 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i2;
     private GuiBoard board;
     private final GameBuilder game = new GameBuilder();
-    private final nameInput nameInput = new nameInput();
     private JPanel welcome;
 
     public GuiFrame() {
@@ -37,16 +37,13 @@ public class GuiFrame extends JFrame implements ActionListener {
         JMenu submenu = new JMenu("ONE PLAYER");
         submenu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         i1a = new JMenuItem("EASY");
         i1b = new JMenuItem("NORMAL");
         i2 = new JMenuItem("TWO PLAYERS");
-        i1a.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        i1b.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        i2.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        i1a.addActionListener(this);
-        i1b.addActionListener(this);
-        i2.addActionListener(this);
+        for (JMenuItem item : Arrays.asList(i1a, i1b, i2)) {
+            item.setFont(new Font("Druk Wide", Font.BOLD, 12));
+            item.addActionListener(this);
+        }
         menu.add(submenu);
         submenu.add(i1a);
         submenu.add(i1b);
@@ -80,33 +77,35 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String namePlayer1;
+        NameInput nameInput = new NameInput();
         if (e.getSource() == i1a) {
-            namePlayer1 = nameInput.inputName();
-            if (namePlayer1 != null) {
+            if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                add(board = game.onePlayerModeEasy(namePlayer1));
+                add(board = game.onePlayerModeEasy(nameInput.name, nameInput.selectedColor));
                 repaint();
                 revalidate();
             }
         }
         if (e.getSource() == i1b) {
-            namePlayer1 = nameInput.inputName();
-            if (namePlayer1 != null) {
+            if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                add(board = game.onePlayerModeNormal(namePlayer1));
+                add(board = game.onePlayerModeNormal(nameInput.name, nameInput.selectedColor));
                 repaint();
                 revalidate();
             }
         }
         if (e.getSource() == i2) {
-            namePlayer1 = nameInput.inputName();
-            String namePlayer2 = nameInput.inputName();
-            if (namePlayer1 != null && namePlayer2 != null) {
-                removeItems();
-                add(board = game.twoPlayerMode(namePlayer1, namePlayer2));
-                repaint();
-                revalidate();
+            String namePlayer1 = nameInput.inputName("PLAYER 1");
+            Color selectColorOne = nameInput.selectedColor;
+            if (namePlayer1 != null) {
+                String namePlayer2 = nameInput.inputName("PLAYER 2");
+                Color selectColorTwo = nameInput.selectedColor;
+                if (namePlayer2 != null) {
+                    removeItems();
+                    add(board = game.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo));
+                    repaint();
+                    revalidate();
+                }
             }
         }
     }

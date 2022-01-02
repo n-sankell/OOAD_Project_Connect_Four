@@ -181,6 +181,17 @@ public class Board {
         circles[g][h].winningPieces(currentPlayer.getTeam());
     }
 
+    public boolean isEmpty() {
+        int counter = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (circles[i][j].getTeam() == 0) {
+                    counter++;
+                }
+            }
+        } return counter == rows * columns;
+    }
+
     private void setMessages() {
         winMessage = currentPlayer.getName() + " WINS THE ROUND!" + "\nSCORE FOR " + player1.getName() + ": " +
                 player1.getScore() + "\n" + "SCORE FOR " + player2.getName() + ": " + player2.getScore();
