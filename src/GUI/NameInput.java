@@ -1,6 +1,4 @@
-package GAME;
-
-import GUI.GuiColors;
+package GUI;
 
 import javax.swing.*;
 import java.awt.*;

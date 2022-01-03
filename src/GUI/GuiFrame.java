@@ -1,7 +1,6 @@
 package GUI;
 
 import GAME.GameBuilder;
-import GAME.NameInput;
 
 import javax.swing.*;
 import java.awt.*;
