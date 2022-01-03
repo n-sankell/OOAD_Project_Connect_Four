@@ -12,7 +12,7 @@ public class CustomJop {
     private static Dialog d;
 
     public CustomJop(String message) throws IOException {
-        JFrame f= new JFrame();
+        JFrame f = new JFrame();
         d = new JDialog(f , true);
         d.setLayout( new BorderLayout());
 
@@ -29,6 +29,7 @@ public class CustomJop {
         score.setText(message);
         score.setForeground(GuiColors.BOARD);
         score.setFont(new Font("Druk Wide",Font.BOLD,30));
+
         StyledDocument documentStyle = score.getStyledDocument();
         SimpleAttributeSet centerAttribute = new SimpleAttributeSet();
         StyleConstants.setAlignment(centerAttribute, StyleConstants.ALIGN_CENTER);
