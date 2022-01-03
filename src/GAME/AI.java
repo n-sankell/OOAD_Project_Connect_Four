@@ -4,16 +4,25 @@ import java.awt.*;
 
 public class AI extends Player {
 
-    private static final String NAME = "GAME.AI";
+    private String name;
     private final int difficulty;
 
     public AI(int team, Color playerColor, int difficulty) {
         super(team, playerColor);
         this.difficulty = difficulty;
+        difficultyName();
+    }
+
+    private void difficultyName() {
+        if (difficulty == 1) {
+            this.name = "EASY BOT";
+        } else if (difficulty == 2) {
+            this.name = "NORMAL BOT";
+        }
     }
 
     public String getName() {
-        return NAME;
+        return name;
     }
 
     public int getDifficulty() {
