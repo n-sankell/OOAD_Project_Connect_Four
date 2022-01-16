@@ -1,7 +1,5 @@
 package SERVER;
 
-import SERVER.PACKAGES.PlayerNamePackage;
-
 public class GameRoom {
 
     private ServerConnection player1;

@@ -1,10 +1,10 @@
 package GAME;
 
+import GAME.NETWORK.ClientConnection;
 import GUI.GuiBoard;
 import GUI.GuiColors;
 
 import java.awt.*;
-import java.sql.Connection;
 
 public class GameBuilder {
 
@@ -36,11 +36,8 @@ public class GameBuilder {
         return new GuiBoard(board);
     }
 
-    public void networkMode(String namePlayer1, Color selectedColorOne) {
-        connection = new ClientConnection(namePlayer1, selectedColorOne);
-        while (connection.isSearching()) {
-            System.out.println("Searching for player");
-        }
+    public void networkMode(String namePlayer1, Color selectedColor) {
+        connection = new ClientConnection(namePlayer1,selectedColor,5555);
     }
 
     public ClientConnection getConnection() {

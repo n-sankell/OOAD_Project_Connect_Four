@@ -3,13 +3,13 @@ package SERVER;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class InStream implements Runnable {
+public class ServerInStream implements Runnable {
 
     private final ServerConnection connection;
     private final ObjectInputStream in;
     private boolean running = true;
 
-    public InStream(ObjectInputStream in, ServerConnection connection) {
+    public ServerInStream(ObjectInputStream in, ServerConnection connection) {
         this.connection = connection;
         this.in = in;
     }

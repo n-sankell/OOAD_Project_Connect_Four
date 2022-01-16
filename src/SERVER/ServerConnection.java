@@ -10,7 +10,7 @@ public class ServerConnection {
     private ObjectInputStream readerIn;
     private ObjectOutputStream writerOut;
     private ServerConnection opponent;
-    private InStream inStream;
+    private ServerInStream inStream;
     private boolean looking = true;
     private Socket socket;
     private final String uniqueID;
@@ -34,7 +34,7 @@ public class ServerConnection {
     }
 
     private void startInStream() {
-        inStream = new InStream(readerIn,this);
+        inStream = new ServerInStream(readerIn,this);
         Thread inStreamThread = new Thread(inStream);
         inStreamThread.start();
     }
