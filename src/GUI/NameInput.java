@@ -63,13 +63,12 @@ public class NameInput implements ActionListener {
         while (true) {
             name = optionPane(message);
             if (name == null) {
-                break;
+                return null;
             } else if (!name.trim().equals("")) {
                 name = name.trim();
-                break;
+                return name;
             }
         }
-        return name;
     }
 
     @Override

@@ -4,8 +4,11 @@ import GUI.GuiBoard;
 import GUI.GuiColors;
 
 import java.awt.*;
+import java.sql.Connection;
 
 public class GameBuilder {
+
+    ClientConnection connection;
 
     public GuiBoard onePlayerModeEasy(String namePlayer1, Color selectedColor) {
         Player player1 = new Player(1,selectedColor);
@@ -31,6 +34,21 @@ public class GameBuilder {
         player2.setName(namePlayer2);
         Board board = new Board(player1,player2,2,0);
         return new GuiBoard(board);
+    }
+
+    public void networkMode(String namePlayer1, Color selectedColorOne) {
+        connection = new ClientConnection(namePlayer1, selectedColorOne);
+        while (connection.isSearching()) {
+            System.out.println("Searching for player");
+        }
+    }
+
+    public ClientConnection getConnection() {
+        return connection;
+    }
+
+    public GuiBoard getNetworkBoard() {
+        return new GuiBoard(connection.getGameBoard());
     }
 
     private void compareColors(Player player1, Player player2) {

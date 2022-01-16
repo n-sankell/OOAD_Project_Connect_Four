@@ -14,7 +14,9 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JMenuItem i1a;
     private JMenuItem i1b;
     private JMenuItem i2;
+    private JMenuItem i3;
     private GuiBoard board;
+    private JPanel waiting;
     private final GameBuilder game = new GameBuilder();
     private JPanel welcome;
 
@@ -39,7 +41,9 @@ public class GuiFrame extends JFrame implements ActionListener {
         i1a = new JMenuItem("EASY");
         i1b = new JMenuItem("NORMAL");
         i2 = new JMenuItem("TWO PLAYERS");
-        for (JMenuItem item : Arrays.asList(i1a, i1b, i2)) {
+        i3 = new JMenuItem("NETWORK");
+
+        for (JMenuItem item : Arrays.asList(i1a, i1b, i2, i3)) {
             item.setFont(new Font("Druk Wide", Font.BOLD, 12));
             item.addActionListener(this);
         }
@@ -47,6 +51,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         submenu.add(i1a);
         submenu.add(i1b);
         menu.add(i2);
+        menu.add(i3);
         mb.add(menu);
         setJMenuBar(mb);
     }
@@ -71,6 +76,23 @@ public class GuiFrame extends JFrame implements ActionListener {
             remove(board);
         } else if (welcome != null) {
             remove(welcome);
+        } else if (waiting != null) {
+            remove(waiting);
+        }
+    }
+
+    private void addWaitingScreen() {
+        try {
+            waiting = new ImageBackground("ASSETS/waiting.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (waiting != null) {
+            waiting.setSize(1000, 800);
+            waiting.setVisible(true);
+            waiting.setOpaque(false);
+            waiting.setLayout(new BorderLayout());
+            add(waiting);
         }
     }
 
@@ -103,6 +125,21 @@ public class GuiFrame extends JFrame implements ActionListener {
                 if (namePlayer2 != null) {
                     removeItems();
                     add(board = game.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo));
+                    repaint();
+                    revalidate();
+                }
+            }
+        }
+        if (e.getSource() == i3) {
+            if (nameInput.inputName("PLAYER") != null) {
+                removeItems();
+                addWaitingScreen();
+                game.networkMode(nameInput.name, nameInput.selectedColor);
+                repaint();
+                revalidate();
+                if (!game.getConnection().isSearching()) {
+                    removeItems();
+                    add(game.getNetworkBoard());
                     repaint();
                     revalidate();
                 }
