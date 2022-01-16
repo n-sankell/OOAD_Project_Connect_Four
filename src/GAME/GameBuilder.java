@@ -1,6 +1,6 @@
 package GAME;
 
-import GAME.NETWORK.ClientConnection;
+import GAME.CLIENT.ClientConnection;
 import GUI.GuiBoard;
 import GUI.GuiColors;
 
