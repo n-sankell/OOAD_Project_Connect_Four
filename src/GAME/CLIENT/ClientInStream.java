@@ -5,34 +5,33 @@ import java.io.ObjectInputStream;
 
 public class ClientInStream implements Runnable {
 
-        private final ObjectInputStream in;
-        private boolean running = true;
-        private final PackageHandler handler;
+    private final ObjectInputStream in;
+    private boolean running = true;
+    private final PackageHandler handler;
 
-        public ClientInStream(ObjectInputStream in, PackageHandler handler) {
-            this.in = in;
-            this.handler = handler;
-        }
+    public ClientInStream(ObjectInputStream in, PackageHandler handler) {
+        this.in = in;
+        this.handler = handler;
+    }
 
-        @Override
-        public void run() {
-            while (running) {
-                try {
-                    handler.unpack(in.readObject());
-                } catch (IOException | ClassNotFoundException e) {
-                    close();
-                }
-            }
-        }
-
-        private void close() {
+    @Override
+    public void run() {
+        while (running) {
             try {
-                in.close();
-                running = false;
-            } catch (IOException e) {
-                e.printStackTrace();
+                handler.unpack(in.readObject());
+            } catch (IOException | ClassNotFoundException e) {
+                close();
             }
         }
+    }
 
+    private void close() {
+        try {
+            in.close();
+            running = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -1,6 +1,6 @@
 package GAME.CLIENT;
 
-import SERVER.PACKAGES.*;
+import GAME.CLIENT.PACKAGES.*;
 
 public class PackageHandler {
 

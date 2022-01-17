@@ -37,7 +37,9 @@ public class GameBuilder {
     }
 
     public void networkMode(String namePlayer1, Color selectedColor) {
+        System.out.println("firstLine GameBuilder");
         connection = new ClientConnection(namePlayer1,selectedColor,5555);
+        System.out.println("after connection init");
     }
 
     public ClientConnection getConnection() {

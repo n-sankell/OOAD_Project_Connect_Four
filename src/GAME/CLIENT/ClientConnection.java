@@ -1,9 +1,9 @@
 package GAME.CLIENT;
 
 import GAME.Board;
+import GAME.CLIENT.PACKAGES.OpponentNamePackage;
+import GAME.CLIENT.PACKAGES.PlayerNamePackage;
 import GAME.Player;
-import SERVER.PACKAGES.OpponentNamePackage;
-import SERVER.PACKAGES.PlayerNamePackage;
 
 import java.awt.*;
 import java.io.IOException;

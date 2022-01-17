@@ -1,4 +1,4 @@
-package SERVER.PACKAGES;
+package GAME.CLIENT.PACKAGES;
 
 import java.io.Serializable;
 
