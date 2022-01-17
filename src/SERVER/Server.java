@@ -24,6 +24,7 @@ public class Server implements Runnable {
     public void start() {
         if (running) {
             new Thread(this).start();
+
         }
     }
 
@@ -31,8 +32,10 @@ public class Server implements Runnable {
     public void run() {
         while (running) {
             try {
+                System.out.println("running");
                 Socket socket = serverSocket.accept();
                 acceptConnection(socket);
+                System.out.println("running");
             } catch (IOException e) {
                 e.printStackTrace();
             }

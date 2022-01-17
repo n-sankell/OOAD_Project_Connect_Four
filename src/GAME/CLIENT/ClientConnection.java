@@ -10,12 +10,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class ClientConnection {
 
     private final int port;
-    private final String ip;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -26,10 +26,9 @@ public class ClientConnection {
     private Player opponent;
 
     public ClientConnection(String playerName, Color chosenColor, int port) {
-        ip = "127.0.0.1";
+
         this.port = port;
         searching = true;
-        searchingForOpponent();
         setupSocket();
         setupStreams();
         startInStream();
@@ -39,6 +38,7 @@ public class ClientConnection {
 
     private void setupSocket() {
         try {
+            InetAddress ip = InetAddress.getLocalHost();
             socket = new Socket(ip, port);
         } catch (ConnectException e) {
             System.out.println("Server is not running");
