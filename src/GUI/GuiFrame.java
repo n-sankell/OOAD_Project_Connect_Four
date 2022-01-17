@@ -84,15 +84,13 @@ public class GuiFrame extends JFrame implements ActionListener {
     private void addWaitingScreen() {
         try {
             waiting = new ImageBackground("ASSETS/waiting.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (waiting != null) {
             waiting.setSize(1000, 800);
             waiting.setVisible(true);
             waiting.setOpaque(false);
             waiting.setLayout(new BorderLayout());
             add(waiting);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
