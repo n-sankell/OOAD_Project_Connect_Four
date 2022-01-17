@@ -43,6 +43,7 @@ public class Server implements Runnable {
         String uniqueID = UUID.randomUUID().toString();
         ServerConnection connection = new ServerConnection(socket, uniqueID);
         CONNECTION_LIST.add(connection);
+        System.out.println(CONNECTION_LIST);
         lookForPartner(connection);
     }
 
@@ -54,11 +55,6 @@ public class Server implements Runnable {
                 new GameRoom(looker, connection);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        Server server = new Server(5555);
-        server.start();
     }
 
 }

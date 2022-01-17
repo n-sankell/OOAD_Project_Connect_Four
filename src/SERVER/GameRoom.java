@@ -16,6 +16,7 @@ public class GameRoom {
 
     private void startGame() {
 
+        System.out.println("Start Game");
     }
 
 }
