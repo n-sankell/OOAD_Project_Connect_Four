@@ -50,7 +50,7 @@ public class GameBuilder {
         return new GuiBoard(connection.getGameBoard());
     }
 
-    private void compareColors(Player player1, Player player2) {
+    private static void compareColors(Player player1, Player player2) {
         if (player1.getPlayerColor() == player2.getPlayerColor()) {
             Color darkerPlayerTwo = player2.getPlayerColor().darker();
             player2.setPlayerColor(darkerPlayerTwo);

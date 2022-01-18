@@ -12,5 +12,6 @@ public class PlayerNamePackage implements Serializable {
 
     public PlayerNamePackage(String name) {
         this.name = name;
+        System.out.println(this.name);
     }
 }

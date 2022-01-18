@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Player {
     private String name;
-    private final int team;
+    private int team;
     private int score = 0;
     private Color playerColor;
 
@@ -42,6 +42,10 @@ public class Player {
 
     public int getTeam() {
         return team;
+    }
+
+    public void setTeam(int team) {
+        this.team = team;
     }
 
     public Color getPlayerColor() {

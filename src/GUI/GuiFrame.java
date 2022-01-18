@@ -1,5 +1,6 @@
 package GUI;
 
+import GAME.CLIENT.States;
 import GAME.GameBuilder;
 
 import javax.swing.*;
@@ -135,7 +136,7 @@ public class GuiFrame extends JFrame implements ActionListener {
                 game.networkMode(nameInput.name, nameInput.selectedColor);
                 repaint();
                 revalidate();
-                if (!game.getConnection().isSearching()) {
+                if (game.getConnection().getState() == States.PLAYING_GAME) {
                     removeItems();
                     add(game.getNetworkBoard());
                     repaint();

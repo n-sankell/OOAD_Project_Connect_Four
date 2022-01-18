@@ -10,7 +10,10 @@ public class PackageHandler {
         if (o instanceof PlayerNamePackage namePackage) {
             listener.gameUpdateOccurred(1, namePackage);
         } else if (o instanceof OpponentNamePackage opponentName) {
+
             listener.gameUpdateOccurred(2, opponentName);
+        } else if (o instanceof TeamPackage teamPackage) {
+            listener.gameUpdateOccurred(3, teamPackage);
         } else if (o instanceof ClientMessage chatMessage) {
             listener.gameUpdateOccurred(3, chatMessage);
         } else if (o instanceof MovePackage move) {

@@ -2,6 +2,7 @@ package SERVER;
 
 import SERVER.PACKAGES.*;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,6 +18,7 @@ public class ServerConnection {
     private Socket socket;
     private final String uniqueID;
     private String playerName;
+    private Color color;
 
     public ServerConnection(Socket socket, String uniqueID) {
         this.socket = socket;
@@ -70,6 +72,14 @@ public class ServerConnection {
         return uniqueID;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public void setOpponent(ServerConnection opponent) {
         this.opponent = opponent;
     }
@@ -88,10 +98,10 @@ public class ServerConnection {
 
     public void unpack(Object o) {
         if (o instanceof PlayerNamePackage namePackage) {
+            System.out.println(namePackage.getName());
             setPlayerName(namePackage.getName());
-            getOpponent().sendPackage(new OpponentNamePackage(getName()));
-        } else if (o instanceof OpponentNamePackage opponentName) {
-            getOpponent().setPlayerName(opponentName.getName());
+        } else if (o instanceof ColorPackage color) {
+            setColor(color.getColor());
         } else if (o instanceof ClientMessage chatMessage) {
             getOpponent().sendPackage(chatMessage);
         } else if (o instanceof MovePackage move) {
