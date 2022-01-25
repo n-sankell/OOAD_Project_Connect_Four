@@ -1,7 +1,5 @@
 package clientclasses;
 
-import gui.GuiColors;
-
 import java.awt.*;
 
 public class Player {
