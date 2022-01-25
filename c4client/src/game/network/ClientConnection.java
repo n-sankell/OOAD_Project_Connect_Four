@@ -1,6 +1,7 @@
 package game.network;
 
 import game.Board;
+import game.NetworkBoardListener;
 import packages.*;
 import game.GameBuilder;
 import game.Player;
@@ -21,19 +22,15 @@ public class ClientConnection {
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private final PackageHandler handler = new PackageHandler();
+    private NetworkBoardListener networkBoardListener;
     private final String playerName;
-    private String opponentName;
-    private int playerTeam;
-    private int opponentTeam;
-    private Color chosenColor;
-    private Color opponentColor;
+    private final Color chosenColor;
 
     private Board board;
     private Player player;
     private Player opponent;
 
     public ClientConnection(String playerName, Color chosenColor, int port) {
-
         this.port = port;
         this.playerName = playerName;
         this.chosenColor = chosenColor;
@@ -87,7 +84,7 @@ public class ClientConnection {
         handler.setListener(listener);
     }
 
-    public synchronized void unpack(Object o) {
+    public void unpack(Object o) {
         if (o instanceof TeamPackage teamPackage) {
             System.out.println(teamPackage.getTeam());
             createPlayer(teamPackage.getTeam());
@@ -105,10 +102,15 @@ public class ClientConnection {
         GameBuilder.compareColors(player,opponent);
         board = new Board(player, opponent,3,0);
         state = States.PLAYING_GAME;
+        networkBoardListener.eventOccurred();
     }
 
     public Board getGameBoard() {
         return board;
+    }
+
+    public void setNetworkBoardListener(NetworkBoardListener listener) {
+        this.networkBoardListener = listener;
     }
 
     public States getState() {

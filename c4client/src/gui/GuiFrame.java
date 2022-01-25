@@ -96,12 +96,14 @@ public class GuiFrame extends JFrame implements ActionListener {
     }
 
     public void addNetworkBoard() {
-        System.out.println("Playing");
-        removeItems();
-        addWaitingScreen();
-        add(board = game.getNetworkBoard());
-        repaint();
-        revalidate();
+        game.getConnection().setNetworkBoardListener(() -> {
+            System.out.println("Playing");
+            removeItems();
+            addWaitingScreen();
+            add(board = game.getNetworkBoard());
+            repaint();
+            revalidate();
+        });
     }
 
     @Override

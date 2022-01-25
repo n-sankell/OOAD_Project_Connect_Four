@@ -3,7 +3,6 @@ package server;
 import game.Player;
 import packages.*;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,13 +13,10 @@ public class ServerConnection {
     private ObjectInputStream readerIn;
     private ObjectOutputStream writerOut;
     private ServerConnection opponent;
-    private ServerInStream inStream;
     private boolean looking = true;
     private final Socket socket;
     private final String uniqueID;
     private Player player;
-    private String playerName;
-    private Color color;
 
     public ServerConnection(Socket socket, String uniqueID) {
         this.socket = socket;
@@ -39,7 +35,7 @@ public class ServerConnection {
     }
 
     private void startInStream() {
-        inStream = new ServerInStream(readerIn,this);
+        ServerInStream inStream = new ServerInStream(readerIn,this);
         Thread inStreamThread = new Thread(inStream);
         inStreamThread.start();
     }
@@ -66,28 +62,12 @@ public class ServerConnection {
         return uniqueID;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     public void setOpponent(ServerConnection opponent) {
         this.opponent = opponent;
     }
 
     public ServerConnection getOpponent() {
         return opponent;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public String getName() {
-        return playerName;
     }
 
     public Player getPlayer() {
@@ -99,8 +79,6 @@ public class ServerConnection {
             System.out.println("Player Package received");
             this.player = playerPackage.getPlayer();
             System.out.println(player.getName());
-        } else if (o instanceof ColorPackage color) {
-            setColor(color.getColor());
         } else if (o instanceof ClientMessage chatMessage) {
             getOpponent().sendPackage(chatMessage);
         } else if (o instanceof MovePackage move) {
