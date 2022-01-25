@@ -14,7 +14,6 @@ import java.net.Socket;
 
 public class ClientConnection {
 
-    private States state = States.SET_UP;
     private final int port;
     private Socket socket;
     private ObjectInputStream in;
@@ -104,7 +103,6 @@ public class ClientConnection {
 
     private void createPlayersAndBoard() {
         board = new Board(player, opponent,3,0);
-        state = States.PLAYING_GAME;
         networkBoardListener.eventOccurred();
     }
 
@@ -114,10 +112,6 @@ public class ClientConnection {
 
     public void setNetworkBoardListener(NetworkBoardListener listener) {
         this.networkBoardListener = listener;
-    }
-
-    public States getState() {
-        return state;
     }
 
 }
