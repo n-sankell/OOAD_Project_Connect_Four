@@ -95,6 +95,15 @@ public class GuiFrame extends JFrame implements ActionListener {
         }
     }
 
+    public void addNetworkBoard() {
+        System.out.println("Playing");
+        removeItems();
+        addWaitingScreen();
+        add(board = game.getNetworkBoard());
+        repaint();
+        revalidate();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         NameInput nameInput = new NameInput();
@@ -137,12 +146,7 @@ public class GuiFrame extends JFrame implements ActionListener {
                 repaint();
                 revalidate();
                 if (game.getConnection().getState() == States.PLAYING_GAME) {
-                    System.out.println("Playing");
-                    removeItems();
-                    addWaitingScreen();
-                    //add(client.game.getNetworkBoard());
-                    repaint();
-                    revalidate();
+                    addNetworkBoard();
                 }
             }
         }

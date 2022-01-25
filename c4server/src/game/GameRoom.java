@@ -1,3 +1,8 @@
+package game;
+
+import packages.PlayerPackage;
+import server.ServerConnection;
+
 import packages.TeamPackage;
 
 public class GameRoom {
@@ -21,18 +26,16 @@ public class GameRoom {
     }
 
     private void startGame() {
-
         System.out.println("Start Game");
-        while (player1.getPlayer() == null || player2.getPlayer() == null) {
-            try {
-                System.out.println("waiting");
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        while (true) {
+          if (player1.getPlayer() != null && player2.getPlayer() != null) {
+              break;
+          }
         }
         System.out.println("Player 1 name:" + player1.getPlayer().getName());
         System.out.println("Player 2 name:" + player2.getPlayer().getName());
+        player1.sendPackage(new PlayerPackage(player2.getPlayer()));
+        player2.sendPackage(new PlayerPackage(player1.getPlayer()));
     }
 
 }

@@ -1,3 +1,5 @@
+package server;
+
 import game.Player;
 import packages.*;
 
@@ -40,14 +42,6 @@ public class ServerConnection {
         inStream = new ServerInStream(readerIn,this);
         Thread inStreamThread = new Thread(inStream);
         inStreamThread.start();
-    }
-
-    private void getPlayerName() {
-        try {
-            unpack(readerIn.readObject());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     public void sendPackage(Object o) {
