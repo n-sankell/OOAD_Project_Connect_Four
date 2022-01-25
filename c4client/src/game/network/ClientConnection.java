@@ -37,6 +37,7 @@ public class ClientConnection {
         setupSocket();
         setupStreams();
         startInStream();
+        setHandler();
     }
 
     private void setupSocket() {
@@ -81,21 +82,26 @@ public class ClientConnection {
     }
 
     public void setHandlerListener(PackageListener listener) {
-        handler.setListener(listener);
+        handler.setSetUpListener(listener);
     }
 
-    public void unpack(Object o) {
-        if (o instanceof TeamPackage teamPackage) {
-            System.out.println(teamPackage.getTeam());
-            createPlayer(teamPackage.getTeam());
-            sendPackage(new PlayerPackage(player));
-            System.out.println("sent player package");
-        } else if (o instanceof PlayerPackage opponentPackage) {
-            System.out.println("Opponent received");
-            opponent = opponentPackage.getPlayer();
-
-            createPlayersAndBoard();
-        }
+    public void setHandler() {
+        setHandlerListener((event, o) -> {
+            switch (event) {
+                case 1 -> {
+                    TeamPackage teamPackage = (TeamPackage) o;
+                    createPlayer(teamPackage.getTeam());
+                    sendPackage(new PlayerPackage(player));
+                    System.out.println("sent player package");
+                }
+                case 2 -> {
+                    PlayerPackage opponentPackage = (PlayerPackage) o;
+                    System.out.println("Opponent received");
+                    opponent = opponentPackage.getPlayer();
+                    createPlayersAndBoard();
+                }
+            }
+        });
     }
 
     private void createPlayersAndBoard() {

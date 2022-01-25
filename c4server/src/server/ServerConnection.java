@@ -76,15 +76,13 @@ public class ServerConnection {
 
     public void unpack(Object o) {
         if (o instanceof PlayerPackage playerPackage) {
-            System.out.println("Player Package received");
             this.player = playerPackage.getPlayer();
-            System.out.println(player.getName());
         } else if (o instanceof ClientMessage chatMessage) {
-            getOpponent().sendPackage(chatMessage);
+            opponent.sendPackage(chatMessage);
         } else if (o instanceof MovePackage move) {
-            getOpponent().sendPackage(move);
+            opponent.sendPackage(move);
         } else if (o instanceof ScorePackage score) {
-            getOpponent().sendPackage(score);
+            opponent.sendPackage(score);
         }
 
     }

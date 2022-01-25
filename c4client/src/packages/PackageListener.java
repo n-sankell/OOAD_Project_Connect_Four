@@ -2,6 +2,6 @@ package packages;
 
 public interface PackageListener {
 
-    void gameUpdateOccurred(int event, Object o);
+    void eventOccurred(int event, Object o);
 
 }

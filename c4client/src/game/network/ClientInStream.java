@@ -21,15 +21,8 @@ public class ClientInStream implements Runnable {
     @Override
     public void run() {
         while (running) {
-            System.out.println("inStream running");
             try {
-                if (client.getState() == States.SET_UP) {
-                    client.unpack(in.readObject());
-                    System.out.println("package received - SET UP");
-                } else if (client.getState() == States.PLAYING_GAME) {
-                    System.out.println("package received - PLAY");
-                    handler.unpack(in.readObject());
-                }
+                handler.unpack(in.readObject());
             } catch (IOException | ClassNotFoundException e) {
                 close();
             }
