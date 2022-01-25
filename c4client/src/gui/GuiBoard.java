@@ -23,7 +23,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     private JTextPane status;
     private JLabel scorePlayerTwo;
     private JButton[] insertButtons;
-    private final ImageIcon insertButtonImage = new ImageIcon("ASSETS/insertButton.png");
+    private final ImageIcon insertButtonImage = new ImageIcon("assets/insertButton.png");
 
     public GuiBoard(Board board) {
         this.board = board;

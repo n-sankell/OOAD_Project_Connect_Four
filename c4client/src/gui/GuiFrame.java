@@ -59,7 +59,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     private void addWelcomeScreen() {
         try {
-            welcome = new ImageBackground("ASSETS/connectFour.png");
+            welcome = new ImageBackground("assets/connectFour.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     private void addWaitingScreen() {
         try {
-            waiting = new ImageBackground("ASSETS/waiting.png");
+            waiting = new ImageBackground("assets/waiting.png");
             waiting.setSize(1000, 800);
             waiting.setVisible(true);
             waiting.setOpaque(false);
