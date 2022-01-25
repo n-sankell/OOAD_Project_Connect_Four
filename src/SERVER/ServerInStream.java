@@ -19,6 +19,7 @@ public class ServerInStream implements Runnable {
         while (running) {
             try {
                 connection.unpack(in.readObject());
+                System.out.println("package received");
             } catch (IOException | ClassNotFoundException e) {
                 close();
             }

@@ -7,10 +7,9 @@ public class PackageHandler {
     private PackageListener listener;
 
     public void unpack(Object o) {
-        if (o instanceof PlayerNamePackage namePackage) {
-            listener.gameUpdateOccurred(1, namePackage);
+        if (o instanceof PlayerPackage playerPackage) {
+            listener.gameUpdateOccurred(1, playerPackage);
         } else if (o instanceof OpponentNamePackage opponentName) {
-
             listener.gameUpdateOccurred(2, opponentName);
         } else if (o instanceof TeamPackage teamPackage) {
             listener.gameUpdateOccurred(3, teamPackage);

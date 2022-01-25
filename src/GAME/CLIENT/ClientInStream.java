@@ -9,7 +9,6 @@ public class ClientInStream implements Runnable {
     private boolean running = true;
     private final PackageHandler handler;
     private ClientConnection client;
-    private States state;
 
     public ClientInStream(ObjectInputStream in, PackageHandler handler, ClientConnection client) {
         this.in = in;
@@ -22,8 +21,13 @@ public class ClientInStream implements Runnable {
         while (running) {
             try {
                 if (client.getState() == States.SET_UP) {
-                    client.unpack(in.readObject());
+                    Object o = in.readObject();
+                    System.out.println(o.toString());
+                    client.unpack(o);
+                    System.out.println("package received - SET UP");
+
                 } else if (client.getState() == States.PLAYING_GAME) {
+                    System.out.println("package received - PLAY");
                     handler.unpack(in.readObject());
                 }
             } catch (IOException | ClassNotFoundException e) {

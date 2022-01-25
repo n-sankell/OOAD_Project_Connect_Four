@@ -32,10 +32,8 @@ public class Server implements Runnable {
     public void run() {
         while (running) {
             try {
-                System.out.println("running");
                 Socket socket = serverSocket.accept();
                 acceptConnection(socket);
-                System.out.println("running");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -46,7 +44,6 @@ public class Server implements Runnable {
         String uniqueID = UUID.randomUUID().toString();
         ServerConnection connection = new ServerConnection(socket, uniqueID);
         CONNECTION_LIST.add(connection);
-        System.out.println(CONNECTION_LIST);
         lookForPartner(connection);
     }
 

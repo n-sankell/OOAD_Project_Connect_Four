@@ -15,7 +15,7 @@ public class ServerConnection {
     private ServerConnection opponent;
     private ServerInStream inStream;
     private boolean looking = true;
-    private Socket socket;
+    private final Socket socket;
     private final String uniqueID;
     private String playerName;
     private Color color;
@@ -24,7 +24,6 @@ public class ServerConnection {
         this.socket = socket;
         this.uniqueID = uniqueID;
         setupStreams();
-        getPlayerName();
         startInStream();
     }
 
@@ -55,6 +54,7 @@ public class ServerConnection {
         try {
             writerOut.writeObject(o);
             writerOut.reset();
+            System.out.println("package sent");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,9 +97,9 @@ public class ServerConnection {
     }
 
     public void unpack(Object o) {
-        if (o instanceof PlayerNamePackage namePackage) {
-            System.out.println(namePackage.getName());
-            setPlayerName(namePackage.getName());
+        if (o instanceof PlayerPackage playerPackage) {
+            System.out.println(playerPackage.getPlayer().getName());
+            setPlayerName(playerPackage.getPlayer().getName());
         } else if (o instanceof ColorPackage color) {
             setColor(color.getColor());
         } else if (o instanceof ClientMessage chatMessage) {

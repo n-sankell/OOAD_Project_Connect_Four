@@ -2,6 +2,7 @@ package GAME.CLIENT;
 
 import GAME.Board;
 import GAME.CLIENT.PACKAGES.*;
+import GAME.GameBuilder;
 import GAME.Player;
 
 import java.awt.*;
@@ -39,9 +40,6 @@ public class ClientConnection {
         setupSocket();
         setupStreams();
         startInStream();
-        sendPackage(new PlayerNamePackage(playerName));
-        sendPackage(new ColorPackage(chosenColor));
-        System.out.println(playerName);
     }
 
     private void setupSocket() {
@@ -73,10 +71,16 @@ public class ClientConnection {
     public void sendPackage(Object o) {
         try {
             out.writeObject(o);
+            System.out.println("object sent");
             out.reset();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void createPlayer(int teamNumber) {
+        player = new Player(teamNumber,chosenColor);
+        player.setName(playerName);
     }
 
     public void setHandlerListener(PackageListener listener) {
@@ -84,25 +88,18 @@ public class ClientConnection {
     }
 
     public void unpack(Object o) {
-        if (o instanceof OpponentNamePackage opponentNamePackage) {
-            opponentName = opponentNamePackage.getName();
-        } else if (o instanceof ColorPackage colorPackage) {
-            opponentColor = colorPackage.getColor();
+        if (o instanceof TeamPackage teamPackage) {
+            System.out.println(teamPackage.getTeam());
+            createPlayer(teamPackage.getTeam());
+            sendPackage(new PlayerPackage(player));
+        } else if (o instanceof PlayerPackage opponentPackage) {
+            opponent = opponentPackage.getPlayer();
             createPlayersAndBoard();
-        } else if (o instanceof TeamPackage teamPackage) {
-            playerTeam = teamPackage.getTeam();
-            if (playerTeam == 2) {
-                opponentTeam = 1;
-            } else if (playerTeam == 1 ) {
-                opponentTeam = 2;
-            }
         }
     }
 
     private void createPlayersAndBoard() {
-        player = new Player(playerTeam,chosenColor);
-        player.setName(playerName);
-        opponent = new Player(opponentTeam,opponentColor);
+        GameBuilder.compareColors(player,opponent);
         board = new Board(player, opponent,3,0);
         state = States.PLAYING_GAME;
     }

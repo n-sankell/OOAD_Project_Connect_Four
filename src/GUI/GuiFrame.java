@@ -137,8 +137,10 @@ public class GuiFrame extends JFrame implements ActionListener {
                 repaint();
                 revalidate();
                 if (game.getConnection().getState() == States.PLAYING_GAME) {
+                    System.out.println("Playing");
                     removeItems();
-                    add(game.getNetworkBoard());
+                    addWaitingScreen();
+                    //add(game.getNetworkBoard());
                     repaint();
                     revalidate();
                 }
