@@ -1,6 +1,5 @@
 package gui;
 
-import game.network.States;
 import game.GameBuilder;
 
 import javax.swing.*;
@@ -28,7 +27,9 @@ public class GuiFrame extends JFrame implements ActionListener {
         setVisible(true);
         setResizable(true);
         setLocation(250, 75);
-        addWelcomeScreen();
+        setupWaitingScreen();
+        setupWelcomeScreen();
+        add(welcome);
         addMenu();
         pack();
     }
@@ -57,7 +58,7 @@ public class GuiFrame extends JFrame implements ActionListener {
         setJMenuBar(mb);
     }
 
-    private void addWelcomeScreen() {
+    private void setupWelcomeScreen() {
         try {
             welcome = new ImageBackground("assets/connectFour.png");
         } catch (IOException e) {
@@ -68,7 +69,6 @@ public class GuiFrame extends JFrame implements ActionListener {
             welcome.setVisible(true);
             welcome.setOpaque(false);
             welcome.setLayout(new BorderLayout());
-            add(welcome);
         }
     }
 
@@ -82,28 +82,23 @@ public class GuiFrame extends JFrame implements ActionListener {
         }
     }
 
-    private void addWaitingScreen() {
+    private void setupWaitingScreen() {
         try {
             waiting = new ImageBackground("assets/waiting.png");
             waiting.setSize(1000, 800);
             waiting.setVisible(true);
             waiting.setOpaque(false);
             waiting.setLayout(new BorderLayout());
-            add(waiting);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void addNetworkBoard() {
-        game.getConnection().setNetworkBoardListener(() -> {
-            System.out.println("Playing");
-            removeItems();
-            addWaitingScreen();
-            add(board = game.getNetworkBoard());
-            repaint();
-            revalidate();
-        });
+        removeItems();
+        add(board = game.getNetworkBoard());
+        repaint();
+        revalidate();
     }
 
     @Override
@@ -143,13 +138,11 @@ public class GuiFrame extends JFrame implements ActionListener {
         if (e.getSource() == i3) {
             if (nameInput.inputName("PLAYER") != null) {
                 removeItems();
-                addWaitingScreen();
-                game.networkMode(nameInput.name, nameInput.selectedColor);
+                add(waiting);
                 repaint();
                 revalidate();
-                if (game.getConnection().getState() == States.PLAYING_GAME) {
-                    addNetworkBoard();
-                }
+                game.networkMode(nameInput.name, nameInput.selectedColor);
+                game.getConnection().setNetworkBoardListener(this::addNetworkBoard);
             }
         }
     }
