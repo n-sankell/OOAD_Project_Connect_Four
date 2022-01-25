@@ -1,4 +1,4 @@
-package c4server;
+package c4server.clientclasses;
 
 import c4client.gui.GuiColors;
 

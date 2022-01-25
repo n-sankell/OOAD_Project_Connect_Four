@@ -1,6 +1,6 @@
 package c4server.packages;
 
-import c4server.Player;
+import c4server.clientclasses.Player;
 
 import java.io.Serializable;
 
