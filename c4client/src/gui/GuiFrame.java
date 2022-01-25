@@ -75,9 +75,9 @@ public class GuiFrame extends JFrame implements ActionListener {
     private void removeItems() {
         if (board != null) {
             remove(board);
-        } else if (welcome != null) {
+        } if (welcome != null) {
             remove(welcome);
-        } else if (waiting != null) {
+        } if (waiting != null) {
             remove(waiting);
         }
     }
