@@ -15,9 +15,9 @@ public class ServerInStream implements Runnable {
     @Override
     public void run() {
         while (running) {
+            System.out.println("InStream running");
             try {
                 connection.unpack(in.readObject());
-                System.out.println("package received");
             } catch (IOException | ClassNotFoundException e) {
                 close();
             }

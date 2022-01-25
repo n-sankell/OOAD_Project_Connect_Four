@@ -1,8 +1,11 @@
-package clientclasses;
+package game;
+
+import gui.GuiColors;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private int team;
     private int score = 0;

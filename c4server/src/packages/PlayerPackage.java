@@ -1,6 +1,6 @@
 package packages;
 
-import clientclasses.Player;
+import game.Player;
 
 import java.io.Serializable;
 

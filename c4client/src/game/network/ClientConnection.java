@@ -68,7 +68,7 @@ public class ClientConnection {
         inStreamThread.start();
     }
 
-    public void sendPackage(Object o) {
+    public synchronized void sendPackage(Object o) {
         try {
             out.writeObject(o);
             System.out.println("object sent");
@@ -87,13 +87,16 @@ public class ClientConnection {
         handler.setListener(listener);
     }
 
-    public void unpack(Object o) {
+    public synchronized void unpack(Object o) {
         if (o instanceof TeamPackage teamPackage) {
             System.out.println(teamPackage.getTeam());
             createPlayer(teamPackage.getTeam());
             sendPackage(new PlayerPackage(player));
+            System.out.println("sent player package");
         } else if (o instanceof PlayerPackage opponentPackage) {
+            System.out.println("Opponent received");
             opponent = opponentPackage.getPlayer();
+
             createPlayersAndBoard();
         }
     }

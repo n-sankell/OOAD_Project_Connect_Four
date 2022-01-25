@@ -1,3 +1,4 @@
+import game.Player;
 import packages.*;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ public class ServerConnection {
     private boolean looking = true;
     private final Socket socket;
     private final String uniqueID;
+    private Player player;
     private String playerName;
     private Color color;
 
@@ -48,7 +50,7 @@ public class ServerConnection {
         }
     }
 
-    public void sendPackage(Object o) {
+    public synchronized void sendPackage(Object o) {
         try {
             writerOut.writeObject(o);
             writerOut.reset();
@@ -94,10 +96,15 @@ public class ServerConnection {
         return playerName;
     }
 
-    public void unpack(Object o) {
+    public Player getPlayer() {
+        return player;
+    }
+
+    public synchronized void unpack(Object o) {
         if (o instanceof PlayerPackage playerPackage) {
-            System.out.println(playerPackage.getPlayer().getName());
-            setPlayerName(playerPackage.getPlayer().getName());
+            System.out.println("Player Package received");
+            this.player = playerPackage.getPlayer();
+            System.out.println(player.getName());
         } else if (o instanceof ColorPackage color) {
             setColor(color.getColor());
         } else if (o instanceof ClientMessage chatMessage) {

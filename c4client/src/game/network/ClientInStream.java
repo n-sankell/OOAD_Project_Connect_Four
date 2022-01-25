@@ -24,11 +24,8 @@ public class ClientInStream implements Runnable {
             System.out.println("inStream running");
             try {
                 if (client.getState() == States.SET_UP) {
-                    Object o = in.readObject();
-                    System.out.println(o.toString());
-                    client.unpack(o);
+                    client.unpack(in.readObject());
                     System.out.println("package received - SET UP");
-
                 } else if (client.getState() == States.PLAYING_GAME) {
                     System.out.println("package received - PLAY");
                     handler.unpack(in.readObject());

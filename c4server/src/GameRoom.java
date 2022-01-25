@@ -13,12 +13,6 @@ public class GameRoom {
         player1.setOpponent(player2);
         player2.setOpponent(player1);
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         player1.sendPackage(new TeamPackage(1));
         System.out.println("player 1 - 1");
         player2.sendPackage(new TeamPackage(2));
@@ -27,19 +21,18 @@ public class GameRoom {
     }
 
     private void startGame() {
-        while (player1.getName() == null || player2.getName() == null) {
-            System.out.println("waiting");
+
+        System.out.println("Start Game");
+        while (player1.getPlayer() == null || player2.getPlayer() == null) {
             try {
-                Thread.sleep(2000);
+                System.out.println("waiting");
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
-            System.out.println("Start Game");
-            System.out.println("Player 1 name:" + player1.getName());
-            System.out.println("Player 2 name:" + player2.getName());
-
+        System.out.println("Player 1 name:" + player1.getPlayer().getName());
+        System.out.println("Player 2 name:" + player2.getPlayer().getName());
     }
 
 }
