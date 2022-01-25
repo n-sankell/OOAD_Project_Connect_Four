@@ -1,9 +1,7 @@
 package game.network;
 
 import game.Board;
-import game.NetworkBoardListener;
 import packages.*;
-import game.GameBuilder;
 import game.Player;
 
 import java.awt.*;
