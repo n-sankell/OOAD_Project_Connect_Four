@@ -68,7 +68,7 @@ public class ClientConnection {
         inStreamThread.start();
     }
 
-    public synchronized void sendPackage(Object o) {
+    public void sendPackage(Object o) {
         try {
             out.writeObject(o);
             System.out.println("object sent");

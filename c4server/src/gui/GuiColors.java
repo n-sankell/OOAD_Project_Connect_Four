@@ -1,9 +1,8 @@
 package gui;
 
 import java.awt.*;
-import java.io.Serializable;
 
-public class GuiColors implements Serializable {
+public class GuiColors {
 
     public static final Color BOARD = new Color(0, 0, 0, 255);
     public static final Color TEXT = new Color(255, 255, 255);

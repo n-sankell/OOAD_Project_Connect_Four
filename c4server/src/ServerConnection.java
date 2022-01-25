@@ -50,7 +50,7 @@ public class ServerConnection {
         }
     }
 
-    public synchronized void sendPackage(Object o) {
+    public void sendPackage(Object o) {
         try {
             writerOut.writeObject(o);
             writerOut.reset();
@@ -100,7 +100,7 @@ public class ServerConnection {
         return player;
     }
 
-    public synchronized void unpack(Object o) {
+    public void unpack(Object o) {
         if (o instanceof PlayerPackage playerPackage) {
             System.out.println("Player Package received");
             this.player = playerPackage.getPlayer();
