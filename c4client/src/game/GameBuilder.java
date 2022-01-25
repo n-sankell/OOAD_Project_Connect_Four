@@ -29,7 +29,6 @@ public class GameBuilder {
     public GuiBoard twoPlayerMode(String namePlayer1, String namePlayer2, Color selectedColorOne, Color selectedColorTwo) {
         Player player1 = new Player(1,selectedColorOne);
         Player player2 = new Player(2,selectedColorTwo);
-        compareColors(player1,player2);
         player1.setName(namePlayer1);
         player2.setName(namePlayer2);
         Board board = new Board(player1,player2,2,0);
@@ -37,9 +36,7 @@ public class GameBuilder {
     }
 
     public void networkMode(String namePlayer1, Color selectedColor) {
-        System.out.println("firstLine GameBuilder");
         connection = new ClientConnection(namePlayer1,selectedColor,5555);
-        System.out.println("after connection init");
     }
 
     public ClientConnection getConnection() {
@@ -48,13 +45,6 @@ public class GameBuilder {
 
     public GuiBoard getNetworkBoard() {
         return new GuiBoard(connection.getGameBoard());
-    }
-
-    public static void compareColors(Player player1, Player player2) {
-        if (player1.getPlayerColor() == player2.getPlayerColor()) {
-            Color darkerPlayerTwo = player2.getPlayerColor().darker();
-            player2.setPlayerColor(darkerPlayerTwo);
-        }
     }
 
 }

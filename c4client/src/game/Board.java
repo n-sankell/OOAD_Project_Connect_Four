@@ -3,6 +3,7 @@ package game;
 import gui.CustomJop;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ public class Board {
         currentPlayer = player1;
         this.gameMode = gameMode;
         this.difficulty = difficulty;
+        compareColors();
         setMessages();
         newGame();
     }
@@ -68,6 +70,13 @@ public class Board {
         }
         if (gameMode == 1 && currentPlayer == player2) {
             aiTurn();
+        }
+    }
+
+    public void compareColors() {
+        if (player1.getPlayerColor() == player2.getPlayerColor()) {
+            Color darkerPlayerTwo = player2.getPlayerColor().darker();
+            player2.setPlayerColor(darkerPlayerTwo);
         }
     }
 

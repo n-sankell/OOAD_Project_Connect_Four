@@ -105,7 +105,6 @@ public class ClientConnection {
     }
 
     private void createPlayersAndBoard() {
-        GameBuilder.compareColors(player,opponent);
         board = new Board(player, opponent,3,0);
         state = States.PLAYING_GAME;
         networkBoardListener.eventOccurred();
