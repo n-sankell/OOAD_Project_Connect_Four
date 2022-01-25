@@ -27,7 +27,7 @@ public class GameRoom {
     }
 
     private void startGame() {
-        while (player1.getName() == null && player2.getName() == null) {
+        while (player1.getName() == null || player2.getName() == null) {
             System.out.println("waiting");
             try {
                 Thread.sleep(2000);

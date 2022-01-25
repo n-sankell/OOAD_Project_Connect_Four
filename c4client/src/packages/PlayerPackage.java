@@ -1,4 +1,4 @@
-package game.network.packages;
+package packages;
 
 import game.Player;
 

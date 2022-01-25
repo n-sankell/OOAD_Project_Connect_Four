@@ -1,7 +1,7 @@
 package game.network;
 
 import game.Board;
-import game.network.packages.*;
+import packages.*;
 import game.GameBuilder;
 import game.Player;
 

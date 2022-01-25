@@ -1,4 +1,4 @@
-package game.network.packages;
+package packages;
 
 import java.awt.*;
 import java.io.Serializable;

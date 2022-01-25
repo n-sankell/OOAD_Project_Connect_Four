@@ -1,6 +1,4 @@
-package game.network;
-
-import game.network.packages.*;
+package packages;
 
 public class PackageHandler {
 

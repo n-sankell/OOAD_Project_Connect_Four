@@ -1,5 +1,7 @@
 package game.network;
 
+import packages.PackageHandler;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -19,6 +21,7 @@ public class ClientInStream implements Runnable {
     @Override
     public void run() {
         while (running) {
+            System.out.println("inStream running");
             try {
                 if (client.getState() == States.SET_UP) {
                     Object o = in.readObject();

@@ -1,4 +1,4 @@
-package game.network;
+package packages;
 
 public interface PackageListener {
 
