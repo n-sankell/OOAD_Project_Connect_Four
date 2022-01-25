@@ -13,6 +13,12 @@ public class GameRoom {
         player1.setOpponent(player2);
         player2.setOpponent(player1);
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         player1.sendPackage(new TeamPackage(1));
         System.out.println("player 1 - 1");
         player2.sendPackage(new TeamPackage(2));

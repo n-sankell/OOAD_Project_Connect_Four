@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class TeamPackage implements Serializable {
 
-    private int team;
+    private final int team;
 
     public TeamPackage(int team) {
         this.team = team;
