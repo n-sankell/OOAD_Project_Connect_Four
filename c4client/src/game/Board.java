@@ -214,7 +214,6 @@ public class Board {
     }
 
     private void aiTurn() {
-        currentPlayer = player2;
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
@@ -245,56 +244,86 @@ public class Board {
             JOptionPane.showMessageDialog(null, drawMessage);
             newGame();
         } else {
-            if (gameMode == GameMode.ONE_PLAYER) {
-                currentPlayer = player1;
-            } else if (gameMode == GameMode.NETWORK) {
-                changePlayer();
-            }
+            changePlayer();
         }
     }
 
     private void networkMove(int chosenColumn) {
-        changePlayer();
+        putPiece(chosenColumn, currentPlayer.getTeam());
         connection.sendPackage(new MovePackage(chosenColumn));
+        checkWinOrFull();
+    }
+
+    private void checkWinOrFull() {
+        if (checkWin()) {
+            currentPlayer.setScore(1);
+            setMessages();
+            try {
+                new CustomJop(winMessage);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            newGame();
+        } else if (checkBoardFull()) {
+            try {
+                new CustomJop(drawMessage);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            newGame();
+        } else {
+            changePlayer();
+        }
+    }
+
+    public void setGameHandler() {
         connection.setGameEventListener((event, o) -> {
             if (event == 4) {
                 MovePackage movePackage = (MovePackage) o;
                 int networkMove = (int) movePackage.getMove();
-                if (checkColumn(networkMove)) {
-                    putPiece(networkMove, currentPlayer.getTeam());
-                }
+                putPiece(networkMove, currentPlayer.getTeam());
+                checkOtherScore();
             }
         });
-        checkOtherScore();
+    }
+
+    private void singlePlayerMove(int chosenColumn) {
+        putPiece(chosenColumn, currentPlayer.getTeam());
+        if (checkWin()) {
+            currentPlayer.setScore(1);
+            setMessages();
+            try {
+                new CustomJop(winMessage);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            newGame();
+        } else if (checkBoardFull()) {
+            try {
+                new CustomJop(drawMessage);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            newGame();
+        } else {
+            changePlayer();
+            aiTurn();
+        }
+    }
+
+    public void twoPlayerMove(int chosenColumn) {
+        putPiece(chosenColumn, currentPlayer.getTeam());
+        checkWinOrFull();
     }
 
     public void makeMove(int chosenColumn) {
         if (checkColumn(chosenColumn)) {
-            putPiece(chosenColumn, currentPlayer.getTeam());
-            if (checkWin()) {
-                currentPlayer.setScore(1);
-                setMessages();
-                try {
-                    new CustomJop(winMessage);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                newGame();
-            } else if (checkBoardFull()) {
-                try {
-                    new CustomJop(drawMessage);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                newGame();
-            } else {
-                if (gameMode == GameMode.ONE_PLAYER) {
-                    aiTurn();
-                } else if (gameMode == GameMode.TWO_PLAYERS) {
-                    changePlayer();
-                } else if (gameMode == GameMode.NETWORK) {
-                    networkMove(chosenColumn);
-                }
+            if (gameMode == GameMode.ONE_PLAYER) {
+                singlePlayerMove(chosenColumn);
+            } else if (gameMode == GameMode.TWO_PLAYERS) {
+                twoPlayerMove(chosenColumn);
+            } else if (gameMode == GameMode.NETWORK) {
+                networkMove(chosenColumn);
             }
         }
     }

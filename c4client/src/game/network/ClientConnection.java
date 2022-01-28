@@ -105,6 +105,7 @@ public class ClientConnection {
     private void createPlayersAndBoard() {
         board = new Board(player, opponent, GameMode.NETWORK);
         board.setConnection(this);
+        board.setGameHandler();
         networkBoardListener.eventOccurred();
     }
 
