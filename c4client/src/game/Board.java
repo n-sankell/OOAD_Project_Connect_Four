@@ -3,9 +3,6 @@ package game;
 import game.network.ClientConnection;
 import gui.CustomJop;
 import packages.MovePackage;
-import packages.PackageListener;
-import packages.PlayerPackage;
-import packages.TeamPackage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,24 +14,27 @@ public class Board {
     private final int rows = 6;
     private final int columns = 7;
     private final GameMode gameMode;
-    private final int difficulty;
     private int roundCounter = 0;
     private final Player player1;
     private final Player player2;
     private Player currentPlayer;
     private String winMessage;
     private String drawMessage;
+    private ClientConnection connection;
     private final Piece[][] circles = new Piece[rows][columns];
 
-    public Board(Player player1, Player player2, GameMode gameMode, int difficulty) {
+    public Board(Player player1, Player player2, GameMode gameMode) {
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
         this.gameMode = gameMode;
-        this.difficulty = difficulty;
         compareColors();
         setMessages();
         newGame();
+    }
+
+    public void setConnection(ClientConnection connection) {
+        this.connection = connection;
     }
 
     public int getRows() {
@@ -251,9 +251,8 @@ public class Board {
 
     private void networkMove(int chosenColumn) {
         currentPlayer = player2;
-        ClientConnection connection = player1.getConnection();
         connection.sendPackage(new MovePackage(chosenColumn));
-        connection.setHandlerListener((event, o) -> {
+        connection.setGameEventListener((event, o) -> {
             if (event == 4) {
                 MovePackage movePackage = (MovePackage) o;
                 int networkMove = (int) movePackage.getMove();

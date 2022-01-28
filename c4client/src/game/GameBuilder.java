@@ -14,7 +14,7 @@ public class GameBuilder {
         Player player1 = new Player(1,selectedColor);
         AI ai = new AI(2,GuiColors.AI_PIECE_EASY,1);
         player1.setName(namePlayer1);
-        Board board = new Board(player1,ai,GameMode.ONE_PLAYER,ai.getDifficulty());
+        Board board = new Board(player1,ai,GameMode.ONE_PLAYER);
         return new GuiBoard(board);
     }
 
@@ -22,7 +22,7 @@ public class GameBuilder {
         Player player1 = new Player(1,selectedColor);
         AI ai = new AI(2,GuiColors.AI_PIECE_NORMAL,2);
         player1.setName(namePlayer1);
-        Board board = new Board(player1,ai,GameMode.ONE_PLAYER,ai.getDifficulty());
+        Board board = new Board(player1,ai,GameMode.ONE_PLAYER);
         return new GuiBoard(board);
     }
 
@@ -31,7 +31,7 @@ public class GameBuilder {
         Player player2 = new Player(2,selectedColorTwo);
         player1.setName(namePlayer1);
         player2.setName(namePlayer2);
-        Board board = new Board(player1,player2,GameMode.TWO_PLAYERS,0);
+        Board board = new Board(player1,player2,GameMode.TWO_PLAYERS);
         return new GuiBoard(board);
     }
 
