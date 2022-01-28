@@ -11,7 +11,7 @@ public class Board {
 
     private final int rows = 6;
     private final int columns = 7;
-    private final int gameMode;
+    private final GameMode gameMode;
     private final int difficulty;
     private int roundCounter = 0;
     private final Player player1;
@@ -21,7 +21,7 @@ public class Board {
     private String drawMessage;
     private final Piece[][] circles = new Piece[rows][columns];
 
-    public Board(Player player1, Player player2, int gameMode, int difficulty) {
+    public Board(Player player1, Player player2, GameMode gameMode, int difficulty) {
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
@@ -40,7 +40,7 @@ public class Board {
         return columns;
     }
 
-    public int getGameMode() {
+    public GameMode getGameMode() {
         return gameMode;
     }
 
@@ -68,7 +68,7 @@ public class Board {
         } else {
             currentPlayer = player2;
         }
-        if (gameMode == 1 && currentPlayer == player2) {
+        if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
             aiTurn();
         }
     }
@@ -213,7 +213,8 @@ public class Board {
         while (true) {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
-            int aiMove = AI.makeMove(circles, rows, columns, currentPlayer.getTeam(), difficulty);
+            AI ai = (AI) player2;
+            int aiMove = ai.makeMove(circles, rows, columns);
             if (checkColumn(aiMove)) {
                 putPiece(aiMove, currentPlayer.getTeam());
                 break;
@@ -259,9 +260,9 @@ public class Board {
                 }
                 newGame();
             } else {
-                if (gameMode == 1) {
+                if (gameMode == GameMode.ONE_PLAYER) {
                     aiTurn();
-                } else if (gameMode == 2) {
+                } else if (gameMode == GameMode.TWO_PLAYERS) {
                     changePlayer();
                 }
             }

@@ -5,10 +5,12 @@ import java.awt.*;
 public class AI extends Player {
 
     private String name;
+    private final int team;
     private final int difficulty;
 
     public AI(int team, Color playerColor, int difficulty) {
         super(team, playerColor);
+        this.team = team;
         this.difficulty = difficulty;
         difficultyName();
     }
@@ -29,8 +31,8 @@ public class AI extends Player {
         return difficulty;
     }
 
-    public static int makeMove(Piece[][] circles, int rows, int columns, int ai, int difficulty) {
-        AIBrain brain = new AIBrain(circles, rows, columns, ai, difficulty);
+    public int makeMove(Piece[][] circles, int rows, int columns) {
+        AIBrain brain = new AIBrain(circles, rows, columns, team, difficulty);
         return brain.findAIMove();
     }
 

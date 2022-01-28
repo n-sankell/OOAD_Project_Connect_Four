@@ -1,6 +1,7 @@
 package gui;
 
 import game.Board;
+import game.GameMode;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -107,9 +108,9 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     private String getStatusbarText() {
-        if (board.getGameMode() == 1 && board.isEmpty()) {
+        if (board.getGameMode() == GameMode.ONE_PLAYER && board.isEmpty()) {
             return "BEGIN "+board.getCurrentPlayer().getName()+"!";
-        } else if (board.getGameMode() == 1) {
+        } else if (board.getGameMode() == GameMode.ONE_PLAYER) {
             return "";
         } else if (board.isEmpty()) {
             return "BEGIN "+board.getCurrentPlayer().getName()+"!";

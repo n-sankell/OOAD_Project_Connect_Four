@@ -56,4 +56,5 @@ public class Player implements Serializable {
     public void setPlayerColor(Color color) {
         this.playerColor = color;
     }
+
 }

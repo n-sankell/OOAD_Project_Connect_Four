@@ -1,6 +1,7 @@
 package game.network;
 
 import game.Board;
+import game.GameMode;
 import packages.*;
 import game.Player;
 
@@ -102,7 +103,7 @@ public class ClientConnection {
     }
 
     private void createPlayersAndBoard() {
-        board = new Board(player, opponent,3,0);
+        board = new Board(player, opponent, GameMode.NETWORK,0);
         networkBoardListener.eventOccurred();
     }
 
