@@ -5,7 +5,6 @@ import gui.CustomJop;
 import packages.MovePackage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 
@@ -21,6 +20,7 @@ public class Board {
     private String winMessage;
     private String drawMessage;
     private ClientConnection connection;
+    private boolean waitPlayerTurn;
     private final Piece[][] circles = new Piece[rows][columns];
 
     public Board(Player player1, Player player2, GameMode gameMode) {
@@ -28,7 +28,6 @@ public class Board {
         this.player2 = player2;
         currentPlayer = player1;
         this.gameMode = gameMode;
-        compareColors();
         setMessages();
         newGame();
     }
@@ -75,13 +74,6 @@ public class Board {
         }
         if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
             aiTurn();
-        }
-    }
-
-    public void compareColors() {
-        if (player1.getPlayerColor() == player2.getPlayerColor()) {
-            Color darkerPlayerTwo = player2.getPlayerColor().darker();
-            player2.setPlayerColor(darkerPlayerTwo);
         }
     }
 
@@ -245,10 +237,12 @@ public class Board {
             newGame();
         } else {
             changePlayer();
+            waitPlayerTurn = false;
         }
     }
 
     private void networkMove(int chosenColumn) {
+        waitPlayerTurn = true;
         putPiece(chosenColumn, currentPlayer.getTeam());
         connection.sendPackage(new MovePackage(chosenColumn));
         checkWinOrFull();
@@ -306,6 +300,7 @@ public class Board {
             }
             newGame();
         } else {
+            waitPlayerTurn = true;
             changePlayer();
             aiTurn();
         }
@@ -322,7 +317,7 @@ public class Board {
                 singlePlayerMove(chosenColumn);
             } else if (gameMode == GameMode.TWO_PLAYERS) {
                 twoPlayerMove(chosenColumn);
-            } else if (gameMode == GameMode.NETWORK) {
+            } else if (gameMode == GameMode.NETWORK && !waitPlayerTurn) {
                 networkMove(chosenColumn);
             }
         }

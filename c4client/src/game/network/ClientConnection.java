@@ -96,14 +96,26 @@ public class ClientConnection {
                     PlayerPackage opponentPackage = (PlayerPackage) o;
                     System.out.println("Opponent received");
                     opponent = opponentPackage.getPlayer();
-                    createPlayersAndBoard();
+                    createBoard();
                 }
             }
         });
     }
 
-    private void createPlayersAndBoard() {
-        board = new Board(player, opponent, GameMode.NETWORK);
+    public void compareColors() {
+        if (player.getPlayerColor() == opponent.getPlayerColor()) {
+            Color darkerPlayerTwo = opponent.getPlayerColor().darker();
+            opponent.setPlayerColor(darkerPlayerTwo);
+        }
+    }
+
+    private void createBoard() {
+        compareColors();
+        if (player.getTeam() == 1) {
+            board = new Board(player, opponent, GameMode.NETWORK);
+        } else {
+            board = new Board(opponent, player, GameMode.NETWORK);
+        }
         board.setConnection(this);
         board.setGameHandler();
         networkBoardListener.eventOccurred();
