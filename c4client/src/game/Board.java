@@ -1,6 +1,11 @@
 package game;
 
+import game.network.ClientConnection;
 import gui.CustomJop;
+import packages.MovePackage;
+import packages.PackageListener;
+import packages.PlayerPackage;
+import packages.TeamPackage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -223,6 +228,10 @@ public class Board {
                 break;
             }
         }
+        checkOtherScore();
+    }
+
+    private void checkOtherScore() {
         if (checkWin()) {
             currentPlayer.setScore(1);
             setMessages();
@@ -238,6 +247,22 @@ public class Board {
         } else {
             currentPlayer = player1;
         }
+    }
+
+    private void networkMove(int chosenColumn) {
+        currentPlayer = player2;
+        ClientConnection connection = player1.getConnection();
+        connection.sendPackage(new MovePackage(chosenColumn));
+        connection.setHandlerListener((event, o) -> {
+            if (event == 4) {
+                MovePackage movePackage = (MovePackage) o;
+                int networkMove = (int) movePackage.getMove();
+                if (checkColumn(networkMove)) {
+                    putPiece(networkMove, currentPlayer.getTeam());
+                }
+            }
+        });
+        checkOtherScore();
     }
 
     public void makeMove(int chosenColumn) {
@@ -264,9 +289,10 @@ public class Board {
                     aiTurn();
                 } else if (gameMode == GameMode.TWO_PLAYERS) {
                     changePlayer();
+                } else if (gameMode == GameMode.NETWORK) {
+                    networkMove(chosenColumn);
                 }
             }
         }
     }
-
 }

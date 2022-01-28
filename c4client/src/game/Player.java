@@ -1,5 +1,6 @@
 package game;
 
+import game.network.ClientConnection;
 import gui.GuiColors;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ public class Player implements Serializable {
     private int team;
     private int score = 0;
     private Color playerColor;
+    private ClientConnection connection;
 
     public Player(int team, Color playerColor) {
         this.team = team;
@@ -23,6 +25,15 @@ public class Player implements Serializable {
         } else if (playerColor == null && team == 2) {
             this.playerColor = GuiColors.PIECE_RED;
         }
+    }
+
+    public void setConnection(ClientConnection connection) {
+        System.out.println("hhhhhhhh");
+        this.connection = connection;
+    }
+
+    public ClientConnection getConnection() {
+        return connection;
     }
 
     public void setName(String name) {

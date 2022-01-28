@@ -103,6 +103,7 @@ public class ClientConnection {
     }
 
     private void createPlayersAndBoard() {
+        player.setConnection(this);
         board = new Board(player, opponent, GameMode.NETWORK,0);
         networkBoardListener.eventOccurred();
     }
