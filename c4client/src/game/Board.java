@@ -245,12 +245,16 @@ public class Board {
             JOptionPane.showMessageDialog(null, drawMessage);
             newGame();
         } else {
-            currentPlayer = player1;
+            if (gameMode == GameMode.ONE_PLAYER) {
+                currentPlayer = player1;
+            } else if (gameMode == GameMode.NETWORK) {
+                changePlayer();
+            }
         }
     }
 
     private void networkMove(int chosenColumn) {
-        currentPlayer = player2;
+        changePlayer();
         connection.sendPackage(new MovePackage(chosenColumn));
         connection.setGameEventListener((event, o) -> {
             if (event == 4) {
