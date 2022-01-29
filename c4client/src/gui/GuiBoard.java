@@ -2,6 +2,7 @@ package gui;
 
 import game.Board;
 import game.GameMode;
+import packages.PackageHandler;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;

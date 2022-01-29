@@ -30,8 +30,6 @@ public class GameRoom {
         }
         System.out.println("Player 1 name:" + player1.getPlayer().getName()+" team: "+player1.getPlayer().getTeam());
         System.out.println("Player 2 name:" + player2.getPlayer().getName()+" team: "+player1.getPlayer().getTeam());
-        player1.sendPackage(new PlayerPackage(player2.getPlayer()));
-        player2.sendPackage(new PlayerPackage(player1.getPlayer()));
     }
 
 }

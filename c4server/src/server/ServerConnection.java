@@ -81,6 +81,7 @@ public class ServerConnection {
                 case 2 -> {
                     PlayerPackage playerPackage = (PlayerPackage) o;
                     player = playerPackage.getPlayer();
+                    opponent.sendPackage(new PlayerPackage(player));
                 }
                 case 3 -> {
                     ClientMessage chatMessage = (ClientMessage) o;
