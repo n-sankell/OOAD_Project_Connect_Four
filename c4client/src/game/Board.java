@@ -3,7 +3,6 @@ package game;
 import game.network.ClientConnection;
 import gui.CustomJop;
 import packages.MovePackage;
-import packages.StartPackage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -31,7 +30,6 @@ public class Board {
         currentPlayer = player1;
         currentPlayer.setYourTurn(false);
         this.gameMode = gameMode;
-        sendStartPackage();
         setMessages();
         newGame();
     }
@@ -78,7 +76,6 @@ public class Board {
             currentPlayer = player2;
             player1.setYourTurn(false);
         }
-        currentPlayer.setYourTurn(true);
         if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
             player1.setYourTurn(false);
             aiTurn();
@@ -249,12 +246,6 @@ public class Board {
         }
     }
 
-    private void sendStartPackage() {
-        if (gameMode == GameMode.NETWORK) {
-            connection.sendPackage(new StartPackage());
-        }
-    }
-
     private void networkMove(int chosenColumn) {
         player1.setYourTurn(false);
         player2.setYourTurn(false);
@@ -296,6 +287,7 @@ public class Board {
             }
             if (event == 5) {
                 currentPlayer.setYourTurn(true);
+                System.out.println("Your turn! ");
             }
         });
     }
@@ -336,9 +328,6 @@ public class Board {
             } else if (gameMode == GameMode.TWO_PLAYERS) {
                 twoPlayerMove(chosenColumn);
             } else if (gameMode == GameMode.NETWORK && currentPlayer.isYourTurn()) {
-                System.out.println("current: "+currentPlayer.getName()+"-"+currentPlayer.isYourTurn());
-                System.out.println("player1: "+player1.getName()+"-"+player1.isYourTurn());
-                System.out.println("player2: "+player2.getName()+"-"+player2.isYourTurn());
                 networkMove(chosenColumn);
             }
         }

@@ -110,6 +110,7 @@ public class ClientConnection {
         }
         board.setConnection(this);
         board.setGameHandler();
+        sendPackage(new StartPackage());
         networkBoardListener.eventOccurred();
     }
 

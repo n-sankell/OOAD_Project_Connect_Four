@@ -13,6 +13,7 @@ public class ServerConnection {
     private ObjectInputStream readerIn;
     private ObjectOutputStream writerOut;
     private ServerConnection opponent;
+    private final PackageHandler handler = new PackageHandler();
     private boolean looking = true;
     private final Socket socket;
     private final String uniqueID;
@@ -23,6 +24,7 @@ public class ServerConnection {
         this.uniqueID = uniqueID;
         setupStreams();
         startInStream();
+        setHandler();
     }
 
     private void setupStreams() {
@@ -35,7 +37,7 @@ public class ServerConnection {
     }
 
     private void startInStream() {
-        ServerInStream inStream = new ServerInStream(readerIn,this);
+        ServerInStream inStream = new ServerInStream(readerIn, handler);
         Thread inStreamThread = new Thread(inStream);
         inStreamThread.start();
     }
@@ -44,7 +46,6 @@ public class ServerConnection {
         try {
             writerOut.writeObject(o);
             writerOut.reset();
-            System.out.println("package sent");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,17 +71,33 @@ public class ServerConnection {
         return player;
     }
 
-    public void unpack(Object o) {
-        if (o instanceof PlayerPackage playerPackage) {
-            this.player = playerPackage.getPlayer();
-        } else if (o instanceof ClientMessage chatMessage) {
-            opponent.sendPackage(chatMessage);
-        } else if (o instanceof MovePackage move) {
-            opponent.sendPackage(move);
-        } else if (o instanceof StartPackage) {
-            sendPackage(new StartPackage());
-        }
+    private void setHandlerListener(PackageListener listener) {
+        handler.setListener(listener);
+    }
 
+    public void setHandler() {
+        setHandlerListener((event, o) -> {
+            switch (event) {
+                case 2 -> {
+                    PlayerPackage playerPackage = (PlayerPackage) o;
+                    player = playerPackage.getPlayer();
+                }
+                case 3 -> {
+                    ClientMessage chatMessage = (ClientMessage) o;
+                    opponent.sendPackage(chatMessage);
+                }
+                case 4 -> {
+                    MovePackage move = (MovePackage) o;
+                    opponent.sendPackage(move);
+                }
+                case 5 -> {
+                    if (player.getTeam() == 1) {
+                        sendPackage(new StartPackage());
+                        System.out.println("sent start package to: "+player.getName());
+                    }
+                }
+            }
+        });
     }
 
 }
