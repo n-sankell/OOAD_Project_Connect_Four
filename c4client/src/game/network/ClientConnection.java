@@ -102,15 +102,7 @@ public class ClientConnection {
         });
     }
 
-    public void compareColors() {
-        if (player.getPlayerColor() == opponent.getPlayerColor()) {
-            Color darkerPlayerTwo = opponent.getPlayerColor().darker();
-            opponent.setPlayerColor(darkerPlayerTwo);
-        }
-    }
-
     private void createBoard() {
-        compareColors();
         if (player.getTeam() == 1) {
             board = new Board(player, opponent, GameMode.NETWORK);
         } else {

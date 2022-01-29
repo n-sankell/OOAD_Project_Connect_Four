@@ -24,10 +24,11 @@ public class GuiBoard extends JPanel implements ActionListener {
     private JTextPane status;
     private JLabel scorePlayerTwo;
     private JButton[] insertButtons;
-    private final ImageIcon insertButtonImage = new ImageIcon("assets/insert_button.png");
+    private final ImageIcon insertButtonImage = new ImageIcon("resources/insert_button.png");
 
     public GuiBoard(Board board) {
         this.board = board;
+        compareColors();
         rows = board.getRows();
         columns = board.getColumns();
         addBasePanel();
@@ -77,6 +78,13 @@ public class GuiBoard extends JPanel implements ActionListener {
             insertButtons[i].setBorder(BorderFactory.createLineBorder(GuiColors.TEXT, 0, false));
             insertButtons[i].addActionListener(this);
             insertPanel.add(insertButtons[i]);
+        }
+    }
+
+    public void compareColors() {
+        if (board.getPlayer1().getPlayerColor() == board.getPlayer2().getPlayerColor()) {
+            Color darkerPlayerTwo = board.getPlayer2().getPlayerColor().darker();
+            board.getPlayer2().setPlayerColor(darkerPlayerTwo);
         }
     }
 

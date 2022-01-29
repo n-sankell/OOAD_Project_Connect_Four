@@ -54,7 +54,7 @@ public class Server implements Runnable {
             if (connection.isLookingForOpponent() && !connection.getId().equals(looker.getId())) {
                 connection.setLookingForOpponent(false);
                 looker.setLookingForOpponent(false);
-                new GameRoom(looker, connection);
+                new GameRoom(connection, looker);
             }
         }
     }

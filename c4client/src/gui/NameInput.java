@@ -48,7 +48,7 @@ public class NameInput implements ActionListener {
         GridBagConstraints gc = new GridBagConstraints();
         basePanel.setLayout(grid);
         JPanel panel = new JPanel();
-        JLabel label = new JLabel(new ImageIcon("assets/login.png"));
+        JLabel label = new JLabel(new ImageIcon("resources/login.png"));
         panel.add(label);
         panel.setSize(600, 300);
         panel.setVisible(true);
