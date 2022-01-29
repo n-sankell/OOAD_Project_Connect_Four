@@ -14,8 +14,8 @@ public class PackageHandler {
             gameEventListener.eventOccurred(3, chatMessage);
         } else if (o instanceof MovePackage move) {
             gameEventListener.eventOccurred(4, move);
-        } else if (o instanceof ScorePackage score) {
-            gameEventListener.eventOccurred(5, score);
+        } else if (o instanceof StartPackage start) {
+            gameEventListener.eventOccurred(5, start);
         }
     }
 

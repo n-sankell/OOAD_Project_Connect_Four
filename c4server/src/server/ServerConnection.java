@@ -66,10 +66,6 @@ public class ServerConnection {
         this.opponent = opponent;
     }
 
-    public ServerConnection getOpponent() {
-        return opponent;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -81,8 +77,8 @@ public class ServerConnection {
             opponent.sendPackage(chatMessage);
         } else if (o instanceof MovePackage move) {
             opponent.sendPackage(move);
-        } else if (o instanceof ScorePackage score) {
-            opponent.sendPackage(score);
+        } else if (o instanceof StartPackage) {
+            sendPackage(new StartPackage());
         }
 
     }

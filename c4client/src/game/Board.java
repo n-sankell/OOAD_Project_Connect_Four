@@ -3,6 +3,7 @@ package game;
 import game.network.ClientConnection;
 import gui.CustomJop;
 import packages.MovePackage;
+import packages.StartPackage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -25,8 +26,12 @@ public class Board {
     public Board(Player player1, Player player2, GameMode gameMode) {
         this.player1 = player1;
         this.player2 = player2;
+        player1.setYourTurn(false);
+        player2.setYourTurn(false);
         currentPlayer = player1;
+        currentPlayer.setYourTurn(false);
         this.gameMode = gameMode;
+        sendStartPackage();
         setMessages();
         newGame();
     }
@@ -244,6 +249,12 @@ public class Board {
         }
     }
 
+    private void sendStartPackage() {
+        if (gameMode == GameMode.NETWORK) {
+            connection.sendPackage(new StartPackage());
+        }
+    }
+
     private void networkMove(int chosenColumn) {
         player1.setYourTurn(false);
         player2.setYourTurn(false);
@@ -282,6 +293,9 @@ public class Board {
                 int networkMove = (int) movePackage.getMove();
                 putPiece(networkMove, currentPlayer.getTeam());
                 checkOtherScore();
+            }
+            if (event == 5) {
+                currentPlayer.setYourTurn(true);
             }
         });
     }
