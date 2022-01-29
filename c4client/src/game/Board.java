@@ -20,7 +20,6 @@ public class Board {
     private String winMessage;
     private String drawMessage;
     private ClientConnection connection;
-    private boolean waitPlayerTurn;
     private final Piece[][] circles = new Piece[rows][columns];
 
     public Board(Player player1, Player player2, GameMode gameMode) {
@@ -69,10 +68,14 @@ public class Board {
         addCircles();
         if (roundCounter % 2 == 0) {
             currentPlayer = player1;
+            player2.setYourTurn(false);
         } else {
             currentPlayer = player2;
+            player1.setYourTurn(false);
         }
+        currentPlayer.setYourTurn(true);
         if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
+            player1.setYourTurn(false);
             aiTurn();
         }
     }
@@ -237,12 +240,14 @@ public class Board {
             newGame();
         } else {
             changePlayer();
-            waitPlayerTurn = false;
+            currentPlayer.setYourTurn(true);
         }
     }
 
     private void networkMove(int chosenColumn) {
-        waitPlayerTurn = true;
+        player1.setYourTurn(false);
+        player2.setYourTurn(false);
+        currentPlayer.setYourTurn(false);
         putPiece(chosenColumn, currentPlayer.getTeam());
         connection.sendPackage(new MovePackage(chosenColumn));
         checkWinOrFull();
@@ -300,7 +305,6 @@ public class Board {
             }
             newGame();
         } else {
-            waitPlayerTurn = true;
             changePlayer();
             aiTurn();
         }
@@ -317,7 +321,10 @@ public class Board {
                 singlePlayerMove(chosenColumn);
             } else if (gameMode == GameMode.TWO_PLAYERS) {
                 twoPlayerMove(chosenColumn);
-            } else if (gameMode == GameMode.NETWORK && !waitPlayerTurn) {
+            } else if (gameMode == GameMode.NETWORK && currentPlayer.isYourTurn()) {
+                System.out.println("current: "+currentPlayer.getName()+"-"+currentPlayer.isYourTurn());
+                System.out.println("player1: "+player1.getName()+"-"+player1.isYourTurn());
+                System.out.println("player2: "+player2.getName()+"-"+player2.isYourTurn());
                 networkMove(chosenColumn);
             }
         }

@@ -9,6 +9,7 @@ public class Player implements Serializable {
     private String name;
     private int team;
     private int score = 0;
+    private boolean yourTurn = false;
     private Color playerColor;
 
     public Player(int team, Color playerColor) {
@@ -23,6 +24,14 @@ public class Player implements Serializable {
         } else if (playerColor == null && team == 2) {
             this.playerColor = GuiColors.PIECE_RED;
         }
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        this.yourTurn = yourTurn;
+    }
+
+    public boolean isYourTurn() {
+        return yourTurn;
     }
 
     public void setName(String name) {
