@@ -27,8 +27,6 @@ public class Board {
     public Board(Player player1, Player player2, GameMode gameMode) {
         this.player1 = player1;
         this.player2 = player2;
-        player1.setYourTurn(false);
-        player2.setYourTurn(false);
         currentPlayer = player1;
         currentPlayer.setYourTurn(false);
         this.gameMode = gameMode;
@@ -233,6 +231,7 @@ public class Board {
         if (checkWin()) {
             addScoreAndShowResults();
         } else if (checkBoardFull()) {
+            currentPlayer.setYourTurn(false);
             JOptionPane.showMessageDialog(null, drawMessage);
             if (gameMode == GameMode.NETWORK) {
                 connection.sendPackage(new NewRoundPackage(roundCounter +1));
@@ -255,12 +254,13 @@ public class Board {
         if (checkWin()) {
             addScoreAndShowResults();
         } else if (checkBoardFull()) {
+            currentPlayer.setYourTurn(false);
             try {
                 new CustomJop(drawMessage);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            if (gameMode == GameMode.NETWORK){
+            if (gameMode == GameMode.NETWORK) {
                 connection.sendPackage(new NewRoundPackage(roundCounter +1));
             }
             newGame();
@@ -278,6 +278,7 @@ public class Board {
             ex.printStackTrace();
         }
         if (gameMode == GameMode.NETWORK) {
+            currentPlayer.setYourTurn(false);
             connection.sendPackage(new NewRoundPackage(roundCounter +1));
         }
         newGame();

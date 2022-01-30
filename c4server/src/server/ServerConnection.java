@@ -99,9 +99,13 @@ public class ServerConnection {
                 }
                 case 6 -> {
                     NewRoundPackage newRound = (NewRoundPackage) o;
-                    if (newRound.getRoundCount() % 2 == 0 && player.getTeam() == 1) {
+                    if (newRound.getRoundCount() % 2 == 0 && player.getTeam() == 1 ) {
                         sendPackage(new NewRoundPackage(newRound.getRoundCount()));
-                    } else {
+                    } else if (newRound.getRoundCount() % 2 != 0 && player.getTeam() == 1) {
+                        opponent.sendPackage(new NewRoundPackage(newRound.getRoundCount()));
+                    } else if (newRound.getRoundCount() % 2 != 0 && player.getTeam() == 2) {
+                        sendPackage(new NewRoundPackage(newRound.getRoundCount()));
+                    } else if (newRound.getRoundCount() % 2 == 0 && player.getTeam() == 2) {
                         opponent.sendPackage(new NewRoundPackage(newRound.getRoundCount()));
                     }
                 }
