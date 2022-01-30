@@ -246,9 +246,6 @@ public class Board {
         } else if (checkBoardFull()) {
             currentPlayer.setYourTurn(false);
             JOptionPane.showMessageDialog(null, drawMessage);
-            if (gameMode == GameMode.NETWORK) {
-                connection.sendPackage(new NewRoundPackage(roundCounter +1));
-            }
             newGame();
         } else {
             changePlayer();
@@ -265,6 +262,9 @@ public class Board {
 
     private void checkWinOrFull() {
         if (checkWin()) {
+            if (gameMode == GameMode.NETWORK) {
+                connection.sendPackage(new NewRoundPackage(roundCounter +1));
+            }
             addScoreAndShowResults();
         } else if (checkBoardFull()) {
             currentPlayer.setYourTurn(false);
@@ -292,7 +292,6 @@ public class Board {
         }
         if (gameMode == GameMode.NETWORK) {
             currentPlayer.setYourTurn(false);
-            connection.sendPackage(new NewRoundPackage(roundCounter +1));
         }
         newGame();
     }
@@ -307,7 +306,10 @@ public class Board {
                     checkOtherScore();
                     guiListener.updateOccurred();
                 }
-                case 5, 6 -> currentPlayer.setYourTurn(true);
+                case 5, 6 -> {
+                    currentPlayer.setYourTurn(true);
+                    guiListener.updateOccurred();
+                }
             }
         });
     }

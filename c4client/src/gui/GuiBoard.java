@@ -31,10 +31,10 @@ public class GuiBoard extends JPanel implements ActionListener {
         rows = board.getRows();
         columns = board.getColumns();
         addBasePanel();
+        setUpdateHandler();
         board.newGame();
         setStatusPanel();
         updateBoard();
-        setUpdateHandler();
         repaint();
         revalidate();
     }
@@ -123,7 +123,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         } else if (board.getGameMode() == GameMode.ONE_PLAYER) {
             return "";
         } else if (board.getGameMode() == GameMode.NETWORK && !board.getCurrentPlayer().isYourTurn()) {
-            return "WAIT FOR "+board.getCurrentPlayer().getName()+" TO MAKE THEIR MOVE!";
+            return "WAIT FOR "+board.getCurrentPlayer().getName()+" MOVE!";
         } else {
             return "YOUR TURN "+board.getCurrentPlayer().getName()+"!";
         }
