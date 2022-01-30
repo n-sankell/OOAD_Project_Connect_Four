@@ -3,6 +3,7 @@ package game;
 import game.network.ClientConnection;
 import gui.CustomJop;
 import packages.MovePackage;
+import packages.NewRoundPackage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -72,15 +73,15 @@ public class Board {
         addCircles();
         if (roundCounter % 2 == 0) {
             currentPlayer = player1;
-            player2.setYourTurn(false);
         } else {
             currentPlayer = player2;
-            player1.setYourTurn(false);
+            if (gameMode == GameMode.TWO_PLAYERS) {
+                aiTurn();
+            }
         }
-        if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
-            player1.setYourTurn(false);
-            aiTurn();
-        }
+        //if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
+        //    aiTurn();
+        //}
     }
 
     private void addCircles() {
@@ -230,16 +231,12 @@ public class Board {
 
     private void checkOtherScore() {
         if (checkWin()) {
-            currentPlayer.setScore(1);
-            setMessages();
-            try {
-                new CustomJop(winMessage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            newGame();
+            addScoreAndShowResults();
         } else if (checkBoardFull()) {
             JOptionPane.showMessageDialog(null, drawMessage);
+            if (gameMode == GameMode.NETWORK) {
+                connection.sendPackage(new NewRoundPackage(roundCounter +1));
+            }
             newGame();
         } else {
             changePlayer();
@@ -248,8 +245,6 @@ public class Board {
     }
 
     private void networkMove(int chosenColumn) {
-        player1.setYourTurn(false);
-        player2.setYourTurn(false);
         currentPlayer.setYourTurn(false);
         putPiece(chosenColumn, currentPlayer.getTeam());
         connection.sendPackage(new MovePackage(chosenColumn));
@@ -258,19 +253,15 @@ public class Board {
 
     private void checkWinOrFull() {
         if (checkWin()) {
-            currentPlayer.setScore(1);
-            setMessages();
-            try {
-                new CustomJop(winMessage);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            newGame();
+            addScoreAndShowResults();
         } else if (checkBoardFull()) {
             try {
                 new CustomJop(drawMessage);
             } catch (IOException ex) {
                 ex.printStackTrace();
+            }
+            if (gameMode == GameMode.NETWORK){
+                connection.sendPackage(new NewRoundPackage(roundCounter +1));
             }
             newGame();
         } else {
@@ -278,18 +269,33 @@ public class Board {
         }
     }
 
+    private void addScoreAndShowResults() {
+        currentPlayer.setScore(1);
+        setMessages();
+        try {
+            new CustomJop(winMessage);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        if (gameMode == GameMode.NETWORK) {
+            connection.sendPackage(new NewRoundPackage(roundCounter +1));
+        }
+        newGame();
+    }
+
     public void setGameHandler() {
         connection.setGameEventListener((event, o) -> {
-            if (event == 4) {
-                MovePackage movePackage = (MovePackage) o;
-                int networkMove = (int) movePackage.getMove();
-                putPiece(networkMove, currentPlayer.getTeam());
-                checkOtherScore();
-                guiListener.updateOccurred();
-            }
-            if (event == 5) {
-                currentPlayer.setYourTurn(true);
-                System.out.println("Your turn! ");
+            switch (event) {
+                case 4 -> {
+                    MovePackage movePackage = (MovePackage) o;
+                    int networkMove = (int) movePackage.getMove();
+                    putPiece(networkMove, currentPlayer.getTeam());
+                    checkOtherScore();
+                    guiListener.updateOccurred();
+                }
+                case 5, 6 -> {
+                    currentPlayer.setYourTurn(true);
+                }
             }
         });
     }

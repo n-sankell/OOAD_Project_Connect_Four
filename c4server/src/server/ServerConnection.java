@@ -97,6 +97,14 @@ public class ServerConnection {
                         System.out.println("sent start package to: "+player.getName());
                     }
                 }
+                case 6 -> {
+                    NewRoundPackage newRound = (NewRoundPackage) o;
+                    if (newRound.getRoundCount() % 2 == 0 && player.getTeam() == 1) {
+                        sendPackage(new NewRoundPackage(newRound.getRoundCount()));
+                    } else {
+                        opponent.sendPackage(new NewRoundPackage(newRound.getRoundCount()));
+                    }
+                }
             }
         });
     }

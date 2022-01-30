@@ -45,8 +45,6 @@ public class GuiBoard extends JPanel implements ActionListener {
         board.setGuiUpdateListener(() -> {
             updateBoard();
             updateStatusPanel();
-            repaint();
-            revalidate();
         });
     }
 

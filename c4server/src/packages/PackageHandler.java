@@ -15,6 +15,8 @@ public class PackageHandler {
             listener.eventOccurred(4, move);
         } else if (o instanceof StartPackage start) {
             listener.eventOccurred(5, start);
+        } else if (o instanceof NewRoundPackage newRound) {
+            listener.eventOccurred(6, newRound);
         }
     }
 

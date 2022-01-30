@@ -16,6 +16,8 @@ public class PackageHandler {
             gameEventListener.eventOccurred(4, move);
         } else if (o instanceof StartPackage start) {
             gameEventListener.eventOccurred(5, start);
+        } else if (o instanceof NewRoundPackage newRound) {
+            gameEventListener.eventOccurred(6, newRound);
         }
     }
 
