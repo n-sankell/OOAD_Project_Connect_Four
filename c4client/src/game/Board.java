@@ -2,10 +2,12 @@ package game;
 
 import game.network.ClientConnection;
 import gui.CustomJop;
+import gui.GuiColors;
 import packages.MovePackage;
 import packages.NewRoundPackage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 
@@ -27,6 +29,7 @@ public class Board {
     public Board(Player player1, Player player2, GameMode gameMode) {
         this.player1 = player1;
         this.player2 = player2;
+        compareColors();
         currentPlayer = player1;
         currentPlayer.setYourTurn(false);
         this.gameMode = gameMode;
@@ -73,13 +76,10 @@ public class Board {
             currentPlayer = player1;
         } else {
             currentPlayer = player2;
-            if (gameMode == GameMode.TWO_PLAYERS) {
-                aiTurn();
-            }
         }
-        //if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
-        //    aiTurn();
-        //}
+        if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
+            aiTurn();
+        }
     }
 
     private void addCircles() {
@@ -104,6 +104,20 @@ public class Board {
             if (circles[i][columnsNr].getTeam() == 0) {
                 circles[i][columnsNr].changeTeam(teamNr);
                 break;
+            }
+        }
+    }
+
+    public void compareColors() {
+        if (player1.getPlayerColor().equals(player2.getPlayerColor())) {
+            if (player2.getPlayerColor().equals(GuiColors.PIECE_YELLOW)) {
+                player2.setPlayerColor(GuiColors.ALT_PIECE_YELLOW);
+            } else if (player2.getPlayerColor().equals(GuiColors.PIECE_RED)) {
+                player2.setPlayerColor(GuiColors.ALT_PIECE_RED);
+            } else if (player2.getPlayerColor().equals(GuiColors.PIECE_BLUE)) {
+                player2.setPlayerColor(GuiColors.ALT_PIECE_BLUE);
+            } else if (player2.getPlayerColor().equals(GuiColors.PIECE_GREEN)) {
+                player2.setPlayerColor(GuiColors.ALT_PIECE_GREEN);
             }
         }
     }
