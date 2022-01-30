@@ -4,13 +4,7 @@ import game.Player;
 
 import java.io.Serializable;
 
-public class PlayerPackage implements Serializable {
-
-    private final Player player;
-
-    public PlayerPackage(Player player) {
-        this.player = player;
-    }
+public record PlayerPackage(Player player) implements Serializable {
 
     public Player getPlayer() {
         return player;

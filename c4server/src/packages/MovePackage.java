@@ -2,13 +2,7 @@ package packages;
 
 import java.io.Serializable;
 
-public class MovePackage implements Serializable {
-
-    private final int chosenColumn;
-
-    public MovePackage(int chosenColumn) {
-        this.chosenColumn = chosenColumn;
-    }
+public record MovePackage(int chosenColumn) implements Serializable {
 
     public Object getMove() {
         return chosenColumn;

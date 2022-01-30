@@ -2,15 +2,9 @@ package packages;
 
 import java.io.Serializable;
 
-public class ClientMessage implements Serializable {
+public record ClientMessage(String message) implements Serializable {
 
-    private final String message;
-
-    public ClientMessage(String message) {
-        this.message = message;
-    }
-
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 
