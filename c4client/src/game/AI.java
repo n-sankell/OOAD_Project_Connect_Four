@@ -27,10 +27,6 @@ public class AI extends Player {
         return name;
     }
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
     public int makeMove(Piece[][] circles, int rows, int columns) {
         AIBrain brain = new AIBrain(circles, rows, columns, team, difficulty);
         return brain.findAIMove();
@@ -632,7 +628,7 @@ public class AI extends Player {
                 for (int j = 0; j < columns - 2; j++) {
                     if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 1 &&
                             circles[i][j + 2].getTeam() == 1) {
-                        if (i < rows - 2 && circles[i + 2][j].getTeam() != 0 && circles[i + 1][j].getTeam() == 0) {
+                        if (i < rows - 2 && circles[i + 1][j].getTeam() == 0 && circles[i + 2][j].getTeam() != 0) {
                             return j;
                         } else if (i == rows - 2 && circles[i + 1][j].getTeam() == 0) {
                             return j;

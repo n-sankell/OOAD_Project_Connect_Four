@@ -17,11 +17,4 @@ public class GuiColors {
     public static final Color AI_PIECE_EASY = new Color(192, 85, 85);
     public static final Color AI_PIECE_NORMAL = new Color(128, 21, 21);
 
-    public static Color[] choices = new Color[] {
-            GuiColors.PIECE_YELLOW,
-            GuiColors.PIECE_RED,
-            GuiColors.PIECE_BLUE,
-            GuiColors.PIECE_GREEN
-    };
-
 }

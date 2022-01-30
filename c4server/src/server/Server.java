@@ -13,7 +13,6 @@ public class Server implements Runnable {
 
     private ServerSocket serverSocket;
     private static final List<ServerConnection> CONNECTION_LIST = new ArrayList<>();
-    private boolean running = true;
 
     public Server(int port) {
         try {
@@ -24,15 +23,12 @@ public class Server implements Runnable {
     }
 
     public void start() {
-        if (running) {
-            new Thread(this).start();
-
-        }
+        new Thread(this).start();
     }
 
     @Override
     public void run() {
-        while (running) {
+        while (!Thread.interrupted()) {
             try {
                 Socket socket = serverSocket.accept();
                 acceptConnection(socket);

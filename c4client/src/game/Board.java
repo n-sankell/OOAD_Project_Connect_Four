@@ -7,7 +7,6 @@ import packages.MovePackage;
 import packages.NewRoundPackage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 
@@ -308,9 +307,7 @@ public class Board {
                     checkOtherScore();
                     guiListener.updateOccurred();
                 }
-                case 5, 6 -> {
-                    currentPlayer.setYourTurn(true);
-                }
+                case 5, 6 -> currentPlayer.setYourTurn(true);
             }
         });
     }

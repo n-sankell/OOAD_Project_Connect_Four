@@ -59,7 +59,7 @@ public class ClientConnection {
     }
 
     private void startInStream() {
-        ClientInStream inStream = new ClientInStream(in, handler,this);
+        ClientInStream inStream = new ClientInStream(in, handler);
         Thread inStreamThread = new Thread(inStream);
         inStreamThread.start();
     }
@@ -67,7 +67,6 @@ public class ClientConnection {
     public void sendPackage(Object o) {
         try {
             out.writeObject(o);
-            System.out.println("object sent");
             out.reset();
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,6 +75,7 @@ public class ClientConnection {
 
     private void createPlayer(int teamNumber) {
         player = new Player(teamNumber,chosenColor);
+        player.setTeam(teamNumber);
         player.setName(playerName);
     }
 
@@ -90,11 +90,9 @@ public class ClientConnection {
                     TeamPackage teamPackage = (TeamPackage) o;
                     createPlayer(teamPackage.getTeam());
                     sendPackage(new PlayerPackage(player));
-                    System.out.println("sent player package");
                 }
                 case 2 -> {
                     PlayerPackage opponentPackage = (PlayerPackage) o;
-                    System.out.println("Opponent received");
                     opponent = opponentPackage.getPlayer();
                     createBoard();
                 }

@@ -3,12 +3,7 @@ package game;
 import packages.*;
 import server.ServerConnection;
 
-public class GameRoom {
-
-    private final ServerConnection player1;
-    private final ServerConnection player2;
-    private final PackageHandler handler = new PackageHandler();
-    private boolean running = true;
+public record GameRoom(ServerConnection player1, ServerConnection player2) {
 
     public GameRoom(ServerConnection player1, ServerConnection player2) {
         this.player1 = player1;
@@ -24,12 +19,12 @@ public class GameRoom {
     private void startGame() {
         System.out.println("Start Game");
         while (true) {
-          if (player1.getPlayer() != null && player2.getPlayer() != null) {
-              break;
-          }
+            if (player1.getPlayer() != null && player2.getPlayer() != null) {
+                break;
+            }
         }
-        System.out.println("Player 1 name:" + player1.getPlayer().getName()+" team: "+player1.getPlayer().getTeam());
-        System.out.println("Player 2 name:" + player2.getPlayer().getName()+" team: "+player1.getPlayer().getTeam());
+        System.out.println("Player 1 name:" + player1.getPlayer().getName() + " team: " + player1.getPlayer().getTeam());
+        System.out.println("Player 2 name:" + player2.getPlayer().getName() + " team: " + player1.getPlayer().getTeam());
     }
 
 }

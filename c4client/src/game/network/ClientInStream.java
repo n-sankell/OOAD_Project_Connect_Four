@@ -10,12 +10,10 @@ public class ClientInStream implements Runnable {
     private final ObjectInputStream in;
     private boolean running = true;
     private final PackageHandler handler;
-    private ClientConnection client;
 
-    public ClientInStream(ObjectInputStream in, PackageHandler handler, ClientConnection client) {
+    public ClientInStream(ObjectInputStream in, PackageHandler handler) {
         this.in = in;
         this.handler = handler;
-        this.client = client;
     }
 
     @Override

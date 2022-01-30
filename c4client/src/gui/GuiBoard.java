@@ -2,7 +2,6 @@ package gui;
 
 import game.Board;
 import game.GameMode;
-import game.GuiUpdateListener;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -117,12 +116,14 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     private String getStatusbarText() {
-        if (board.getGameMode() == GameMode.ONE_PLAYER && board.isEmpty()) {
+        if (board.getGameMode() == GameMode.NETWORK && !board.getCurrentPlayer().isYourTurn() && board.isEmpty()) {
+            return "WAIT FOR "+board.getCurrentPlayer().getName()+" TO BEGIN!";
+        } else if (board.isEmpty()) {
             return "BEGIN "+board.getCurrentPlayer().getName()+"!";
         } else if (board.getGameMode() == GameMode.ONE_PLAYER) {
             return "";
-        } else if (board.isEmpty()) {
-            return "BEGIN "+board.getCurrentPlayer().getName()+"!";
+        } else if (board.getGameMode() == GameMode.NETWORK && !board.getCurrentPlayer().isYourTurn()) {
+            return "WAIT FOR "+board.getCurrentPlayer().getName()+" TO MAKE THEIR MOVE!";
         } else {
             return "YOUR TURN "+board.getCurrentPlayer().getName()+"!";
         }
