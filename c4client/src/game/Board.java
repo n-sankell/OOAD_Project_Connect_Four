@@ -21,6 +21,7 @@ public class Board {
     private String drawMessage;
     private ClientConnection connection;
     private final Piece[][] circles = new Piece[rows][columns];
+    private GuiUpdateListener guiListener;
 
     public Board(Player player1, Player player2, GameMode gameMode) {
         this.player1 = player1;
@@ -284,12 +285,17 @@ public class Board {
                 int networkMove = (int) movePackage.getMove();
                 putPiece(networkMove, currentPlayer.getTeam());
                 checkOtherScore();
+                guiListener.updateOccurred();
             }
             if (event == 5) {
                 currentPlayer.setYourTurn(true);
                 System.out.println("Your turn! ");
             }
         });
+    }
+
+    public void setGuiUpdateListener(GuiUpdateListener guiListener) {
+        this.guiListener = guiListener;
     }
 
     private void singlePlayerMove(int chosenColumn) {

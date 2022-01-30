@@ -2,7 +2,7 @@ package gui;
 
 import game.Board;
 import game.GameMode;
-import packages.PackageHandler;
+import game.GuiUpdateListener;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -36,8 +36,18 @@ public class GuiBoard extends JPanel implements ActionListener {
         board.newGame();
         setStatusPanel();
         updateBoard();
+        setUpdateHandler();
         repaint();
         revalidate();
+    }
+
+    public void setUpdateHandler() {
+        board.setGuiUpdateListener(() -> {
+            updateBoard();
+            updateStatusPanel();
+            repaint();
+            revalidate();
+        });
     }
 
     private void addBasePanel() {
