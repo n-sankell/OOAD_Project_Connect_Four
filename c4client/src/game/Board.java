@@ -235,6 +235,24 @@ public class Board {
                 "SCORE FOR " + player2.getName() + ": " + player2.getScore();
     }
 
+    private void showDrawMessage() {
+        setMessages();
+        try {
+            new CustomJop(drawMessage);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showWinMessage() {
+        setMessages();
+        try {
+            new CustomJop(winMessage);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void aiTurn() {
         while (true) {
             Random random = new Random();
@@ -266,41 +284,6 @@ public class Board {
         }
     }
 
-    private void checkWinOrFull() {
-        if (checkWin()) {
-            currentPlayer.setScore(1);
-            showWinMessage();
-            newGame();
-        } else if (checkBoardFull()) {
-            showDrawMessage();
-            newGame();
-        } else {
-            changePlayer();
-            if (gameMode == GameMode.ONE_PLAYER) {
-                playerTurn = PlayerTurn.NOT_YOUR_TURN;
-                aiTurn();
-            }
-        }
-    }
-
-    private void showDrawMessage() {
-        setMessages();
-        try {
-            new CustomJop(drawMessage);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void showWinMessage() {
-        setMessages();
-        try {
-            new CustomJop(winMessage);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public void setGameHandler() {
         connection.setGameEventListener((event, o) -> {
             switch (event) {
@@ -327,6 +310,23 @@ public class Board {
                 }
             }
         });
+    }
+
+    private void checkWinOrFull() {
+        if (checkWin()) {
+            currentPlayer.setScore(1);
+            showWinMessage();
+            newGame();
+        } else if (checkBoardFull()) {
+            showDrawMessage();
+            newGame();
+        } else {
+            changePlayer();
+            if (gameMode == GameMode.ONE_PLAYER) {
+                playerTurn = PlayerTurn.NOT_YOUR_TURN;
+                aiTurn();
+            }
+        }
     }
 
     public void makeMove(int chosenColumn) {
