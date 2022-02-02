@@ -3,28 +3,31 @@ package game;
 import packages.*;
 import server.ServerConnection;
 
-public record GameRoom(ServerConnection player1, ServerConnection player2) {
+public class GameRoom {
 
-    public GameRoom(ServerConnection player1, ServerConnection player2) {
-        this.player1 = player1;
-        this.player2 = player2;
-        player1.setOpponent(player2);
-        player2.setOpponent(player1);
+    private final ServerConnection connection1;
+    private final ServerConnection connection2;
 
-        player1.sendPackage(new TeamPackage(1));
-        player2.sendPackage(new TeamPackage(2));
+    public GameRoom(ServerConnection connection1, ServerConnection connection2) {
+        this.connection1 = connection1;
+        this.connection2 = connection2;
+        connection1.setOpponent(connection2);
+        connection2.setOpponent(connection1);
+
+        connection1.sendPackage(new TeamPackage(1));
+        connection2.sendPackage(new TeamPackage(2));
         startGame();
     }
 
     private void startGame() {
         System.out.println("Start Game");
         while (true) {
-            if (player1.getPlayer() != null && player2.getPlayer() != null) {
+            if (connection1.getPlayer() != null && connection2.getPlayer() != null) {
                 break;
             }
         }
-        System.out.println("Player 1 name:" + player1.getPlayer().getName() + " team: " + player1.getPlayer().getTeam());
-        System.out.println("Player 2 name:" + player2.getPlayer().getName() + " team: " + player1.getPlayer().getTeam());
+        System.out.println("Player 1 name:" + connection1.getPlayer().getName() + " team: " + connection1.getPlayer().getTeam());
+        System.out.println("Player 2 name:" + connection2.getPlayer().getName() + " team: " + connection2.getPlayer().getTeam());
     }
 
 }

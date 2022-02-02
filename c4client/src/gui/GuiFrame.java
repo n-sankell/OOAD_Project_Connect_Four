@@ -11,14 +11,17 @@ import java.util.Arrays;
 
 public class GuiFrame extends JFrame implements ActionListener {
 
+    private JMenuBar menuBar;
+    private JMenu mainMenu;
+    private JMenu subMenu;
     private JMenuItem i1a;
     private JMenuItem i1b;
     private JMenuItem i2;
     private JMenuItem i3;
-    private GuiBoard board;
-    private JPanel waiting;
-    private final GameBuilder game = new GameBuilder();
     private JPanel welcome;
+    private JPanel waiting;
+    private GuiBoard guiBoard;
+    private final GameBuilder game = new GameBuilder();
 
     public GuiFrame() {
         super("CONNECT FOUR");
@@ -29,33 +32,39 @@ public class GuiFrame extends JFrame implements ActionListener {
         setLocation(250, 75);
         setupWaitingScreen();
         setupWelcomeScreen();
+        setUpMenu();
+    }
+
+    public void start() {
         add(welcome);
         addMenu();
         pack();
     }
 
-    private void addMenu() {
-        JMenuBar mb = new JMenuBar();
-        JMenu menu = new JMenu("GAME MODE");
-        JMenu submenu = new JMenu("ONE PLAYER");
-        submenu.setFont(new Font("Druk Wide", Font.BOLD, 12));
-        menu.setFont(new Font("Druk Wide", Font.BOLD, 12));
+    private void setUpMenu() {
+        menuBar = new JMenuBar();
+        mainMenu = new JMenu("GAME MODE");
+        subMenu = new JMenu("ONE PLAYER");
+        subMenu.setFont(new Font("Druk Wide", Font.BOLD, 12));
+        mainMenu.setFont(new Font("Druk Wide", Font.BOLD, 12));
         i1a = new JMenuItem("EASY");
         i1b = new JMenuItem("NORMAL");
         i2 = new JMenuItem("TWO PLAYERS");
         i3 = new JMenuItem("NETWORK");
-
         for (JMenuItem item : Arrays.asList(i1a, i1b, i2, i3)) {
             item.setFont(new Font("Druk Wide", Font.BOLD, 12));
             item.addActionListener(this);
         }
-        menu.add(submenu);
-        submenu.add(i1a);
-        submenu.add(i1b);
-        menu.add(i2);
-        menu.add(i3);
-        mb.add(menu);
-        setJMenuBar(mb);
+    }
+
+    private void addMenu() {
+        mainMenu.add(subMenu);
+        subMenu.add(i1a);
+        subMenu.add(i1b);
+        mainMenu.add(i2);
+        mainMenu.add(i3);
+        menuBar.add(mainMenu);
+        setJMenuBar(menuBar);
     }
 
     private void setupWelcomeScreen() {
@@ -73,8 +82,8 @@ public class GuiFrame extends JFrame implements ActionListener {
     }
 
     private void removeItems() {
-        if (board != null) {
-            remove(board);
+        if (guiBoard != null) {
+            remove(guiBoard);
         } if (welcome != null) {
             remove(welcome);
         } if (waiting != null) {
@@ -96,7 +105,13 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     public void addNetworkBoard() {
         removeItems();
-        add(board = game.getNetworkBoard());
+        guiBoard = game.getNetworkBoard();
+        addGuiBoard();
+    }
+
+    private void addGuiBoard() {
+        guiBoard.start();
+        add(guiBoard);
         repaint();
         revalidate();
     }
@@ -107,17 +122,15 @@ public class GuiFrame extends JFrame implements ActionListener {
         if (e.getSource() == i1a) {
             if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                add(board = game.onePlayerModeEasy(nameInput.name, nameInput.selectedColor));
-                repaint();
-                revalidate();
+                guiBoard = game.onePlayerModeEasy(nameInput.name, nameInput.selectedColor);
+                addGuiBoard();
             }
         }
         if (e.getSource() == i1b) {
             if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                add(board = game.onePlayerModeNormal(nameInput.name, nameInput.selectedColor));
-                repaint();
-                revalidate();
+                guiBoard = game.onePlayerModeNormal(nameInput.name, nameInput.selectedColor);
+                addGuiBoard();
             }
         }
         if (e.getSource() == i2) {
@@ -129,9 +142,8 @@ public class GuiFrame extends JFrame implements ActionListener {
                 Color selectColorTwo = nameInput.selectedColor;
                 if (namePlayer2 != null) {
                     removeItems();
-                    add(board = game.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo));
-                    repaint();
-                    revalidate();
+                    guiBoard = game.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo);
+                    addGuiBoard();
                 }
             }
         }
