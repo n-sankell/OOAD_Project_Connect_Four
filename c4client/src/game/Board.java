@@ -254,7 +254,8 @@ public class Board {
 
     private void checkScoreFromOtherPlayer() {
         if (checkWin()) {
-            addScoreAndShowResults();
+            currentPlayer.setScore(1);
+            showWinMessage();
             newGame();
         } else if (checkBoardFull()) {
             showDrawMessage();
@@ -267,7 +268,8 @@ public class Board {
 
     private void checkWinOrFull() {
         if (checkWin()) {
-            addScoreAndShowResults();
+            currentPlayer.setScore(1);
+            showWinMessage();
             newGame();
         } else if (checkBoardFull()) {
             showDrawMessage();
@@ -290,8 +292,7 @@ public class Board {
         }
     }
 
-    private void addScoreAndShowResults() {
-        currentPlayer.setScore(1);
+    private void showWinMessage() {
         setMessages();
         try {
             new CustomJop(winMessage);
@@ -335,7 +336,7 @@ public class Board {
                 putPiece(chosenColumn, currentPlayer.getTeam());
                 connection.sendPackage(new MovePackage(chosenColumn));
                 checkWinOrFull();
-            } if (gameMode == GameMode.ONE_PLAYER || gameMode == GameMode.TWO_PLAYERS) {
+            } if (gameMode == GameMode.ONE_PLAYER && playerTurn == PlayerTurn.YOUR_TURN || gameMode == GameMode.TWO_PLAYERS) {
                 putPiece(chosenColumn, currentPlayer.getTeam());
                 checkWinOrFull();
             }
