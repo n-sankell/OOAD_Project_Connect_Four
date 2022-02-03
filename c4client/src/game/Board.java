@@ -85,7 +85,6 @@ public class Board {
     public void newGame() {
         playerTurn = PlayerTurn.NOT_YOUR_TURN;
         roundCounter++;
-        System.out.println("round "+roundCounter+" begins. PlayerTurn = "+playerTurn);
         logic.addCircles();
         if (roundCounter % 2 != 0) {
             currentPlayer = player1;
@@ -94,9 +93,6 @@ public class Board {
         }
         if (gameMode == GameMode.ONE_PLAYER && currentPlayer == player2) {
             aiTurn();
-        }
-        if (gameMode == GameMode.NETWORK && roundCounter > 1) {
-            connection.sendPackage(new NewRoundPackage(roundCounter));
         }
     }
 
@@ -165,20 +161,23 @@ public class Board {
                 break;
             }
         }
-        checkScoreFromOtherPlayer();
+        if (checkScoreFromOtherPlayer()) {
+            newGame();
+        }
     }
 
-    private void checkScoreFromOtherPlayer() {
+    private boolean checkScoreFromOtherPlayer() {
         if (logic.checkWin()) {
             currentPlayer.setScore(1);
             showWinMessage();
-            newGame();
+            return true;
         } else if (logic.checkBoardFull()) {
             showDrawMessage();
-            newGame();
+            return true;
         } else {
             playerTurn = PlayerTurn.YOUR_TURN;
             changePlayer();
+            return false;
         }
     }
 
@@ -190,39 +189,33 @@ public class Board {
                     MovePackage movePackage = (MovePackage) o;
                     int networkMove = (int) movePackage.getMove();
                     logic.putPiece(networkMove, currentPlayer.getTeam());
-                    checkScoreFromOtherPlayer();
-                    System.out.println("PlayerTurn = "+playerTurn+ " from move package - second");
+                    if (checkScoreFromOtherPlayer()) {
+                        newGame();
+                    }
                     guiListener.updateOccurred();
                 }
-                case 5 -> {
+                case 5, 6 -> {
                     playerTurn = PlayerTurn.YOUR_TURN;
-                    System.out.println("round "+roundCounter +" " +currentPlayer.getName()+"received a startPackage");
-                    System.out.println("PlayerTurn = "+playerTurn+ " from start new game package");
-                    guiListener.updateOccurred();
-                }
-                case 6 -> {
-                    playerTurn = PlayerTurn.YOUR_TURN;
-                    System.out.println(currentPlayer.getName()+"received a newRoundPackage "+ roundCounter);
-                    System.out.println("PlayerTurn = "+playerTurn+ " from ");
                     guiListener.updateOccurred();
                 }
             }
         });
     }
 
-    private void checkWinOrFull() {
+    private boolean checkWinOrFull() {
         if (logic.checkWin()) {
             currentPlayer.setScore(1);
             showWinMessage();
-            newGame();
+            return true;
         } else if (logic.checkBoardFull()) {
             showDrawMessage();
-            newGame();
+            return true;
         } else {
             changePlayer();
             if (gameMode == GameMode.ONE_PLAYER) {
                 aiTurn();
             }
+            return false;
         }
     }
 
@@ -232,10 +225,15 @@ public class Board {
                 playerTurn = PlayerTurn.NOT_YOUR_TURN;
                 logic.putPiece(chosenColumn, currentPlayer.getTeam());
                 connection.sendPackage(new MovePackage(chosenColumn));
-                checkWinOrFull();
-            } if (gameMode == GameMode.ONE_PLAYER || gameMode == GameMode.TWO_PLAYERS) {
+                if (checkWinOrFull()) {
+                    connection.sendPackage(new NewRoundPackage(roundCounter+1));
+                    newGame();
+                }
+            } else if (gameMode == GameMode.ONE_PLAYER || gameMode == GameMode.TWO_PLAYERS) {
                 logic.putPiece(chosenColumn, currentPlayer.getTeam());
-                checkWinOrFull();
+                if (checkWinOrFull()) {
+                    newGame();
+                }
             }
         }
     }

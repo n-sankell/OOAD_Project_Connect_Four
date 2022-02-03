@@ -94,7 +94,7 @@ public class ServerConnection {
                 case 5 -> {
                     if (player.getTeam() == 1) {
                         sendPackage(new StartPackage());
-                        System.out.println("sent start package to: "+player.getName());
+                        System.out.println("sent start package to: "+player.getName()+" team "+player.getTeam());
                     }
                 }
                 case 6 -> {
@@ -102,19 +102,18 @@ public class ServerConnection {
                     if (newRound.getRoundCount() % 2 != 0) {
                         if (player.getTeam() == 1) {
                             sendPackage(new NewRoundPackage(newRound.getRoundCount()));
-                            System.out.println("sent new round package to you " + player.getName() + " " + player.getTeam());
+                            System.out.println("sent new round package to you " + player.getName() + " team " + player.getTeam());
                         } else if (player.getTeam() == 2) {
                             opponent.sendPackage(new NewRoundPackage(newRound.getRoundCount()));
-                            System.out.println("sent new round package to opponent "+ opponent.getPlayer().getName()+" "+opponent.getPlayer().getTeam());
+                            System.out.println("sent new round package to opponent "+ opponent.getPlayer().getName()+" team "+opponent.getPlayer().getTeam());
                         }
-                    }
-                    if (newRound.getRoundCount() % 2 == 0) {
+                    } else {
                         if (player.getTeam() == 1) {
                             opponent.sendPackage(new NewRoundPackage(newRound.getRoundCount()));
-                            System.out.println("sent new round package to opponent "+ opponent.getPlayer().getName()+" "+opponent.getPlayer().getTeam());
+                            System.out.println("sent new round package to opponent "+ opponent.getPlayer().getName()+" team "+opponent.getPlayer().getTeam());
                         } else if (player.getTeam() == 2) {
                             sendPackage(new NewRoundPackage(newRound.getRoundCount()));
-                            System.out.println("sent new round package to you "+ player.getName()+" "+player.getTeam());
+                            System.out.println("sent new round package to you "+ player.getName()+" team "+player.getTeam());
                         }
                     }
                 }

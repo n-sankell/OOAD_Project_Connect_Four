@@ -44,9 +44,6 @@ public class GuiBoard extends JPanel implements ActionListener {
         addBasePanel();
         updateBoard();
         addStatusPanel();
-        if (board.getCurrentPlayer().getTeam() == 1) {
-            System.out.println(board.getCurrentPlayer().getName()+" "+board.getCurrentPlayer().getTeam());
-        }
         repaint();
         revalidate();
     }
