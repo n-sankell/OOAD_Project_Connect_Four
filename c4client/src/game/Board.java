@@ -22,7 +22,7 @@ public class Board {
     private String winMessage;
     private String drawMessage;
     private ClientConnection connection;
-    private final Piece[][] circles = new Piece[rows][columns];
+    private BoardLogic logic;
     private GuiUpdateListener guiListener;
 
     public Board(Player player1, Player player2, GameMode gameMode) {
@@ -32,6 +32,10 @@ public class Board {
         compareColors();
         currentPlayer = player1;
         setMessages();
+    }
+
+    public void setLogic(BoardLogic logic) {
+        this.logic = logic;
     }
 
     public void setConnection(ClientConnection connection) {
@@ -62,8 +66,12 @@ public class Board {
         return currentPlayer;
     }
 
+    public int getCurrentTeam() {
+        return currentPlayer.getTeam();
+    }
+
     public Piece[][] getCircles() {
-        return circles;
+        return logic.getCircles();
     }
 
     public void setGuiUpdateListener(GuiUpdateListener guiListener) {
@@ -78,7 +86,7 @@ public class Board {
         playerTurn = PlayerTurn.NOT_YOUR_TURN;
         roundCounter++;
         System.out.println("round "+roundCounter+" begins. PlayerTurn = "+playerTurn);
-        addCircles();
+        logic.addCircles();
         if (roundCounter % 2 != 0) {
             currentPlayer = player1;
         } else {
@@ -89,33 +97,6 @@ public class Board {
         }
         if (gameMode == GameMode.NETWORK && roundCounter > 1) {
             connection.sendPackage(new NewRoundPackage(roundCounter));
-        }
-    }
-
-    private void addCircles() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                circles[i][j] = new Piece(player1,player2);
-            }
-        }
-    }
-
-    private boolean checkColumn(int columnsNr) {
-        for (int i = rows - 1; i >= 0; i--) {
-            if (circles[i][columnsNr].getTeam() == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void putPiece(int columnsNr, int teamNr) {
-        playerTurn = PlayerTurn.NOT_YOUR_TURN;
-        for (int i = rows - 1; i >= 0; i--) {
-            if (circles[i][columnsNr].getTeam() == 0) {
-                circles[i][columnsNr].changeTeam(teamNr);
-                break;
-            }
         }
     }
 
@@ -133,75 +114,6 @@ public class Board {
         }
     }
 
-    private boolean checkWin() {
-        return checkWinVertical() || checkWinHorizontal() || checkWinDiagonalUp() || checkWinDiagonalDown();
-    }
-
-    private boolean checkWinHorizontal() {
-        for (int i = 0; i < rows - 3; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j].getTeam() == currentPlayer.getTeam() &&
-                        circles[i + 2][j].getTeam() == currentPlayer.getTeam() && circles[i + 3][j].getTeam() == currentPlayer.getTeam()) {
-                    setWinningColors(i, j, i + 1, j, i + 2, j, i + 3, j);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkWinVertical() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns - 3; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i][j + 1].getTeam() == currentPlayer.getTeam() &&
-                        circles[i][j + 2].getTeam() == currentPlayer.getTeam() && circles[i][j + 3].getTeam() == currentPlayer.getTeam()) {
-                    setWinningColors(i, j, i, j + 1, i, j + 2, i, j + 3);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkWinDiagonalUp() {
-        for (int i = 0; i < rows - 3; i++) {
-            for (int j = 0; j < columns - 3; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j + 1].getTeam() == currentPlayer.getTeam() &&
-                        circles[i + 2][j + 2].getTeam() == currentPlayer.getTeam() && circles[i + 3][j + 3].getTeam() == currentPlayer.getTeam()) {
-                    setWinningColors(i, j, i + 1, j + 1, i + 2, j + 2, i + 3, j + 3);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkWinDiagonalDown() {
-        for (int i = 0; i < rows - 3; i++) {
-            for (int j = 3; j < columns; j++) {
-                if (circles[i][j].getTeam() == currentPlayer.getTeam() && circles[i + 1][j - 1].getTeam() == currentPlayer.getTeam() &&
-                        circles[i + 2][j - 2].getTeam() == currentPlayer.getTeam() && circles[i + 3][j - 3].getTeam() == currentPlayer.getTeam()) {
-                    setWinningColors(i, j, i + 1, j - 1, i + 2, j - 2, i + 3, j - 3);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean checkBoardFull() {
-        int count = 0;
-        for (int j = 0; j < columns; j++) {
-            if (!checkColumn(j)) {
-                count++;
-                if (count == columns) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     private void changePlayer() {
         if (currentPlayer == player1) {
             currentPlayer = player2;
@@ -210,22 +122,8 @@ public class Board {
         }
     }
 
-    private void setWinningColors(int a, int b, int c, int d, int e, int f, int g, int h) {
-        circles[a][b].winningPieces(currentPlayer.getTeam());
-        circles[c][d].winningPieces(currentPlayer.getTeam());
-        circles[e][f].winningPieces(currentPlayer.getTeam());
-        circles[g][h].winningPieces(currentPlayer.getTeam());
-    }
-
     public boolean isEmpty() {
-        int counter = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (circles[i][j].getTeam() == 0) {
-                    counter++;
-                }
-            }
-        } return counter == rows * columns;
+        return logic.isEmpty();
     }
 
     private void setMessages() {
@@ -258,12 +156,12 @@ public class Board {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
             AI ai = (AI) player2;
-            int aiMove = ai.makeMove(circles, rows, columns);
-            if (checkColumn(aiMove)) {
-                putPiece(aiMove, currentPlayer.getTeam());
+            int aiMove = ai.makeMove(logic.getCircles(), rows, columns);
+            if (logic.checkColumn(aiMove)) {
+                logic.putPiece(aiMove, currentPlayer.getTeam());
                 break;
-            } else if (checkColumn(aiRandomMove)) {
-                putPiece(aiRandomMove, currentPlayer.getTeam());
+            } else if (logic.checkColumn(aiRandomMove)) {
+                logic.putPiece(aiRandomMove, currentPlayer.getTeam());
                 break;
             }
         }
@@ -271,11 +169,11 @@ public class Board {
     }
 
     private void checkScoreFromOtherPlayer() {
-        if (checkWin()) {
+        if (logic.checkWin()) {
             currentPlayer.setScore(1);
             showWinMessage();
             newGame();
-        } else if (checkBoardFull()) {
+        } else if (logic.checkBoardFull()) {
             showDrawMessage();
             newGame();
         } else {
@@ -291,7 +189,7 @@ public class Board {
                     playerTurn = PlayerTurn.NOT_YOUR_TURN;
                     MovePackage movePackage = (MovePackage) o;
                     int networkMove = (int) movePackage.getMove();
-                    putPiece(networkMove, currentPlayer.getTeam());
+                    logic.putPiece(networkMove, currentPlayer.getTeam());
                     checkScoreFromOtherPlayer();
                     System.out.println("PlayerTurn = "+playerTurn+ " from move package - second");
                     guiListener.updateOccurred();
@@ -313,31 +211,30 @@ public class Board {
     }
 
     private void checkWinOrFull() {
-        if (checkWin()) {
+        if (logic.checkWin()) {
             currentPlayer.setScore(1);
             showWinMessage();
             newGame();
-        } else if (checkBoardFull()) {
+        } else if (logic.checkBoardFull()) {
             showDrawMessage();
             newGame();
         } else {
             changePlayer();
             if (gameMode == GameMode.ONE_PLAYER) {
-                playerTurn = PlayerTurn.NOT_YOUR_TURN;
                 aiTurn();
             }
         }
     }
 
     public void makeMove(int chosenColumn) {
-        if (checkColumn(chosenColumn)) {
+        if (logic.checkColumn(chosenColumn)) {
             if (gameMode == GameMode.NETWORK && playerTurn == PlayerTurn.YOUR_TURN) {
                 playerTurn = PlayerTurn.NOT_YOUR_TURN;
-                putPiece(chosenColumn, currentPlayer.getTeam());
+                logic.putPiece(chosenColumn, currentPlayer.getTeam());
                 connection.sendPackage(new MovePackage(chosenColumn));
                 checkWinOrFull();
-            } if (gameMode == GameMode.ONE_PLAYER && playerTurn == PlayerTurn.YOUR_TURN || gameMode == GameMode.TWO_PLAYERS) {
-                putPiece(chosenColumn, currentPlayer.getTeam());
+            } if (gameMode == GameMode.ONE_PLAYER || gameMode == GameMode.TWO_PLAYERS) {
+                logic.putPiece(chosenColumn, currentPlayer.getTeam());
                 checkWinOrFull();
             }
         }

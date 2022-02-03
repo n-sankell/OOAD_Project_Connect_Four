@@ -1,6 +1,7 @@
 package game.network;
 
 import game.Board;
+import game.BoardLogic;
 import game.GameMode;
 import packages.*;
 import game.Player;
@@ -34,7 +35,6 @@ public class ClientConnection {
         this.chosenColor = chosenColor;
         setupSocket();
         setupStreams();
-        startInStream();
         setHandler();
     }
 
@@ -58,7 +58,7 @@ public class ClientConnection {
         }
     }
 
-    private void startInStream() {
+    public void startInStream() {
         ClientInStream inStream = new ClientInStream(in, handler);
         Thread inStreamThread = new Thread(inStream);
         inStreamThread.start();
@@ -77,10 +77,6 @@ public class ClientConnection {
         player = new Player(teamNumber,chosenColor);
         player.setTeam(teamNumber);
         player.setName(playerName);
-    }
-
-    public void setHandlerListener(PackageListener listener) {
-        handler.setSetUpListener(listener);
     }
 
     public void setHandler() {
@@ -106,6 +102,8 @@ public class ClientConnection {
         } else {
             board = new Board(opponent, player, GameMode.NETWORK);
         }
+        BoardLogic logic = new BoardLogic(board);
+        board.setLogic(logic);
         board.setConnection(this);
         board.setGameHandler();
         sendPackage(new StartPackage());
@@ -114,6 +112,10 @@ public class ClientConnection {
 
     public Board getGameBoard() {
         return board;
+    }
+
+    public void setHandlerListener(PackageListener listener) {
+        handler.setSetUpListener(listener);
     }
 
     public void setGameEventListener(PackageListener listener) {
