@@ -1,23 +1,23 @@
 package game;
 
-public class BoardLogic {
+public class GameLogic {
 
     private final int rows;
     private final int columns;
-    private final Board board;
+    private final GameController gameController;
     private final Piece[][] circles;
 
-    public BoardLogic(Board board) {
-        this.board = board;
-        this.rows = board.getRows();
-        this.columns = board.getColumns();
+    public GameLogic(GameController gameController) {
+        this.gameController = gameController;
+        this.rows = gameController.getRows();
+        this.columns = gameController.getColumns();
         circles = new Piece[rows][columns];
     }
 
     public void addCircles() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                circles[i][j] = new Piece(board.getPlayer1(), board.getPlayer2());
+                circles[i][j] = new Piece(gameController.getPlayer1(), gameController.getPlayer2());
             }
         }
     }
@@ -75,8 +75,8 @@ public class BoardLogic {
     private boolean checkWinHorizontal() {
         for (int i = 0; i < rows - 3; i++) {
             for (int j = 0; j < columns; j++) {
-                if (circles[i][j].getTeam() == board.getCurrentTeam() && circles[i + 1][j].getTeam() == board.getCurrentTeam() &&
-                        circles[i + 2][j].getTeam() == board.getCurrentTeam() && circles[i + 3][j].getTeam() == board.getCurrentTeam()) {
+                if (circles[i][j].getTeam() == gameController.getCurrentTeam() && circles[i + 1][j].getTeam() == gameController.getCurrentTeam() &&
+                        circles[i + 2][j].getTeam() == gameController.getCurrentTeam() && circles[i + 3][j].getTeam() == gameController.getCurrentTeam()) {
                     setWinningColors(i, j, i + 1, j, i + 2, j, i + 3, j);
                     return true;
                 }
@@ -88,8 +88,8 @@ public class BoardLogic {
     private boolean checkWinVertical() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns - 3; j++) {
-                if (circles[i][j].getTeam() == board.getCurrentTeam() && circles[i][j + 1].getTeam() == board.getCurrentTeam() &&
-                        circles[i][j + 2].getTeam() == board.getCurrentTeam() && circles[i][j + 3].getTeam() == board.getCurrentTeam()) {
+                if (circles[i][j].getTeam() == gameController.getCurrentTeam() && circles[i][j + 1].getTeam() == gameController.getCurrentTeam() &&
+                        circles[i][j + 2].getTeam() == gameController.getCurrentTeam() && circles[i][j + 3].getTeam() == gameController.getCurrentTeam()) {
                     setWinningColors(i, j, i, j + 1, i, j + 2, i, j + 3);
                     return true;
                 }
@@ -101,8 +101,8 @@ public class BoardLogic {
     private boolean checkWinDiagonalUp() {
         for (int i = 0; i < rows - 3; i++) {
             for (int j = 0; j < columns - 3; j++) {
-                if (circles[i][j].getTeam() == board.getCurrentTeam() && circles[i + 1][j + 1].getTeam() == board.getCurrentTeam() &&
-                        circles[i + 2][j + 2].getTeam() == board.getCurrentTeam() && circles[i + 3][j + 3].getTeam() == board.getCurrentTeam()) {
+                if (circles[i][j].getTeam() == gameController.getCurrentTeam() && circles[i + 1][j + 1].getTeam() == gameController.getCurrentTeam() &&
+                        circles[i + 2][j + 2].getTeam() == gameController.getCurrentTeam() && circles[i + 3][j + 3].getTeam() == gameController.getCurrentTeam()) {
                     setWinningColors(i, j, i + 1, j + 1, i + 2, j + 2, i + 3, j + 3);
                     return true;
                 }
@@ -114,8 +114,8 @@ public class BoardLogic {
     private boolean checkWinDiagonalDown() {
         for (int i = 0; i < rows - 3; i++) {
             for (int j = 3; j < columns; j++) {
-                if (circles[i][j].getTeam() == board.getCurrentTeam() && circles[i + 1][j - 1].getTeam() == board.getCurrentTeam() &&
-                        circles[i + 2][j - 2].getTeam() == board.getCurrentTeam() && circles[i + 3][j - 3].getTeam() == board.getCurrentTeam()) {
+                if (circles[i][j].getTeam() == gameController.getCurrentTeam() && circles[i + 1][j - 1].getTeam() == gameController.getCurrentTeam() &&
+                        circles[i + 2][j - 2].getTeam() == gameController.getCurrentTeam() && circles[i + 3][j - 3].getTeam() == gameController.getCurrentTeam()) {
                     setWinningColors(i, j, i + 1, j - 1, i + 2, j - 2, i + 3, j - 3);
                     return true;
                 }
@@ -125,10 +125,10 @@ public class BoardLogic {
     }
 
     private void setWinningColors(int a, int b, int c, int d, int e, int f, int g, int h) {
-        circles[a][b].winningPieces(board.getCurrentTeam());
-        circles[c][d].winningPieces(board.getCurrentTeam());
-        circles[e][f].winningPieces(board.getCurrentTeam());
-        circles[g][h].winningPieces(board.getCurrentTeam());
+        circles[a][b].winningPieces(gameController.getCurrentTeam());
+        circles[c][d].winningPieces(gameController.getCurrentTeam());
+        circles[e][f].winningPieces(gameController.getCurrentTeam());
+        circles[g][h].winningPieces(gameController.getCurrentTeam());
     }
 
 }

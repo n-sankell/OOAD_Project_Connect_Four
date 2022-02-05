@@ -1,4 +1,4 @@
-package game.network;
+package game.listeners;
 
 import java.util.EventListener;
 

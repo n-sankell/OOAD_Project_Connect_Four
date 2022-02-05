@@ -1,8 +1,8 @@
 package gui;
 
-import game.Board;
-import game.GameMode;
-import game.PlayerTurn;
+import game.GameController;
+import game.enums.GameMode;
+import game.enums.PlayerTurn;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -11,26 +11,30 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class GuiBoard extends JPanel implements ActionListener {
-    private final Board board;
+    private final GameController gameController;
     private final int rows;
     private final int columns;
     private int chosenColumn;
+    private String winMessage;
+    private String drawMessage;
+    private JTextPane status;
+    private JLabel scorePlayerOne;
+    private JLabel scorePlayerTwo;
+    private JButton[] insertButtons;
     private JButton clicked = new JButton();
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JPanel statusPanel = new JPanel();
-    private JLabel scorePlayerOne;
-    private JTextPane status;
-    private JLabel scorePlayerTwo;
-    private JButton[] insertButtons;
     private final ImageIcon insertButtonImage = new ImageIcon("resources/insert_button.png");
 
-    public GuiBoard(Board board) {
-        this.board = board;
-        this.rows = board.getRows();
-        this.columns = board.getColumns();
+    public GuiBoard(GameController gameController) {
+        this.gameController = gameController;
+        this.rows = gameController.getRows();
+        this.columns = gameController.getColumns();
+        compareColors();
         setUpInsertButtons();
         setUpBasePanel();
         setUpdateHandler();
@@ -38,7 +42,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public void start() {
-        board.newGame();
+        gameController.newGame();
         setStatusPanelTexts();
         addInsertButtons();
         addBasePanel();
@@ -49,9 +53,22 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public void setUpdateHandler() {
-        board.setGuiUpdateListener(() -> {
-            updateBoard();
-            updateStatusPanel();
+        gameController.setGuiUpdateListener((event) -> {
+            switch (event) {
+                case 1 -> {
+                    updateBoard();
+                    updateStatusPanel();
+                }
+                case 2 -> {
+                    setWinAndDrawMessages();
+                    showWinMessage();
+                }
+                case 3 -> {
+                    setWinAndDrawMessages();
+                    showDrawMessage();
+                }
+            }
+
         });
     }
 
@@ -78,7 +95,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     private void addCircles() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                boardPanel.add(board.getCircles()[i][j]);
+                boardPanel.add(gameController.getCircles()[i][j]);
                 repaint();
                 revalidate();
             }
@@ -118,39 +135,53 @@ public class GuiBoard extends JPanel implements ActionListener {
         scorePlayerOne = new JLabel();
         scorePlayerOne.setFont(new Font("Druk Wide",Font.BOLD,15));
         scorePlayerOne.setHorizontalAlignment(SwingConstants.RIGHT);
-        scorePlayerOne.setForeground(board.getPlayer1().getPlayerColor());
+        scorePlayerOne.setForeground(gameController.getPlayer1().getPlayerColor());
         status = new JTextPane();
         status.setFont(new Font("Druk Wide",Font.BOLD,20));
         StyledDocument documentStyle = status.getStyledDocument();
         SimpleAttributeSet centerAttribute = new SimpleAttributeSet();
         StyleConstants.setAlignment(centerAttribute, StyleConstants.ALIGN_CENTER);
         documentStyle.setParagraphAttributes(0, documentStyle.getLength(), centerAttribute, false);
-        status.setForeground(board.getCurrentPlayer().getPlayerColor().brighter());
+        status.setForeground(gameController.getCurrentPlayer().getPlayerColor().brighter());
         status.setBackground(Color.BLACK);
         scorePlayerTwo = new JLabel();
         scorePlayerTwo.setFont(new Font("Druk Wide",Font.BOLD,15));
         scorePlayerTwo.setHorizontalAlignment(SwingConstants.LEFT);
-        scorePlayerTwo.setForeground(board.getPlayer2().getPlayerColor());
+        scorePlayerTwo.setForeground(gameController.getPlayer2().getPlayerColor());
     }
 
     public void setStatusPanelTexts() {
-        scorePlayerOne.setText("SCORE "+board.getPlayer1().getName()+": "+board.getPlayer1().getScore());
+        scorePlayerOne.setText("SCORE "+ gameController.getPlayer1().getName()+": "+ gameController.getPlayer1().getScore());
         status.setText(getStatusText());
-        status.setForeground(board.getCurrentPlayer().getPlayerColor().brighter());
-        scorePlayerTwo.setText("SCORE "+board.getPlayer2().getName()+": "+board.getPlayer2().getScore());
+        status.setForeground(gameController.getCurrentPlayer().getPlayerColor().brighter());
+        scorePlayerTwo.setText("SCORE "+ gameController.getPlayer2().getName()+": "+ gameController.getPlayer2().getScore());
+    }
+
+    public void compareColors() {
+        if (gameController.getPlayer1().getPlayerColor().equals(gameController.getPlayer2().getPlayerColor())) {
+            if (gameController.getPlayer2().getPlayerColor().equals(GuiColors.PIECE_YELLOW)) {
+                gameController.getPlayer2().setPlayerColor(GuiColors.ALT_PIECE_YELLOW);
+            } else if (gameController.getPlayer2().getPlayerColor().equals(GuiColors.PIECE_RED)) {
+                gameController.getPlayer2().setPlayerColor(GuiColors.ALT_PIECE_RED);
+            } else if (gameController.getPlayer2().getPlayerColor().equals(GuiColors.PIECE_BLUE)) {
+                gameController.getPlayer2().setPlayerColor(GuiColors.ALT_PIECE_BLUE);
+            } else if (gameController.getPlayer2().getPlayerColor().equals(GuiColors.PIECE_GREEN)) {
+                gameController.getPlayer2().setPlayerColor(GuiColors.ALT_PIECE_GREEN);
+            }
+        }
     }
 
     private String getStatusText() {
-        if (board.getGameMode() == GameMode.NETWORK && board.getPlayerTurn() == PlayerTurn.NOT_YOUR_TURN && board.isEmpty()) {
-            return "WAIT FOR " +board.getCurrentPlayer().getName()+" TO BEGIN!";
-        } else if (board.isEmpty()) {
-            return board.getCurrentPlayer().getName()+" BEGINS!";
-        } else if (board.getGameMode() == GameMode.ONE_PLAYER) {
+        if (gameController.getGameMode() == GameMode.NETWORK && gameController.getPlayerTurn() == PlayerTurn.NOT_YOUR_TURN && gameController.isEmpty()) {
+            return "WAIT FOR " + gameController.getCurrentPlayer().getName()+" TO BEGIN!";
+        } else if (gameController.isEmpty()) {
+            return gameController.getCurrentPlayer().getName()+" BEGINS!";
+        } else if (gameController.getGameMode() == GameMode.ONE_PLAYER) {
             return "";
-        } else if (board.getGameMode() == GameMode.NETWORK && board.getPlayerTurn() == PlayerTurn.NOT_YOUR_TURN) {
-            return "WAIT FOR "+board.getCurrentPlayer().getName()+"'S MOVE!";
+        } else if (gameController.getGameMode() == GameMode.NETWORK && gameController.getPlayerTurn() == PlayerTurn.NOT_YOUR_TURN) {
+            return "WAIT FOR "+ gameController.getCurrentPlayer().getName()+"'S MOVE!";
         } else {
-            return "YOUR TURN "+board.getCurrentPlayer().getName()+"!";
+            return "YOUR TURN "+ gameController.getCurrentPlayer().getName()+"!";
         }
     }
 
@@ -162,6 +193,31 @@ public class GuiBoard extends JPanel implements ActionListener {
         addStatusPanel();
         repaint();
         revalidate();
+    }
+
+    private void setWinAndDrawMessages() {
+        winMessage = gameController.getCurrentPlayer().getName() + " WINS THE ROUND!" + "\nSCORE FOR " + gameController.getPlayer1().getName() + ": " +
+                gameController.getPlayer1().getScore() + "\n" + "SCORE FOR " + gameController.getPlayer2().getName() + ": " + gameController.getPlayer2().getScore();
+        drawMessage = "IT'S A DRAW!" + "\nSCORE FOR " + gameController.getPlayer1().getName() + ": " + gameController.getPlayer1().getScore() + "\n" +
+                "SCORE FOR " + gameController.getPlayer2().getName() + ": " + gameController.getPlayer2().getScore();
+    }
+
+    private void showDrawMessage() {
+        setWinAndDrawMessages();
+        try {
+            new CustomJop(drawMessage);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void showWinMessage() {
+        setWinAndDrawMessages();
+        try {
+            new CustomJop(winMessage);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private int findInsert() {
@@ -176,7 +232,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         clicked = (JButton) e.getSource();
-        board.makeMove(findInsert());
+        gameController.makeMove(findInsert());
         updateStatusPanel();
         updateBoard();
         repaint();

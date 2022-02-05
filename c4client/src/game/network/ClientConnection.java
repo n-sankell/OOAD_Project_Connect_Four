@@ -1,8 +1,10 @@
 package game.network;
 
-import game.Board;
-import game.BoardLogic;
-import game.GameMode;
+import game.BoardSize;
+import game.GameController;
+import game.GameLogic;
+import game.enums.GameMode;
+import game.listeners.NetworkBoardListener;
 import packages.*;
 import game.Player;
 
@@ -20,19 +22,21 @@ public class ClientConnection {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private final BoardSize boardSize;
     private final PackageHandler handler = new PackageHandler();
     private NetworkBoardListener networkBoardListener;
     private final String playerName;
     private final Color chosenColor;
 
-    private Board board;
+    private GameController gameController;
     private Player player;
     private Player opponent;
 
-    public ClientConnection(String playerName, Color chosenColor, int port) {
+    public ClientConnection(BoardSize boardSize, String playerName, Color chosenColor, int port) {
         this.port = port;
         this.playerName = playerName;
         this.chosenColor = chosenColor;
+        this.boardSize = boardSize;
         setupSocket();
         setupStreams();
         setHandler();
@@ -98,20 +102,20 @@ public class ClientConnection {
 
     private void createBoard() {
         if (player.getTeam() == 1) {
-            board = new Board(player, opponent, GameMode.NETWORK);
+            gameController = new GameController(boardSize, player, opponent, GameMode.NETWORK);
         } else {
-            board = new Board(opponent, player, GameMode.NETWORK);
+            gameController = new GameController(boardSize, opponent, player, GameMode.NETWORK);
         }
-        BoardLogic logic = new BoardLogic(board);
-        board.setLogic(logic);
-        board.setConnection(this);
-        board.setGameHandler();
+        GameLogic logic = new GameLogic(gameController);
+        gameController.setLogic(logic);
+        gameController.setConnection(this);
+        gameController.setGameHandler();
         sendPackage(new StartPackage());
         networkBoardListener.eventOccurred();
     }
 
-    public Board getGameBoard() {
-        return board;
+    public GameController getGameBoard() {
+        return gameController;
     }
 
     public void setHandlerListener(PackageListener listener) {

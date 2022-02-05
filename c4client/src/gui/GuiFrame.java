@@ -21,7 +21,7 @@ public class GuiFrame extends JFrame implements ActionListener {
     private JPanel welcome;
     private JPanel waiting;
     private GuiBoard guiBoard;
-    private final GameBuilder game = new GameBuilder();
+    private final GameBuilder gameBuilder = new GameBuilder();
 
     public GuiFrame() {
         super("CONNECT FOUR");
@@ -105,7 +105,7 @@ public class GuiFrame extends JFrame implements ActionListener {
 
     public void addNetworkBoard() {
         removeItems();
-        guiBoard = game.getNetworkBoard();
+        guiBoard = gameBuilder.getNetworkBoard();
         addGuiBoard();
     }
 
@@ -122,14 +122,14 @@ public class GuiFrame extends JFrame implements ActionListener {
         if (e.getSource() == i1a) {
             if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                guiBoard = game.onePlayerModeEasy(nameInput.name, nameInput.selectedColor);
+                guiBoard = gameBuilder.onePlayerModeEasy(nameInput.name, nameInput.selectedColor);
                 addGuiBoard();
             }
         }
         if (e.getSource() == i1b) {
             if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                guiBoard = game.onePlayerModeNormal(nameInput.name, nameInput.selectedColor);
+                guiBoard = gameBuilder.onePlayerModeNormal(nameInput.name, nameInput.selectedColor);
                 addGuiBoard();
             }
         }
@@ -142,7 +142,7 @@ public class GuiFrame extends JFrame implements ActionListener {
                 Color selectColorTwo = nameInput.selectedColor;
                 if (namePlayer2 != null) {
                     removeItems();
-                    guiBoard = game.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo);
+                    guiBoard = gameBuilder.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo);
                     addGuiBoard();
                 }
             }
@@ -153,8 +153,8 @@ public class GuiFrame extends JFrame implements ActionListener {
                 add(waiting);
                 repaint();
                 revalidate();
-                game.networkMode(nameInput.name, nameInput.selectedColor);
-                game.getConnection().setNetworkBoardListener(this::addNetworkBoard);
+                gameBuilder.networkMode(nameInput.name, nameInput.selectedColor);
+                gameBuilder.getConnection().setNetworkBoardListener(this::addNetworkBoard);
             }
         }
     }
