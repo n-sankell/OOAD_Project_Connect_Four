@@ -14,9 +14,9 @@ public class GameController {
     private final int rows;
     private final int columns;
     private final GameMode gameMode;
-    private int roundCounter;
     private final Player player1;
     private final Player player2;
+    private int roundCounter;
     private Player currentPlayer;
     private GameLogic logic;
     private ClientConnection connection;
@@ -24,19 +24,19 @@ public class GameController {
     private PlayerTurn playerTurn = PlayerTurn.NOT_YOUR_TURN;
 
     public GameController(BoardSize boardSize, Player player1, Player player2, GameMode gameMode) {
-        this.roundCounter = 0;
         this.rows = boardSize.getRows();
         this.columns = boardSize.getColumns();
         this.gameMode = gameMode;
         this.player1 = player1;
         this.player2 = player2;
         currentPlayer = player1;
+        roundCounter = 0;
     }
 
     public void newGame() {
         playerTurn = PlayerTurn.NOT_YOUR_TURN;
         roundCounter++;
-        logic.addCircles();
+        logic.addNewPieces();
         if (roundCounter % 2 != 0) {
             currentPlayer = player1;
         } else {
@@ -63,7 +63,7 @@ public class GameController {
             Random random = new Random();
             int aiRandomMove = random.nextInt(columns);
             AI ai = (AI) player2;
-            int aiMove = ai.makeMove(logic.getCircles(), rows, columns);
+            int aiMove = ai.makeMove(logic.getPieces(), rows, columns);
             if (logic.checkColumn(aiMove)) {
                 logic.putPiece(aiMove, currentPlayer.getTeam());
                 break;
@@ -205,7 +205,7 @@ public class GameController {
     }
 
     public Piece[][] getCircles() {
-        return logic.getCircles();
+        return logic.getPieces();
     }
 
     public void setGuiUpdateListener(GuiUpdateListener guiListener) {
