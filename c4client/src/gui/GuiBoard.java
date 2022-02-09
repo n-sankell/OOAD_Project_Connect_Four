@@ -93,15 +93,15 @@ public class GuiBoard extends JPanel implements ActionListener {
 
     private void updateBoard() {
         boardPanel.removeAll();
-        addCircles();
+        addPieces();
         repaint();
         revalidate();
     }
 
-    private void addCircles() {
+    private void addPieces() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                boardPanel.add(gameController.getCircles()[i][j]);
+                boardPanel.add(gameController.getPieces()[i][j]);
                 repaint();
                 revalidate();
             }

@@ -27,12 +27,12 @@ public class AI extends Player {
         return name;
     }
 
-    public int makeMove(Piece[][] circles, int rows, int columns) {
-        AIBrain brain = new AIBrain(circles, rows, columns, team, difficulty);
+    public int makeMove(Piece[][] pieces, int rows, int columns) {
+        AIBrain brain = new AIBrain(pieces, rows, columns, team, difficulty);
         return brain.findAIMove();
     }
 
-    private record AIBrain(Piece[][] circles, int rows, int columns, int ai, int difficulty) {
+    private record AIBrain(Piece[][] pieces, int rows, int columns, int ai, int difficulty) {
         public int findAIMove() {
             if (findWinningMoveVertical() != 999) {
                 return findWinningMoveVertical();
@@ -130,8 +130,8 @@ public class AI extends Player {
         private int findWinningMoveVertical() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j].getTeam() == ai &&
-                            circles[i + 2][j].getTeam() == ai && circles[i + 3][j].getTeam() == ai) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j].getTeam() == ai &&
+                            pieces[i + 2][j].getTeam() == ai && pieces[i + 3][j].getTeam() == ai) {
                         return j;
                     }
                 }
@@ -142,9 +142,9 @@ public class AI extends Player {
         private int findWinningMoveHorizontalA() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == ai &&
-                            circles[i][j + 2].getTeam() == ai && circles[i][j + 3].getTeam() == ai) {
-                        if (i != rows - 1 && circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == ai &&
+                            pieces[i][j + 2].getTeam() == ai && pieces[i][j + 3].getTeam() == ai) {
+                        if (i != rows - 1 && pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         } else if (i == rows - 1) {
                             return j;
@@ -158,9 +158,9 @@ public class AI extends Player {
         private int findWinningMoveHorizontalB() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == ai && circles[i][j + 3].getTeam() == ai) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == ai && pieces[i][j + 3].getTeam() == ai) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -174,9 +174,9 @@ public class AI extends Player {
         private int findWinningMoveHorizontalC() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == ai &&
-                            circles[i][j + 2].getTeam() == 0 && circles[i][j + 3].getTeam() == ai) {
-                        if (i != rows - 1 && circles[i + 1][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == ai &&
+                            pieces[i][j + 2].getTeam() == 0 && pieces[i][j + 3].getTeam() == ai) {
+                        if (i != rows - 1 && pieces[i + 1][j + 2].getTeam() != 0) {
                             return j + 2;
                         } else if (i == rows - 1) {
                             return j + 2;
@@ -190,9 +190,9 @@ public class AI extends Player {
         private int findWinningMoveHorizontalD() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == ai &&
-                            circles[i][j + 2].getTeam() == ai && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 3].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == ai &&
+                            pieces[i][j + 2].getTeam() == ai && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 3].getTeam() != 0) {
                             return j + 3;
                         } else if (i == rows - 1) {
                             return j + 3;
@@ -206,9 +206,9 @@ public class AI extends Player {
         private int findWinningMoveDiagonalUpA() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j + 1].getTeam() == ai &&
-                            circles[i + 2][j + 2].getTeam() == ai && circles[i + 3][j + 3].getTeam() == ai) {
-                        if (circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j + 1].getTeam() == ai &&
+                            pieces[i + 2][j + 2].getTeam() == ai && pieces[i + 3][j + 3].getTeam() == ai) {
+                        if (pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         }
                     }
@@ -220,9 +220,9 @@ public class AI extends Player {
         private int findWinningMoveDiagonalUpB() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j + 1].getTeam() == 0 &&
-                            circles[i + 2][j + 2].getTeam() == ai && circles[i + 3][j + 3].getTeam() == ai) {
-                        if (circles[i + 2][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j + 1].getTeam() == 0 &&
+                            pieces[i + 2][j + 2].getTeam() == ai && pieces[i + 3][j + 3].getTeam() == ai) {
+                        if (pieces[i + 2][j + 1].getTeam() != 0) {
                             return j + 1;
                         }
                     }
@@ -234,9 +234,9 @@ public class AI extends Player {
         private int findWinningMoveDiagonalUpC() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j + 1].getTeam() == ai &&
-                            circles[i + 2][j + 2].getTeam() == 0 && circles[i + 3][j + 3].getTeam() == ai) {
-                        if (circles[i + 3][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j + 1].getTeam() == ai &&
+                            pieces[i + 2][j + 2].getTeam() == 0 && pieces[i + 3][j + 3].getTeam() == ai) {
+                        if (pieces[i + 3][j + 2].getTeam() != 0) {
                             return j + 2;
                         }
                     }
@@ -248,11 +248,11 @@ public class AI extends Player {
         private int findWinningMoveDiagonalUpD() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j + 1].getTeam() == ai &&
-                            circles[i + 2][j + 2].getTeam() == ai && circles[i + 3][j + 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j + 1].getTeam() == ai &&
+                            pieces[i + 2][j + 2].getTeam() == ai && pieces[i + 3][j + 3].getTeam() == 0) {
                         if (i + 3 == rows - 1) {
                             return j + 3;
-                        } else if (circles[i + 4][j + 3].getTeam() != 0) {
+                        } else if (pieces[i + 4][j + 3].getTeam() != 0) {
                             return j + 3;
                         }
                     }
@@ -264,9 +264,9 @@ public class AI extends Player {
         private int findWinningMoveDiagonalDownA() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j - 1].getTeam() == ai &&
-                            circles[i + 2][j - 2].getTeam() == ai && circles[i + 3][j - 3].getTeam() == ai) {
-                        if (circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j - 1].getTeam() == ai &&
+                            pieces[i + 2][j - 2].getTeam() == ai && pieces[i + 3][j - 3].getTeam() == ai) {
+                        if (pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         }
                     }
@@ -278,9 +278,9 @@ public class AI extends Player {
         private int findWinningMoveDiagonalDownB() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j - 1].getTeam() == 0 &&
-                            circles[i + 2][j - 2].getTeam() == ai && circles[i + 3][j - 3].getTeam() == ai) {
-                        if (circles[i + 2][j - 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j - 1].getTeam() == 0 &&
+                            pieces[i + 2][j - 2].getTeam() == ai && pieces[i + 3][j - 3].getTeam() == ai) {
+                        if (pieces[i + 2][j - 1].getTeam() != 0) {
                             return j - 1;
                         }
                     }
@@ -292,9 +292,9 @@ public class AI extends Player {
         private int findWinningMoveDiagonalDownC() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j - 1].getTeam() == ai &&
-                            circles[i + 2][j - 2].getTeam() == 0 && circles[i + 3][j - 3].getTeam() == ai) {
-                        if (circles[i + 3][j - 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j - 1].getTeam() == ai &&
+                            pieces[i + 2][j - 2].getTeam() == 0 && pieces[i + 3][j - 3].getTeam() == ai) {
+                        if (pieces[i + 3][j - 2].getTeam() != 0) {
                             return j - 2;
                         }
                     }
@@ -306,11 +306,11 @@ public class AI extends Player {
         private int findWinningMoveDiagonalDownD() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j - 1].getTeam() == ai &&
-                            circles[i + 2][j - 2].getTeam() == ai && circles[i + 3][j - 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j - 1].getTeam() == ai &&
+                            pieces[i + 2][j - 2].getTeam() == ai && pieces[i + 3][j - 3].getTeam() == 0) {
                         if (i + 3 == rows - 1) {
                             return j - 3;
-                        } else if (circles[i + 4][j - 3].getTeam() != 0) {
+                        } else if (pieces[i + 4][j - 3].getTeam() != 0) {
                             return j - 3;
                         }
                     }
@@ -322,8 +322,8 @@ public class AI extends Player {
         private int blockPlayerVertical() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j].getTeam() == 1 &&
-                            circles[i + 2][j].getTeam() == 1 && circles[i + 3][j].getTeam() == 1) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j].getTeam() == 1 &&
+                            pieces[i + 2][j].getTeam() == 1 && pieces[i + 3][j].getTeam() == 1) {
                         return j;
                     }
                 }
@@ -334,9 +334,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalA() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 1) {
-                        if (i != rows - 1 && circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 1) {
+                        if (i != rows - 1 && pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         } else if (i == rows - 1) {
                             return j;
@@ -350,9 +350,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalB() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 1) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 1) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -366,9 +366,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalC() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 0 && circles[i][j + 3].getTeam() == 1) {
-                        if (i != rows - 1 && circles[i + 1][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 0 && pieces[i][j + 3].getTeam() == 1) {
+                        if (i != rows - 1 && pieces[i + 1][j + 2].getTeam() != 0) {
                             return j + 2;
                         } else if (i == rows - 1) {
                             return j + 2;
@@ -382,9 +382,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalD() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 3].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 3].getTeam() != 0) {
                             return j + 3;
                         } else if (i == rows - 1) {
                             return j + 3;
@@ -398,9 +398,9 @@ public class AI extends Player {
         private int blockPlayerDiagonalUpA() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j + 1].getTeam() == 1 &&
-                            circles[i + 2][j + 2].getTeam() == 1 && circles[i + 3][j + 3].getTeam() == 1) {
-                        if (circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j + 1].getTeam() == 1 &&
+                            pieces[i + 2][j + 2].getTeam() == 1 && pieces[i + 3][j + 3].getTeam() == 1) {
+                        if (pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         }
                     }
@@ -412,9 +412,9 @@ public class AI extends Player {
         private int blockPlayerDiagonalUpB() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i + 1][j + 1].getTeam() == 0 &&
-                            circles[i + 2][j + 2].getTeam() == 1 && circles[i + 3][j + 3].getTeam() == 1) {
-                        if (circles[i + 2][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i + 1][j + 1].getTeam() == 0 &&
+                            pieces[i + 2][j + 2].getTeam() == 1 && pieces[i + 3][j + 3].getTeam() == 1) {
+                        if (pieces[i + 2][j + 1].getTeam() != 0) {
                             return j + 1;
                         }
                     }
@@ -426,9 +426,9 @@ public class AI extends Player {
         private int blockPlayerDiagonalUpC() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i + 1][j + 1].getTeam() == 1 &&
-                            circles[i + 2][j + 2].getTeam() == 0 && circles[i + 3][j + 3].getTeam() == 1) {
-                        if (circles[i + 3][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i + 1][j + 1].getTeam() == 1 &&
+                            pieces[i + 2][j + 2].getTeam() == 0 && pieces[i + 3][j + 3].getTeam() == 1) {
+                        if (pieces[i + 3][j + 2].getTeam() != 0) {
                             return j + 2;
                         }
                     }
@@ -440,11 +440,11 @@ public class AI extends Player {
         private int blockPlayerDiagonalUpD() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i + 1][j + 1].getTeam() == 1 &&
-                            circles[i + 2][j + 2].getTeam() == 1 && circles[i + 3][j + 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i + 1][j + 1].getTeam() == 1 &&
+                            pieces[i + 2][j + 2].getTeam() == 1 && pieces[i + 3][j + 3].getTeam() == 0) {
                         if (i + 3 == rows - 1) {
                             return j + 3;
-                        } else if (i + 3 < rows - 1 && circles[i + 4][j + 3].getTeam() != 0) {
+                        } else if (i + 3 < rows - 1 && pieces[i + 4][j + 3].getTeam() != 0) {
                             return j + 3;
                         }
                     }
@@ -456,9 +456,9 @@ public class AI extends Player {
         private int blockPlayerDiagonalDownA() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j - 1].getTeam() == 1 &&
-                            circles[i + 2][j - 2].getTeam() == 1 && circles[i + 3][j - 3].getTeam() == 1) {
-                        if (circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j - 1].getTeam() == 1 &&
+                            pieces[i + 2][j - 2].getTeam() == 1 && pieces[i + 3][j - 3].getTeam() == 1) {
+                        if (pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         }
                     }
@@ -470,9 +470,9 @@ public class AI extends Player {
         private int blockPlayerDiagonalDownB() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i + 1][j - 1].getTeam() == 0 &&
-                            circles[i + 2][j - 2].getTeam() == 1 && circles[i + 3][j - 3].getTeam() == 1) {
-                        if (circles[i + 2][j - 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i + 1][j - 1].getTeam() == 0 &&
+                            pieces[i + 2][j - 2].getTeam() == 1 && pieces[i + 3][j - 3].getTeam() == 1) {
+                        if (pieces[i + 2][j - 1].getTeam() != 0) {
                             return j - 1;
                         }
                     }
@@ -484,9 +484,9 @@ public class AI extends Player {
         private int blockPlayerDiagonalDownC() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i + 1][j - 1].getTeam() == 1 &&
-                            circles[i + 2][j - 2].getTeam() == 0 && circles[i + 3][j - 3].getTeam() == 1) {
-                        if (circles[i + 3][j - 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i + 1][j - 1].getTeam() == 1 &&
+                            pieces[i + 2][j - 2].getTeam() == 0 && pieces[i + 3][j - 3].getTeam() == 1) {
+                        if (pieces[i + 3][j - 2].getTeam() != 0) {
                             return j - 2;
                         }
                     }
@@ -498,11 +498,11 @@ public class AI extends Player {
         private int blockPlayerDiagonalDownD() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i + 1][j - 1].getTeam() == 1 &&
-                            circles[i + 2][j - 2].getTeam() == 1 && circles[i + 3][j - 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i + 1][j - 1].getTeam() == 1 &&
+                            pieces[i + 2][j - 2].getTeam() == 1 && pieces[i + 3][j - 3].getTeam() == 0) {
                         if (i + 3 == rows - 1) {
                             return j - 3;
-                        } else if (i + 3 < rows - 1 && circles[i + 4][j - 3].getTeam() != 0) {
+                        } else if (i + 3 < rows - 1 && pieces[i + 4][j - 3].getTeam() != 0) {
                             return j - 3;
                         }
                     }
@@ -514,9 +514,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalBuildUpA() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 3].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 3].getTeam() != 0) {
                             return j + 3;
                         } else if (i == rows - 1) {
                             return j + 3;
@@ -530,9 +530,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalBuildUpB() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -546,9 +546,9 @@ public class AI extends Player {
         private int blockPlayerHorizontalBuildUpC() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 0 && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 0 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 2].getTeam() != 0) {
                             return j + 2;
                         } else if (i == rows - 1) {
                             return j + 2;
@@ -562,11 +562,11 @@ public class AI extends Player {
         private int blockPlayerDiagonalBuildUpA() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 3; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j - 1].getTeam() == 1 &&
-                            circles[i + 2][j - 2].getTeam() == 1 && circles[i + 3][j - 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j - 1].getTeam() == 1 &&
+                            pieces[i + 2][j - 2].getTeam() == 1 && pieces[i + 3][j - 3].getTeam() == 0) {
                         if (i + 3 == rows - 1) {
                             return j - 3;
-                        } else if (circles[i + 4][j - 3].getTeam() != 0) {
+                        } else if (pieces[i + 4][j - 3].getTeam() != 0) {
                             return j - 3;
                         }
                     }
@@ -578,11 +578,11 @@ public class AI extends Player {
         private int blockPlayerDiagonalBuildUpB() {
             for (int i = 0; i < rows - 3; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j + 1].getTeam() == 1 &&
-                            circles[i + 2][j + 2].getTeam() == 1 && circles[i + 3][j + 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j + 1].getTeam() == 1 &&
+                            pieces[i + 2][j + 2].getTeam() == 1 && pieces[i + 3][j + 3].getTeam() == 0) {
                         if (i + 3 == rows - 1) {
                             return j + 3;
-                        } else if (circles[i + 4][j + 3].getTeam() != 0) {
+                        } else if (pieces[i + 4][j + 3].getTeam() != 0) {
                             return j + 3;
                         }
                     }
@@ -594,11 +594,11 @@ public class AI extends Player {
         private int dontEnablePlayerHorizontalA() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 0) {
-                        if (i < rows - 2 && circles[i + 2][j + 3].getTeam() != 0 && circles[i + 1][j + 3].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i < rows - 2 && pieces[i + 2][j + 3].getTeam() != 0 && pieces[i + 1][j + 3].getTeam() == 0) {
                             return j + 3;
-                        } else if (i == rows - 2 && circles[i + 1][j + 3].getTeam() == 0) {
+                        } else if (i == rows - 2 && pieces[i + 1][j + 3].getTeam() == 0) {
                             return j + 3;
                         }
                     }
@@ -610,11 +610,11 @@ public class AI extends Player {
         private int dontEnablePlayerHorizontalB() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 1) {
-                        if (i < rows - 2 && circles[i + 2][j].getTeam() != 0 && circles[i + 1][j].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 1) {
+                        if (i < rows - 2 && pieces[i + 2][j].getTeam() != 0 && pieces[i + 1][j].getTeam() == 0) {
                             return j;
-                        } else if (i == rows - 2 && circles[i + 1][j].getTeam() == 0) {
+                        } else if (i == rows - 2 && pieces[i + 1][j].getTeam() == 0) {
                             return j;
                         }
                     }
@@ -626,11 +626,11 @@ public class AI extends Player {
         private int dontEnablePlayerHorizontalC() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 2; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1) {
-                        if (i < rows - 2 && circles[i + 1][j].getTeam() == 0 && circles[i + 2][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1) {
+                        if (i < rows - 2 && pieces[i + 1][j].getTeam() == 0 && pieces[i + 2][j].getTeam() != 0) {
                             return j;
-                        } else if (i == rows - 2 && circles[i + 1][j].getTeam() == 0) {
+                        } else if (i == rows - 2 && pieces[i + 1][j].getTeam() == 0) {
                             return j;
                         }
                     }
@@ -642,11 +642,11 @@ public class AI extends Player {
         private int dontEnablePlayerHorizontalD() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 2; j++) {
-                    if (circles[i][j].getTeam() == 1 && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == 1) {
-                        if (i < rows - 2 && circles[i + 2][j + 1].getTeam() != 0 && circles[i + 1][j + 1].getTeam() == 0) {
+                    if (pieces[i][j].getTeam() == 1 && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == 1) {
+                        if (i < rows - 2 && pieces[i + 2][j + 1].getTeam() != 0 && pieces[i + 1][j + 1].getTeam() == 0) {
                             return j + 1;
-                        } else if (i == rows - 2 && circles[i + 1][j + 1].getTeam() == 0) {
+                        } else if (i == rows - 2 && pieces[i + 1][j + 1].getTeam() == 0) {
                             return j + 1;
                         }
                     }
@@ -658,9 +658,9 @@ public class AI extends Player {
         private int buildUpHorizontalA() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 1 &&
-                            circles[i][j + 2].getTeam() == 1 && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 1 &&
+                            pieces[i][j + 2].getTeam() == 1 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 2].getTeam() != 0) {
                             return j;
                         } else if (i == rows - 1) {
                             return j;
@@ -674,9 +674,9 @@ public class AI extends Player {
         private int buildUpHorizontalB() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == 0 && circles[i][j + 3].getTeam() == ai) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == 0 && pieces[i][j + 3].getTeam() == ai) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -690,9 +690,9 @@ public class AI extends Player {
         private int buildUpHorizontalC() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == ai &&
-                            circles[i][j + 2].getTeam() == 0 && circles[i][j + 3].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 2].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == ai &&
+                            pieces[i][j + 2].getTeam() == 0 && pieces[i][j + 3].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 2].getTeam() != 0) {
                             return j + 2;
                         } else if (i == rows - 1) {
                             return j + 2;
@@ -706,9 +706,9 @@ public class AI extends Player {
         private int buildUpHorizontalD() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 3; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == ai && circles[i][j + 3].getTeam() == ai) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == ai && pieces[i][j + 3].getTeam() == ai) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -722,9 +722,9 @@ public class AI extends Player {
         private int firstBuildUpHorizontalA() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 2; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == ai) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == ai) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -738,9 +738,9 @@ public class AI extends Player {
         private int firstBuildUpHorizontalB() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 2; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == 0 &&
-                            circles[i][j + 2].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j + 1].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == 0 &&
+                            pieces[i][j + 2].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j + 1].getTeam() != 0) {
                             return j + 1;
                         } else if (i == rows - 1) {
                             return j + 1;
@@ -754,9 +754,9 @@ public class AI extends Player {
         private int firstBuildUpHorizontalC() {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns - 2; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == ai &&
-                            circles[i][j + 2].getTeam() == 0) {
-                        if (i != rows - 1 && circles[i + 1][j].getTeam() != 0) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == ai &&
+                            pieces[i][j + 2].getTeam() == 0) {
+                        if (i != rows - 1 && pieces[i + 1][j].getTeam() != 0) {
                             return j;
                         } else if (i == rows - 1) {
                             return j;
@@ -770,7 +770,7 @@ public class AI extends Player {
         private int buildUpVertical() {
             for (int i = 0; i < rows - 2; i++) {
                 for (int j = 0; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j].getTeam() == ai && circles[i + 2][j].getTeam() == ai) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j].getTeam() == ai && pieces[i + 2][j].getTeam() == ai) {
                         return j;
                     }
                 }
@@ -781,7 +781,7 @@ public class AI extends Player {
         private int firstBuildUpVertical() {
             for (int i = 0; i < rows - 1; i++) {
                 for (int j = 0; j < columns; j++) {
-                    if (circles[i][j].getTeam() == 0 && circles[i + 1][j].getTeam() == ai) {
+                    if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j].getTeam() == ai) {
                         return j;
                     }
                 }
@@ -792,13 +792,13 @@ public class AI extends Player {
         private int findBasicMove() {
             for (int i = 0; i < rows - 1; i++) {
                 for (int j = 0; j < columns - 1; j++) {
-                    if (circles[i][j].getTeam() == ai && circles[i + 1][j].getTeam() == ai) {
+                    if (pieces[i][j].getTeam() == ai && pieces[i + 1][j].getTeam() == ai) {
                         return j;
-                    } else if (circles[i][j].getTeam() == ai && circles[i][j + 1].getTeam() == 0) {
+                    } else if (pieces[i][j].getTeam() == ai && pieces[i][j + 1].getTeam() == 0) {
                         return j + 1;
-                    } else if (circles[i][j].getTeam() == 0 && circles[i][j + 1].getTeam() == ai) {
+                    } else if (pieces[i][j].getTeam() == 0 && pieces[i][j + 1].getTeam() == ai) {
                         return j;
-                    } else if (circles[i][j].getTeam() == 0 && circles[i + 1][j].getTeam() == ai) {
+                    } else if (pieces[i][j].getTeam() == 0 && pieces[i + 1][j].getTeam() == ai) {
                         return j;
                     }
                 }

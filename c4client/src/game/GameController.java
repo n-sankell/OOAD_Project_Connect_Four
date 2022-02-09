@@ -204,7 +204,7 @@ public class GameController {
         return currentPlayer.getTeam();
     }
 
-    public Piece[][] getCircles() {
+    public Piece[][] getPieces() {
         return logic.getPieces();
     }
 
