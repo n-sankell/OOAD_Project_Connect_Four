@@ -135,24 +135,24 @@ public class GuiFrame extends JFrame implements ActionListener {
         if (e.getSource() == i1a) {
             if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                guiBoard = gameBuilder.onePlayerModeEasy(nameInput.name, nameInput.selectedColor);
+                guiBoard = gameBuilder.onePlayerModeEasy(nameInput.getName(), nameInput.getSelectedColor());
                 addGuiBoard();
             }
         }
         if (e.getSource() == i1b) {
             if (nameInput.inputName("PLAYER 1") != null) {
                 removeItems();
-                guiBoard = gameBuilder.onePlayerModeNormal(nameInput.name, nameInput.selectedColor);
+                guiBoard = gameBuilder.onePlayerModeNormal(nameInput.getName(), nameInput.getSelectedColor());
                 addGuiBoard();
             }
         }
         if (e.getSource() == i2) {
             String namePlayer1 = nameInput.inputName("PLAYER 1");
-            Color selectColorOne = nameInput.selectedColor;
+            Color selectColorOne = nameInput.getSelectedColor();
             if (namePlayer1 != null) {
-                nameInput.selectedColor = null;
+                nameInput.setSelectedColor(null);
                 String namePlayer2 = nameInput.inputName("PLAYER 2");
-                Color selectColorTwo = nameInput.selectedColor;
+                Color selectColorTwo = nameInput.getSelectedColor();
                 if (namePlayer2 != null) {
                     removeItems();
                     guiBoard = gameBuilder.twoPlayerMode(namePlayer1, namePlayer2, selectColorOne, selectColorTwo);
@@ -166,7 +166,7 @@ public class GuiFrame extends JFrame implements ActionListener {
                 add(waiting);
                 repaint();
                 revalidate();
-                gameBuilder.networkMode(nameInput.name, nameInput.selectedColor);
+                gameBuilder.networkMode(nameInput.getName(), nameInput.getSelectedColor());
                 gameBuilder.getConnection().setNetworkBoardListener(this::addNetworkBoard);
             }
         }

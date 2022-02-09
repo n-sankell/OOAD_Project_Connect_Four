@@ -7,9 +7,9 @@ import static javax.swing.UIManager.put;
 public class GuiStart {
 
     public GuiStart() {
-        GuiFrame gui = new GuiFrame();
+        GuiFrame guiFrame = new GuiFrame();
         guiPut();
-        gui.start();
+        guiFrame.start();
     }
 
     private void guiPut() {

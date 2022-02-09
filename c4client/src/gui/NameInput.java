@@ -13,8 +13,8 @@ public class NameInput implements ActionListener {
     private JMenuItem red;
     private JMenuItem blue;
     private JMenuItem green;
-    public String name;
-    public Color selectedColor;
+    private String name;
+    private Color selectedColor;
 
     private String optionPane(String message) {
         return JOptionPane.showInputDialog(null,
@@ -23,7 +23,7 @@ public class NameInput implements ActionListener {
                 JOptionPane.PLAIN_MESSAGE);
     }
 
-    private JPanel addMenu() {
+    private JPanel addColorMenu() {
         JPanel colorPanel = new JPanel();
         JMenuBar colorsBar = new JMenuBar();
         JMenu colors = new JMenu("CHOOSE COLOR");
@@ -56,7 +56,7 @@ public class NameInput implements ActionListener {
         gc.gridy = 0;
         basePanel.add(panel,gc);
         gc.gridy = 1;
-        basePanel.add(addMenu(),gc);
+        basePanel.add(addColorMenu(),gc);
         return basePanel;
     }
 
@@ -70,6 +70,18 @@ public class NameInput implements ActionListener {
                 return name;
             }
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Color getSelectedColor() {
+        return selectedColor;
+    }
+
+    public void setSelectedColor(Color newColor) {
+        this.selectedColor = newColor;
     }
 
     @Override
