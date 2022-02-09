@@ -45,7 +45,9 @@ public class GameBuilder {
 
     public void networkMode(String namePlayer1, Color selectedColor) {
         connection = new ClientConnection(boardSize, namePlayer1,selectedColor,5555);
-        connection.startInStream();
+        if (connection.checkNetwork()) {
+            connection.startInStream();
+        }
     }
 
     public ClientConnection getConnection() {

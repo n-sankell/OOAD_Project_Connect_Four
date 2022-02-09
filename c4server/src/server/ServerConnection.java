@@ -51,30 +51,6 @@ public class ServerConnection {
         }
     }
 
-    public boolean isLookingForOpponent() {
-        return looking;
-    }
-
-    public void setLookingForOpponent(boolean looking) {
-        this.looking = looking;
-    }
-
-    public String getId() {
-        return uniqueID;
-    }
-
-    public void setOpponent(ServerConnection opponent) {
-        this.opponent = opponent;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    private void setHandlerListener(PackageListener listener) {
-        handler.setListener(listener);
-    }
-
     public void setHandler() {
         setHandlerListener((event, o) -> {
             switch (event) {
@@ -119,6 +95,30 @@ public class ServerConnection {
                 }
             }
         });
+    }
+
+    public boolean isLookingForOpponent() {
+        return looking;
+    }
+
+    public void setLookingForOpponent(boolean looking) {
+        this.looking = looking;
+    }
+
+    public String getId() {
+        return uniqueID;
+    }
+
+    public void setOpponent(ServerConnection opponent) {
+        this.opponent = opponent;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    private void setHandlerListener(PackageListener listener) {
+        handler.setListener(listener);
     }
 
 }

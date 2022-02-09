@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Objects;
 
 public class GuiBoard extends JPanel implements ActionListener {
     private final GameController gameController;
@@ -28,12 +29,13 @@ public class GuiBoard extends JPanel implements ActionListener {
     private final JPanel insertPanel = new JPanel();
     private final JPanel boardPanel = new JPanel();
     private final JPanel statusPanel = new JPanel();
-    private final ImageIcon insertButtonImage = new ImageIcon("resources/insert_button.png");
+    private ImageIcon insertButtonImage;
 
     public GuiBoard(GameController gameController) {
         this.gameController = gameController;
         this.rows = gameController.getRows();
         this.columns = gameController.getColumns();
+        setInsertButtonImage();
         compareColors();
         setUpInsertButtons();
         setUpBasePanel();
@@ -50,6 +52,10 @@ public class GuiBoard extends JPanel implements ActionListener {
         addStatusPanel();
         repaint();
         revalidate();
+    }
+
+    private void setInsertButtonImage() {
+        insertButtonImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("images/insert_button.png")));
     }
 
     public void setUpdateHandler() {
@@ -151,10 +157,10 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     public void setStatusPanelTexts() {
-        scorePlayerOne.setText("SCORE "+ gameController.getPlayer1().getName()+": "+ gameController.getPlayer1().getScore());
+        scorePlayerOne.setText("SCORE "+ gameController.getPlayer1Name()+": "+ gameController.getPlayer1Score());
         status.setText(getStatusText());
         status.setForeground(gameController.getCurrentPlayer().getPlayerColor().brighter());
-        scorePlayerTwo.setText("SCORE "+ gameController.getPlayer2().getName()+": "+ gameController.getPlayer2().getScore());
+        scorePlayerTwo.setText("SCORE "+ gameController.getPlayer2Name()+": "+ gameController.getPlayer2Score());
     }
 
     public void compareColors() {
@@ -173,15 +179,15 @@ public class GuiBoard extends JPanel implements ActionListener {
 
     private String getStatusText() {
         if (gameController.getGameMode() == GameMode.NETWORK && gameController.getPlayerTurn() == PlayerTurn.NOT_YOUR_TURN && gameController.isEmpty()) {
-            return "WAIT FOR " + gameController.getCurrentPlayer().getName()+" TO BEGIN!";
+            return "WAIT FOR " + gameController.getCurrentPlayerName()+" TO BEGIN!";
         } else if (gameController.isEmpty()) {
-            return gameController.getCurrentPlayer().getName()+" BEGINS!";
+            return gameController.getCurrentPlayerName()+" BEGINS!";
         } else if (gameController.getGameMode() == GameMode.ONE_PLAYER) {
             return "";
         } else if (gameController.getGameMode() == GameMode.NETWORK && gameController.getPlayerTurn() == PlayerTurn.NOT_YOUR_TURN) {
-            return "WAIT FOR "+ gameController.getCurrentPlayer().getName()+"'S MOVE!";
+            return "WAIT FOR "+ gameController.getCurrentPlayerName()+"'S MOVE!";
         } else {
-            return "YOUR TURN "+ gameController.getCurrentPlayer().getName()+"!";
+            return "YOUR TURN "+ gameController.getCurrentPlayerName()+"!";
         }
     }
 
@@ -196,10 +202,10 @@ public class GuiBoard extends JPanel implements ActionListener {
     }
 
     private void setWinAndDrawMessages() {
-        winMessage = gameController.getCurrentPlayer().getName() + " WINS THE ROUND!" + "\nSCORE FOR " + gameController.getPlayer1().getName() + ": " +
-                gameController.getPlayer1().getScore() + "\n" + "SCORE FOR " + gameController.getPlayer2().getName() + ": " + gameController.getPlayer2().getScore();
-        drawMessage = "IT'S A DRAW!" + "\nSCORE FOR " + gameController.getPlayer1().getName() + ": " + gameController.getPlayer1().getScore() + "\n" +
-                "SCORE FOR " + gameController.getPlayer2().getName() + ": " + gameController.getPlayer2().getScore();
+        winMessage = gameController.getCurrentPlayerName() + " WINS THE ROUND!" + "\nSCORE FOR " + gameController.getPlayer1Name() + ": " +
+                gameController.getPlayer1Score() + "\n" + "SCORE FOR " + gameController.getPlayer2Name() + ": " + gameController.getPlayer2Score();
+        drawMessage = "IT'S A DRAW!" + "\nSCORE FOR " + gameController.getPlayer1Name() + ": " + gameController.getPlayer1Score() + "\n" +
+                "SCORE FOR " + gameController.getPlayer2Name() + ": " + gameController.getPlayer2Score();
     }
 
     private void showDrawMessage() {

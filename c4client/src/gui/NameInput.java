@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class NameInput implements ActionListener {
 
@@ -48,7 +49,7 @@ public class NameInput implements ActionListener {
         GridBagConstraints gc = new GridBagConstraints();
         basePanel.setLayout(grid);
         JPanel panel = new JPanel();
-        JLabel label = new JLabel(new ImageIcon("resources/login.png"));
+        JLabel label = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("images/login.png"))));
         panel.add(label);
         panel.setSize(600, 300);
         panel.setVisible(true);

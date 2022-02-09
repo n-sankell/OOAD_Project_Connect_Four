@@ -8,6 +8,7 @@ import game.listeners.NetworkBoardListener;
 import packages.*;
 import game.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,28 +38,40 @@ public class ClientConnection {
         this.playerName = playerName;
         this.chosenColor = chosenColor;
         this.boardSize = boardSize;
-        setupSocket();
-        setupStreams();
-        setHandler();
     }
 
-    private void setupSocket() {
+    public boolean checkNetwork() {
+        if (setupSocket()) {
+            if (setupStreams()) {
+                setHandler();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean setupSocket() {
         try {
             InetAddress ip = InetAddress.getLocalHost();
             socket = new Socket(ip, port);
+            return true;
         } catch (ConnectException e) {
-            System.out.println("Server is not running");
+            JOptionPane.showMessageDialog(null,"Server is not running, try again later. ");
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    private void setupStreams() {
+    private boolean setupStreams() {
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            return true;
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

@@ -180,6 +180,26 @@ public class GameController {
         return currentPlayer;
     }
 
+    public String getPlayer1Name() {
+        return player1.getName();
+    }
+
+    public String getPlayer2Name() {
+        return player2.getName();
+    }
+
+    public String getCurrentPlayerName() {
+        return currentPlayer.getName();
+    }
+
+    public int getPlayer1Score() {
+        return player1.getScore();
+    }
+
+    public int getPlayer2Score() {
+        return player2.getScore();
+    }
+
     public int getCurrentTeam() {
         return currentPlayer.getTeam();
     }
