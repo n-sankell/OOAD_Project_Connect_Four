@@ -66,15 +66,18 @@ public class GuiBoard extends JPanel implements ActionListener {
                     updateStatusPanel();
                 }
                 case 2 -> {
+                    updateBoard();
+                    updateStatusPanel();
                     setWinAndDrawMessages();
                     showWinMessage();
                 }
                 case 3 -> {
+                    updateBoard();
+                    updateStatusPanel();
                     setWinAndDrawMessages();
                     showDrawMessage();
                 }
             }
-
         });
     }
 
@@ -226,7 +229,7 @@ public class GuiBoard extends JPanel implements ActionListener {
         }
     }
 
-    private int findInsert() {
+    private int getColumnNumber() {
         for (int i = 0; i < columns; i++) {
             if (clicked == insertButtons[i]) {
                 chosenColumn = i;
@@ -238,7 +241,7 @@ public class GuiBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         clicked = (JButton) e.getSource();
-        gameController.makeMove(findInsert());
+        gameController.makeMove(getColumnNumber());
         updateStatusPanel();
         updateBoard();
         repaint();
